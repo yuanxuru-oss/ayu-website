@@ -1305,9 +1305,6 @@ function typewrite(html, el, speed = 90) {
   tick();
 }
 
-// Initial typewriter on load
-typewrite(greetingFull, greeting, 90);
-
 // === Sound effect (Web Audio chime) ===
 let audioCtx = null;
 function chime(freq = 800, duration = 0.15) {
@@ -1479,14 +1476,14 @@ document.getElementById('pfSubmit').addEventListener('click', () => {
 updateAvatarPreview(VILLAGERS[0]);
 renderWall();
 
-// === Loading splash dismiss ===
+// === Loading splash ===
 (function() {
   const splash = document.getElementById('loadingSplash');
   const fill = document.getElementById('loadingFill');
   if (!splash) return;
   let dismissed = false;
 
-  // Animate progress fill: 0% → 100% over ~2s
+  // Start progress bar fill: 0% → 100% over ~2s
   function startProgress() {
     let pct = 0;
     const interval = setInterval(() => {
@@ -1497,10 +1494,12 @@ renderWall();
   }
   startProgress();
 
+  // Start typewriter simultaneously — tiny delay to ensure rendering
+  setTimeout(() => typewrite(greetingFull, greeting, 90), 50);
+
   function dismiss() {
     if (dismissed || !splash.parentNode) return;
     dismissed = true;
-    // Snap to 100%
     if (fill) fill.style.width = '100%';
     splash.classList.add('reveal');
     setTimeout(() => { if (splash.parentNode) splash.remove(); }, 700);
