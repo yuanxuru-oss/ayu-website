@@ -873,20 +873,33 @@ body {
   75%  { transform: translateX(-6px) translateY(4px); }
 }
 
-.loading-spinner {
-  width: 48px; height: 48px;
+/* Loading progress bar (animal-island-ui Progress: striped fill) */
+.loading-progress-track {
+  width: 200px;
+  height: 20px;
+  background: #f8f8f0;
+  border: 2px solid #e8dcc8;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(114, 93, 66, 0.08);
 }
-.loading-spinner circle {
-  fill: none;
-  stroke: #19c8b9;
-  stroke-width: 4;
-  stroke-linecap: round;
-  animation: loading-dash 1.5s ease-in-out infinite;
+.loading-progress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: #0ec4b6;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #0ec4b6 0, #0ec4b6 10px,
+    #01b0a7 10px, #01b0a7 20px
+  );
+  background-size: 28.28px 28.28px;
+  animation: loading-stripe 1s linear infinite;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-@keyframes loading-dash {
-  0%   { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
-  50%  { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
-  100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+@keyframes loading-stripe {
+  0% { background-position: 0 0; }
+  100% { background-position: -28.28px 0; }
 }
 
 .loading-label {
@@ -955,9 +968,9 @@ body {
     <span class="loading-fish f1">🐟</span>
     <span class="loading-fish f2">🐠</span>
   </div>
-  <svg class="loading-spinner" viewBox="0 0 50 50">
-    <circle cx="25" cy="25" r="20"/>
-  </svg>
+  <div class="loading-progress-track">
+    <div class="loading-progress-fill" id="loadingFill"></div>
+  </div>
   <div class="loading-label">阿鱼的小岛</div>
 </div>
 
@@ -1469,24 +1482,36 @@ renderWall();
 // === Loading splash dismiss ===
 (function() {
   const splash = document.getElementById('loadingSplash');
+  const fill = document.getElementById('loadingFill');
   if (!splash) return;
   let dismissed = false;
+
+  // Animate progress fill: 0% → 100% over ~2s
+  function startProgress() {
+    let pct = 0;
+    const interval = setInterval(() => {
+      pct += 2;
+      if (pct >= 100) { pct = 100; clearInterval(interval); }
+      if (fill) fill.style.width = pct + '%';
+    }, 40);
+  }
+  startProgress();
 
   function dismiss() {
     if (dismissed || !splash.parentNode) return;
     dismissed = true;
+    // Snap to 100%
+    if (fill) fill.style.width = '100%';
     splash.classList.add('reveal');
     setTimeout(() => { if (splash.parentNode) splash.remove(); }, 700);
   }
 
-  // Dismiss when page is fully loaded
   if (document.readyState === 'complete') {
     setTimeout(dismiss, 2000);
   } else {
     window.addEventListener('load', () => setTimeout(dismiss, 2000));
   }
 
-  // Safety: force dismiss after 8s
   setTimeout(() => { if (!dismissed) dismiss(); }, 8000);
 })();
 </script>
