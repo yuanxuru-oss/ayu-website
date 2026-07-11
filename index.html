@@ -75,53 +75,199 @@ body {
   opacity: 0.7;
 }
 
-/* Message Board (Animal Crossing bulletin board) */
-.message-board {
-  width: min(680px, 90vw);
+/* === Passport Form & Message Wall (AC-style) === */
+.passport-form {
+  width: min(600px, 90vw);
+  background: var(--card);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-bottom: 48px;
+  border: 2px solid var(--sec-accent);
 }
 
-.board-cork {
-  display: flex; flex-wrap: wrap; gap: 18px; justify-content: center;
+.pf-header {
+  background: #a8d8ea;
+  padding: 16px 24px;
+  display: flex; flex-direction: column;
 }
 
-.board-note {
-  background: #fef9e7;
-  border: 1px solid #e8dcc8;
-  padding: 20px 18px 16px;
-  width: 200px;
-  position: relative;
-  box-shadow: 2px 3px 8px rgba(0,0,0,0.08);
-  transition: transform 0.3s;
-}
-
-.board-note:hover { transform: rotate(0deg) scale(1.04) !important; }
-.board-note.tilt-right { transform: rotate(3deg); }
-.board-note.tilt-left { transform: rotate(-2deg); }
-
-.note-pin {
-  position: absolute; top: -8px; left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.2rem;
-  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2));
-}
-
-.note-title {
-  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
-  font-size: 0.9rem;
-  color: var(--dark-green);
-  margin-bottom: 8px;
+.pf-logo {
+  font-family: 'ZCOOL KuaiLe', cursive;
+  font-size: 1rem;
+  color: #3d6b80;
   letter-spacing: 1px;
 }
 
-.note-body {
-  font-size: 0.78rem;
-  color: var(--muted);
-  line-height: 1.7;
+.pf-sub {
+  font-size: 0.7rem; color: #5a8899; margin-top: 2px;
 }
 
-.note-body .card-link {
-  margin-top: 8px;
+.pf-body {
+  display: flex; gap: 20px; padding: 20px 24px;
 }
+
+.pf-avatar-pick {
+  flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.pf-avatar-preview {
+  width: 72px; height: 72px;
+  background: #e8f4d8;
+  border: 2px solid var(--sec-accent);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.pf-emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.pf-emoji-grid button {
+  width: 28px; height: 28px;
+  font-size: 1rem;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  background: #f5f4f1;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+}
+.pf-emoji-grid button:hover,
+.pf-emoji-grid button.active {
+  border-color: var(--sec-accent);
+  background: #e8f4d8;
+  transform: scale(1.15);
+}
+
+.pf-fields {
+  flex: 1;
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+.pf-field label {
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.pf-field input,
+.pf-field textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e0ddd8;
+  border-radius: 12px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.85rem;
+  color: var(--ink);
+  background: #faf9f7;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: none;
+}
+
+.pf-field input:focus,
+.pf-field textarea:focus {
+  border-color: var(--sec-accent);
+}
+
+.pf-submit {
+  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
+  font-size: 0.9rem;
+  padding: 10px 20px;
+  border-radius: 24px;
+  border: none;
+  background: var(--sec-accent);
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  align-self: flex-start;
+}
+.pf-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* === Passport Wall === */
+.passport-wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  width: min(800px, 90vw);
+}
+
+.visitor-passport {
+  background: #eef9fb;
+  border-radius: 18px;
+  padding: 18px;
+  border: 2px solid var(--sec-accent);
+  display: flex; gap: 14px;
+  position: relative;
+  overflow: hidden;
+  animation: card-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.visitor-passport::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  border: 2px solid rgba(107,138,170,0.15);
+  pointer-events: none;
+}
+
+.vp-avatar {
+  flex-shrink: 0;
+  width: 52px; height: 52px;
+  background: #d5e8d4;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+}
+
+.vp-info {
+  flex: 1; min-width: 0;
+}
+
+.vp-name {
+  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
+  font-size: 0.9rem;
+  color: var(--dark-green);
+  margin-bottom: 4px;
+}
+
+.vp-time {
+  font-size: 0.6rem; color: var(--muted); margin-bottom: 6px;
+}
+
+.vp-message {
+  font-size: 0.8rem; color: var(--ink); line-height: 1.6;
+  word-break: break-word;
+}
+
+.vp-delete {
+  position: absolute; top: 8px; right: 8px;
+  font-size: 0.7rem; opacity: 0; cursor: pointer;
+  transition: opacity 0.2s;
+  background: none; border: none; padding: 2px 6px;
+}
+.visitor-passport:hover .vp-delete { opacity: 0.5; }
 
 /* === Entry Overlay === */
 .entry-overlay {
@@ -513,6 +659,8 @@ body {
   .dodo-dialog { margin-left: 0; margin-top: -12px; border-radius: 28px; }
   .dodo-dialog::before { display: none; }
   .passport-body { flex-direction: column; align-items: center; }
+  .pf-body { flex-direction: column; align-items: center; }
+  .passport-wall { grid-template-columns: 1fr; }
   .card-grid { grid-template-columns: 1fr; }
 }
 </style>
@@ -712,29 +860,36 @@ body {
   <section class="section-island" id="contact" data-theme="contact">
     <div class="section-header">
       <span class="section-stamp">POST OFFICE</span>
-      <h2>📮 留言信箱</h2>
+      <h2>📮 岛民留言板</h2>
     </div>
 
-    <div class="message-board">
-      <div class="board-cork">
-        <div class="board-note">
-          <div class="note-pin">📌</div>
-          <p class="note-title">给阿鱼留言</p>
-          <p class="note-body">GitHub Issues 就像岛上的留言板——写下你想说的话，或报告你发现的问题。</p>
-          <a href="https://github.com/yuanxuru-oss" target="_blank" class="card-link">去留言板 →</a>
+    <!-- Passport creation form -->
+    <div class="passport-form" id="passportForm">
+      <div class="pf-header">
+        <span class="pf-logo">🛩️ ISLAND PASSPORT</span>
+        <span class="pf-sub">创建你的岛民护照，留下足迹</span>
+      </div>
+      <div class="pf-body">
+        <div class="pf-avatar-pick">
+          <div class="pf-avatar-preview" id="pfAvatarPreview">🐧</div>
+          <div class="pf-emoji-grid" id="pfEmojiGrid"></div>
         </div>
-        <div class="board-note tilt-right">
-          <div class="note-pin">📌</div>
-          <p class="note-title">联系方式</p>
-          <p class="note-body">邮箱：ayu@fishbone.isle<br>GitHub：@yuanxuru-oss</p>
-        </div>
-        <div class="board-note tilt-left">
-          <div class="note-pin">📌</div>
-          <p class="note-title">来信必回</p>
-          <p class="note-body">每一条留言我都会认真看。就像岛上信箱里的信一样，收到就会回复 🐧</p>
+        <div class="pf-fields">
+          <div class="pf-field">
+            <label>NAME · 名字</label>
+            <input type="text" id="pfName" placeholder="你的岛民名字…" maxlength="12">
+          </div>
+          <div class="pf-field">
+            <label>MESSAGE · 留言</label>
+            <textarea id="pfMessage" placeholder="想对阿鱼说的话…" maxlength="200" rows="3"></textarea>
+          </div>
+          <button class="pf-submit" id="pfSubmit">📬 投递护照</button>
         </div>
       </div>
     </div>
+
+    <!-- Passport wall -->
+    <div class="passport-wall" id="passportWall"></div>
   </section>
 
   <!-- Footer -->
@@ -809,6 +964,105 @@ overlay.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') overlay.classList.add('dismissed');
 });
+
+// === Passport Message Board ===
+const STORAGE_KEY = 'ayu-passports-v1';
+const AVATARS = ['🐧','🐱','🐶','🐰','🐻','🐼','🐨','🐯','🦊','🐸','🐵','🐙','🦉','🐳','🦋','🐞','🌟','🍀','🎈','🧸'];
+
+let selectedAvatar = '🐧';
+
+// Build emoji grid
+const emojiGrid = document.getElementById('pfEmojiGrid');
+AVATARS.forEach(emoji => {
+  const btn = document.createElement('button');
+  btn.textContent = emoji;
+  btn.addEventListener('click', () => {
+    selectedAvatar = emoji;
+    document.getElementById('pfAvatarPreview').textContent = emoji;
+    emojiGrid.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    chime(1040, 0.08);
+  });
+  if (emoji === '🐧') btn.classList.add('active');
+  emojiGrid.appendChild(btn);
+});
+
+// Load existing passports
+function loadPassports() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  } catch(e) { return []; }
+}
+
+function savePassports(passports) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(passports));
+}
+
+function renderWall() {
+  const wall = document.getElementById('passportWall');
+  const passports = loadPassports();
+  if (!passports.length) {
+    wall.innerHTML = '<p style="text-align:center;color:var(--muted);grid-column:1/-1;padding:40px">还没有岛民护照…来做第一个留言的人吧 🐧</p>';
+    return;
+  }
+  wall.innerHTML = passports.map((p, i) => `
+    <div class="visitor-passport">
+      <div class="vp-avatar">${p.avatar}</div>
+      <div class="vp-info">
+        <div class="vp-name">${esc(p.name)}</div>
+        <div class="vp-time">${p.time}</div>
+        <div class="vp-message">${esc(p.message)}</div>
+      </div>
+      <button class="vp-delete" onclick="deletePassport(${i})" title="删除">✕</button>
+    </div>
+  `).reverse().join('');
+}
+
+function esc(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+window.deletePassport = function(index) {
+  if (!confirm('确定要删除这条护照吗？')) return;
+  const passports = loadPassports();
+  // Reverse index since wall shows newest first
+  const realIndex = passports.length - 1 - index;
+  passports.splice(realIndex, 1);
+  savePassports(passports);
+  renderWall();
+  chime(440, 0.2);
+};
+
+document.getElementById('pfSubmit').addEventListener('click', () => {
+  const name = document.getElementById('pfName').value.trim();
+  const message = document.getElementById('pfMessage').value.trim();
+  if (!name) { document.getElementById('pfName').focus(); return; }
+  if (!message) { document.getElementById('pfMessage').focus(); return; }
+
+  const now = new Date();
+  const time = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+  const passports = loadPassports();
+  passports.push({ name, message, avatar: selectedAvatar, time });
+  savePassports(passports);
+  renderWall();
+
+  // Reset form
+  document.getElementById('pfName').value = '';
+  document.getElementById('pfMessage').value = '';
+  selectedAvatar = '🐧';
+  document.getElementById('pfAvatarPreview').textContent = '🐧';
+  emojiGrid.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  emojiGrid.querySelector('button').classList.add('active');
+
+  chime(660, 0.2);
+  setTimeout(() => chime(880, 0.15), 150);
+});
+
+// Init
+renderWall();
 </script>
 </body>
 </html>
