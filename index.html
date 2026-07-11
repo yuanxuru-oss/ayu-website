@@ -1412,13 +1412,13 @@ renderWall();
 
   // Dismiss when page is fully loaded
   if (document.readyState === 'complete') {
-    setTimeout(dismiss, 600);
+    setTimeout(dismiss, 2000);
   } else {
-    window.addEventListener('load', () => setTimeout(dismiss, 600));
+    window.addEventListener('load', () => setTimeout(dismiss, 2000));
   }
 
-  // Safety: force dismiss after 5s
-  setTimeout(() => { if (splash.parentNode) dismiss(); }, 5000);
+  // Safety: force dismiss after 8s
+  setTimeout(() => { if (splash.parentNode) dismiss(); }, 8000);
 })();
 </script>
 </body>
