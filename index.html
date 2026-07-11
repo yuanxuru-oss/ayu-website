@@ -56,16 +56,68 @@ body {
   content: ''; position: absolute; inset: 0;
   background:
     /* Leaf patterns on land */
-    radial-gradient(circle 6px at 22% 68%, rgba(74,98,88,0.08) 0%, transparent 100%),
-    radial-gradient(circle 4px at 24% 70%, rgba(74,98,88,0.06) 0%, transparent 100%),
-    radial-gradient(circle 5px at 55% 72%, rgba(74,98,88,0.07) 0%, transparent 100%),
-    radial-gradient(circle 7px at 58% 69%, rgba(74,98,88,0.05) 0%, transparent 100%),
-    radial-gradient(circle 4px at 80% 66%, rgba(74,98,88,0.08) 0%, transparent 100%),
-    radial-gradient(circle 6px at 82% 71%, rgba(74,98,88,0.05) 0%, transparent 100%),
+    radial-gradient(circle 6px at 22% 68%, rgba(74,98,88,0.14) 0%, transparent 100%),
+    radial-gradient(circle 4px at 24% 70%, rgba(74,98,88,0.12) 0%, transparent 100%),
+    radial-gradient(circle 5px at 55% 72%, rgba(74,98,88,0.13) 0%, transparent 100%),
+    radial-gradient(circle 7px at 58% 69%, rgba(74,98,88,0.10) 0%, transparent 100%),
+    radial-gradient(circle 4px at 80% 66%, rgba(74,98,88,0.14) 0%, transparent 100%),
+    radial-gradient(circle 6px at 82% 71%, rgba(74,98,88,0.11) 0%, transparent 100%),
+    /* Extra leaf spots */
+    radial-gradient(circle 5px at 12% 74%, rgba(74,98,88,0.09) 0%, transparent 100%),
+    radial-gradient(circle 3px at 35% 65%, rgba(74,98,88,0.11) 0%, transparent 100%),
+    radial-gradient(circle 6px at 68% 74%, rgba(74,98,88,0.10) 0%, transparent 100%),
     /* Wave lines on water */
-    repeating-linear-gradient(0deg, transparent, transparent 6px, rgba(168,216,234,0.3) 6px, rgba(168,216,234,0.3) 8px) 0 82% / 100% 40% no-repeat;
+    repeating-linear-gradient(0deg, transparent, transparent 5px, rgba(168,216,234,0.4) 5px, rgba(168,216,234,0.4) 7px) 0 82% / 100% 40% no-repeat;
   pointer-events: none;
-  opacity: 0.7;
+  opacity: 0.85;
+}
+
+/* Message Board (Animal Crossing bulletin board) */
+.message-board {
+  width: min(680px, 90vw);
+}
+
+.board-cork {
+  display: flex; flex-wrap: wrap; gap: 18px; justify-content: center;
+}
+
+.board-note {
+  background: #fef9e7;
+  border: 1px solid #e8dcc8;
+  padding: 20px 18px 16px;
+  width: 200px;
+  position: relative;
+  box-shadow: 2px 3px 8px rgba(0,0,0,0.08);
+  transition: transform 0.3s;
+}
+
+.board-note:hover { transform: rotate(0deg) scale(1.04) !important; }
+.board-note.tilt-right { transform: rotate(3deg); }
+.board-note.tilt-left { transform: rotate(-2deg); }
+
+.note-pin {
+  position: absolute; top: -8px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2));
+}
+
+.note-title {
+  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
+  font-size: 0.9rem;
+  color: var(--dark-green);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.note-body {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.note-body .card-link {
+  margin-top: 8px;
 }
 
 /* === Entry Overlay === */
@@ -211,13 +263,14 @@ body {
 }
 
 .hero-hint {
-  font-family: 'Ma Shan Zheng', 'ZCOOL KuaiLe', cursive;
-  font-size: 1.15rem;
+  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
+  font-size: 1.1rem;
   color: var(--dark-green);
   margin-bottom: 24px;
-  opacity: 0.7;
+  opacity: 0.75;
   animation: hint-pulse 3s ease-in-out infinite;
   cursor: default;
+  letter-spacing: 2px;
 }
 
 @keyframes hint-pulse {
@@ -430,7 +483,9 @@ body {
         <button class="dodo-btn" data-target="hero">🏝️ 岛屿广场</button>
         <button class="dodo-btn" data-target="about">📋 护照信息</button>
         <button class="dodo-btn" data-target="projects">🛠️ 项目工坊</button>
+        <button class="dodo-btn" data-target="competitions">🏆 竞赛挑战</button>
         <button class="dodo-btn" data-target="works">🎨 创作画廊</button>
+        <button class="dodo-btn" data-target="contact">📮 留言信箱</button>
       </div>
     </div>
   </div>
@@ -462,6 +517,16 @@ body {
         <span class="island-icon">🎨</span>
         <span class="island-label">画廊</span>
         <span class="island-hint">AI 作品</span>
+      </a>
+      <a href="#competitions" class="island-card">
+        <span class="island-icon">🏆</span>
+        <span class="island-label">竞赛</span>
+        <span class="island-hint">挑战项目</span>
+      </a>
+      <a href="#contact" class="island-card">
+        <span class="island-icon">📮</span>
+        <span class="island-label">信箱</span>
+        <span class="island-hint">留言联系</span>
       </a>
     </div>
   </section>
@@ -557,6 +622,63 @@ body {
         <h3>更多创作中…</h3>
         <p>新的插画和设计作品正在路上。</p>
         <span class="card-link" style="cursor:default;opacity:0.4">✨</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Competitions -->
+  <section class="section-island" id="competitions">
+    <div class="section-header">
+      <span class="section-stamp">CHALLENGE</span>
+      <h2>🏆 竞赛挑战</h2>
+    </div>
+    <div class="card-grid">
+      <div class="item-card">
+        <div class="card-tags"><span class="card-tag">竞赛</span><span class="card-tag">AI</span></div>
+        <h3>🏅 AI 创新挑战赛</h3>
+        <p>参与 AI 应用开发竞赛，用创意和技术解决实际问题。</p>
+        <span class="card-link" style="cursor:default;opacity:0.7">进行中 →</span>
+      </div>
+      <div class="item-card">
+        <div class="card-tags"><span class="card-tag">竞赛</span><span class="card-tag">设计</span></div>
+        <h3>🎯 创意设计马拉松</h3>
+        <p>48小时极限创作挑战，从概念到原型一气呵成。</p>
+        <span class="card-link" style="cursor:default;opacity:0.5">敬请期待</span>
+      </div>
+      <div class="item-card">
+        <div class="card-tags"><span class="card-tag">Coming Soon</span></div>
+        <h3>更多挑战筹备中…</h3>
+        <p>新的竞赛项目正在规划，保持关注。</p>
+        <span class="card-link" style="cursor:default;opacity:0.4">✨</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Message Board -->
+  <section class="section-island" id="contact">
+    <div class="section-header">
+      <span class="section-stamp">POST OFFICE</span>
+      <h2>📮 留言信箱</h2>
+    </div>
+
+    <div class="message-board">
+      <div class="board-cork">
+        <div class="board-note">
+          <div class="note-pin">📌</div>
+          <p class="note-title">给阿鱼留言</p>
+          <p class="note-body">GitHub Issues 就像岛上的留言板——写下你想说的话，或报告你发现的问题。</p>
+          <a href="https://github.com/yuanxuru-oss" target="_blank" class="card-link">去留言板 →</a>
+        </div>
+        <div class="board-note tilt-right">
+          <div class="note-pin">📌</div>
+          <p class="note-title">联系方式</p>
+          <p class="note-body">邮箱：ayu@fishbone.isle<br>GitHub：@yuanxuru-oss</p>
+        </div>
+        <div class="board-note tilt-left">
+          <div class="note-pin">📌</div>
+          <p class="note-title">来信必回</p>
+          <p class="note-body">每一条留言我都会认真看。就像岛上信箱里的信一样，收到就会回复 🐧</p>
+        </div>
       </div>
     </div>
   </section>
