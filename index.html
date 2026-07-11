@@ -21,6 +21,12 @@
   --ink: #3d3a35;
   --muted: #6b6960;
   --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  /* Per-section accent colors */
+  --accent-about: #7eb5a6;
+  --accent-projects: #5b9a8b;
+  --accent-competitions: #d4a853;
+  --accent-works: #c97d8b;
+  --accent-contact: #6b8aaa;
 }
 
 html { scroll-behavior: smooth; }
@@ -307,10 +313,19 @@ body {
 /* === Section Islands === */
 .section-island {
   min-height: 100vh;
-  padding: 80px 24px;
+  padding: 80px 24px 100px;
   display: flex; flex-direction: column;
   align-items: center;
+  position: relative;
+  --sec-accent: var(--island-green);
 }
+
+/* === Per-section color identity (Principle 2: Color differentiation) === */
+.section-island[data-theme="about"]     { --sec-accent: var(--accent-about); }
+.section-island[data-theme="projects"]  { --sec-accent: var(--accent-projects); }
+.section-island[data-theme="competitions"] { --sec-accent: var(--accent-competitions); }
+.section-island[data-theme="works"]     { --sec-accent: var(--accent-works); }
+.section-island[data-theme="contact"]   { --sec-accent: var(--accent-contact); }
 
 .section-header {
   text-align: center;
@@ -329,10 +344,34 @@ body {
   font-size: 0.7rem;
   padding: 3px 14px;
   border-radius: 12px;
-  background: var(--island-yellow);
-  color: var(--dark-green);
+  background: var(--sec-accent);
+  color: #fff;
   margin-bottom: 8px;
   letter-spacing: 1px;
+  opacity: 0.85;
+}
+
+/* === Decorative corner element per section (Principle 3: unnecessary but necessary) === */
+.section-island::before {
+  content: '';
+  position: absolute;
+  right: 8%; top: 60px;
+  width: 32px; height: 32px;
+  border: 2px solid var(--sec-accent);
+  border-radius: 50%;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.section-island::after {
+  content: '';
+  position: absolute;
+  left: 10%; bottom: 80px;
+  width: 18px; height: 18px;
+  background: var(--sec-accent);
+  border-radius: 50%;
+  opacity: 0.15;
+  pointer-events: none;
 }
 
 /* === Passport Card (About section) === */
@@ -345,7 +384,7 @@ body {
 }
 
 .passport-header {
-  background: var(--island-green);
+  background: var(--sec-accent);
   padding: 14px 24px;
   display: flex; align-items: center; gap: 10px;
 }
@@ -360,7 +399,7 @@ body {
   flex-shrink: 0;
   width: 100px; height: 100px;
   border-radius: 50%;
-  border: 3px solid var(--island-green);
+  border: 3px solid var(--sec-accent);
   overflow: hidden;
   background: var(--sky-top);
   display: flex; align-items: center; justify-content: center;
@@ -384,7 +423,7 @@ body {
   align-self: flex-start;
   width: 56px; height: 56px;
   border-radius: 50%;
-  border: 2px solid var(--island-yellow);
+  border: 2px solid var(--sec-accent);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.5rem;
   opacity: 0.7;
@@ -411,7 +450,7 @@ body {
 .item-card::after {
   content: '';
   position: absolute; inset: 0;
-  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(126,181,166,0.2) 0%, transparent 60%);
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), var(--sec-accent) 0%, transparent 60%);
   opacity: 0; transition: opacity 0.3s;
   pointer-events: none;
 }
@@ -421,16 +460,16 @@ body {
 .item-card .card-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
 .item-card .card-tag {
   font-size: 0.65rem; padding: 2px 8px; border-radius: 10px;
-  background: #e8f4d8; color: var(--island-green);
+  background: #e8f4d8; color: var(--sec-accent);
 }
-.item-card h3 { font-size:0.95rem; margin-bottom:6px; }
+.item-card h3 { font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive; font-size:0.95rem; margin-bottom:6px; letter-spacing:0.5px; }
 .item-card p { font-size:0.8rem; color:var(--muted); line-height:1.6; margin-bottom:12px; }
 .item-card .card-link {
-  font-size:0.8rem; color:var(--island-green); text-decoration:none;
-  padding:6px 14px; border:1.5px solid var(--island-green); border-radius:14px;
+  font-size:0.8rem; color:var(--sec-accent); text-decoration:none;
+  padding:6px 14px; border:1.5px solid var(--sec-accent); border-radius:14px;
   display:inline-block; transition:all 0.2s;
 }
-.item-card .card-link:hover { background:var(--island-green); color:#fff; }
+.item-card .card-link:hover { background:var(--sec-accent); color:#fff; }
 
 /* === Footer === */
 .site-footer {
@@ -529,7 +568,7 @@ body {
   </section>
 
   <!-- About / Passport -->
-  <section class="section-island" id="about">
+  <section class="section-island" id="about" data-theme="about">
     <div class="section-header">
       <span class="section-stamp">DODO AIRLINES</span>
       <h2>📋 岛民护照</h2>
@@ -568,7 +607,7 @@ body {
   </section>
 
   <!-- Projects -->
-  <section class="section-island" id="projects">
+  <section class="section-island" id="projects" data-theme="projects">
     <div class="section-header">
       <span class="section-stamp">WORKSHOP</span>
       <h2>🛠️ 项目工坊</h2>
@@ -596,7 +635,7 @@ body {
   </section>
 
   <!-- Works -->
-  <section class="section-island" id="works">
+  <section class="section-island" id="works" data-theme="works">
     <div class="section-header">
       <span class="section-stamp">GALLERY</span>
       <h2>🎨 创作画廊</h2>
@@ -624,7 +663,7 @@ body {
   </section>
 
   <!-- Competitions -->
-  <section class="section-island" id="competitions">
+  <section class="section-island" id="competitions" data-theme="competitions">
     <div class="section-header">
       <span class="section-stamp">CHALLENGE</span>
       <h2>🏆 竞赛挑战</h2>
@@ -652,7 +691,7 @@ body {
   </section>
 
   <!-- Contact / Message Board -->
-  <section class="section-island" id="contact">
+  <section class="section-island" id="contact" data-theme="contact">
     <div class="section-header">
       <span class="section-stamp">POST OFFICE</span>
       <h2>📮 留言信箱</h2>
