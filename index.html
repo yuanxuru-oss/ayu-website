@@ -1159,27 +1159,62 @@ const penguin = document.getElementById('entryPenguin');
 const greeting = document.getElementById('greeting');
 
 const greetings = [
-  '欢迎来到阿鱼的小岛！你想去哪里看看？',
+  '欢迎来到<strong>阿鱼的小岛</strong>！你想去哪里看看？',
   '今天天气真好呀！要逛逛吗？',
-  '嘿！好久不见～想去哪儿？',
+  '嘿！<strong>好久不见</strong>～想去哪儿？',
   '阿鱼在岛上留了些东西，要看看吗？',
 ];
 
 let greetingFull = greetings[Math.floor(Math.random() * greetings.length)];
 let typewriterTimer = null;
 
-// === Typewriter effect (matches animal-island-ui Typewriter: no cursor, 90ms) ===
-function typewrite(text, el, speed = 90) {
+// === Typewriter (matches animal-island-ui Typewriter component: preserves HTML, 90ms) ===
+// Counts total plain-text length across all text nodes in a DOM fragment
+function countText(root) {
+  let n = 0;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  while (walker.nextNode()) n += walker.currentNode.textContent.length;
+  return n;
+}
+
+// Recursively truncate text nodes so total visible chars <= limit
+function truncateTextNodes(root, limit) {
+  let remaining = limit;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  for (const node of nodes) {
+    if (remaining <= 0) { node.textContent = ''; continue; }
+    const len = node.textContent.length;
+    if (len <= remaining) { remaining -= len; continue; }
+    node.textContent = node.textContent.slice(0, remaining);
+    remaining = 0;
+  }
+}
+
+// Clone source HTML, truncate to 'count' visible chars, return HTML string
+function renderTruncated(sourceHTML, count) {
+  const tmpl = document.createElement('div');
+  tmpl.innerHTML = sourceHTML;
+  truncateTextNodes(tmpl, count);
+  return tmpl.innerHTML;
+}
+
+function typewrite(html, el, speed = 90) {
   if (typewriterTimer) clearTimeout(typewriterTimer);
+  const total = (function() {
+    const d = document.createElement('div'); d.innerHTML = html;
+    return countText(d);
+  })();
   let i = 0;
-  el.textContent = '';
+  el.innerHTML = '';
   function tick() {
-    if (i < text.length) {
-      el.textContent = text.slice(0, i + 1);
+    if (i < total) {
       i++;
+      el.innerHTML = renderTruncated(html, i);
       typewriterTimer = setTimeout(tick, speed);
     }
-    // Done — text stays as-is, no cursor
+    // Done — full HTML rendered, no cursor
   }
   tick();
 }
