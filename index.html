@@ -70,7 +70,11 @@ body {
     radial-gradient(ellipse 300px 40px at 50% 88%, rgba(168,216,234,0.12) 0%, transparent 100%),
     radial-gradient(ellipse 200px 30px at 30% 92%, rgba(168,216,234,0.10) 0%, transparent 100%),
     /* Warm light near top */
-    radial-gradient(ellipse 250px 100px at 50% 30%, rgba(255,255,240,0.12) 0%, transparent 100%);
+    radial-gradient(ellipse 250px 100px at 50% 30%, rgba(255,255,240,0.12) 0%, transparent 100%),
+    /* AC leaf motif — subtle scattered leaves */
+    radial-gradient(ellipse 14px 20px at 15% 45%, rgba(126,181,166,0.06) 0%, transparent 100%),
+    radial-gradient(ellipse 12px 18px at 72% 52%, rgba(126,181,166,0.05) 0%, transparent 100%),
+    radial-gradient(ellipse 16px 22px at 38% 48%, rgba(126,181,166,0.04) 0%, transparent 100%);
   pointer-events: none;
   opacity: 0.7;
 }
@@ -375,6 +379,19 @@ body {
   margin-bottom: 10px;
 }
 
+.dodo-leaf {
+  font-size: 1.2rem;
+  animation: leaf-spin 6s linear infinite;
+}
+
+@keyframes leaf-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(5deg) scale(1.1); }
+  50% { transform: rotate(0deg) scale(1); }
+  75% { transform: rotate(-5deg) scale(1.1); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
 .dodo-logo {
   font-family: 'ZCOOL KuaiLe', cursive;
   font-size: 0.75rem;
@@ -403,17 +420,27 @@ body {
 
 .dodo-btn {
   font-family: 'Noto Sans SC', sans-serif;
-  font-size: 0.85rem;
-  padding: 10px 20px;
-  border-radius: 22px;
+  font-size: 0.82rem;
+  padding: 8px 16px 8px 12px;
+  border-radius: 14px;
   border: 2px solid var(--island-green);
   background: #fff;
   color: var(--island-green);
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
+  display: flex; align-items: center; gap: 6px;
+}
+.dodo-btn .db-icon {
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  background: #e8f4d8;
+  flex-shrink: 0;
 }
 .dodo-btn:hover { background: var(--island-green); color: #fff; transform: translateY(-2px); }
+.dodo-btn:hover .db-icon { background: rgba(255,255,255,0.2); }
 
 /* === Main Content === */
 .main-content {
@@ -496,7 +523,18 @@ body {
   box-shadow: 0 8px 28px rgba(0,0,0,0.12);
   border-top-color: var(--island-green);
 }
-.island-card .island-icon { font-size: 2rem; margin-bottom: 6px; }
+.island-card .island-icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+  background: var(--sky-bottom);
+  transition: transform 0.3s;
+}
+.island-card:hover .island-icon {
+  transform: scale(1.08);
+}
 .island-card .island-label { font-size: 0.85rem; font-weight: 600; color: var(--dark-green); }
 .island-card .island-hint { font-size: 0.7rem; color: var(--muted); }
 
@@ -600,7 +638,7 @@ body {
   padding: 14px 24px;
   display: flex; align-items: center; gap: 10px;
 }
-.passport-header .dodo-icon { font-size: 1.3rem; }
+.passport-header .dodo-icon { font-size: 1.3rem; animation: leaf-spin 6s linear infinite; }
 .passport-header .dodo-label { color: #fff; font-family: 'ZCOOL KuaiLe', cursive; font-size: 0.85rem; }
 
 .passport-body {
@@ -724,17 +762,18 @@ body {
     </div>
     <div class="dodo-dialog">
       <div class="dodo-header">
-        <span class="dodo-logo">🛩️ DODO AIRLINES</span>
+        <span class="dodo-leaf">🍃</span>
+        <span class="dodo-logo">DODO AIRLINES</span>
       </div>
       <hr class="dodo-divider">
       <div class="dodo-greeting" id="greeting">欢迎来到阿鱼的小岛！你想去哪里看看？</div>
       <div class="dodo-options">
-        <button class="dodo-btn" data-target="hero">🏝️ 岛屿广场</button>
-        <button class="dodo-btn" data-target="about">📋 护照信息</button>
-        <button class="dodo-btn" data-target="projects">🛠️ 项目工坊</button>
-        <button class="dodo-btn" data-target="competitions">🏆 竞赛挑战</button>
-        <button class="dodo-btn" data-target="works">🎨 创作画廊</button>
-        <button class="dodo-btn" data-target="contact">📮 留言信箱</button>
+        <button class="dodo-btn" data-target="hero"><span class="db-icon">🏝️</span>岛屿广场</button>
+        <button class="dodo-btn" data-target="about"><span class="db-icon">📋</span>护照信息</button>
+        <button class="dodo-btn" data-target="projects"><span class="db-icon">🛠️</span>项目工坊</button>
+        <button class="dodo-btn" data-target="competitions"><span class="db-icon">🏆</span>竞赛挑战</button>
+        <button class="dodo-btn" data-target="works"><span class="db-icon">🎨</span>创作画廊</button>
+        <button class="dodo-btn" data-target="contact"><span class="db-icon">📮</span>留言信箱</button>
       </div>
     </div>
   </div>
@@ -789,7 +828,7 @@ body {
 
     <div class="passport-card">
       <div class="passport-header">
-        <span class="dodo-icon">🛩️</span>
+        <span class="dodo-icon">🍃</span>
         <span class="dodo-label">AYU ISLAND · RESIDENT ID</span>
       </div>
       <div class="passport-body">
