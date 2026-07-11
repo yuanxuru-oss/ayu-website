@@ -114,36 +114,51 @@ body {
 
 .pf-avatar-preview {
   width: 72px; height: 72px;
-  background: #e8f4d8;
+  background: #d4a574;
   border: 2px solid var(--sec-accent);
-  border-radius: 16px;
+  border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 2rem;
+  font-size: 1.6rem;
   margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.pf-preview-face {
+  font-size: 1.8rem;
+  line-height: 1;
 }
 
 .pf-emoji-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
+  gap: 5px;
 }
 
-.pf-emoji-grid button {
-  width: 28px; height: 28px;
-  font-size: 1rem;
-  border: 1.5px solid transparent;
-  border-radius: 8px;
-  background: #f5f4f1;
+.pf-villager-btn {
+  width: 32px; height: 32px;
+  border: 2px solid transparent;
+  border-radius: 50%;
   cursor: pointer;
   transition: all 0.15s;
   display: flex; align-items: center; justify-content: center;
   padding: 0;
+  position: relative;
 }
-.pf-emoji-grid button:hover,
-.pf-emoji-grid button.active {
+.pf-villager-btn:hover,
+.pf-villager-btn.active {
   border-color: var(--sec-accent);
-  background: #e8f4d8;
-  transform: scale(1.15);
+  transform: scale(1.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 2;
+}
+
+.pf-v-face {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.pf-emoji-grid button {
+  /* keep this for backward compat, but villager buttons override */
 }
 
 .pf-fields {
@@ -235,10 +250,15 @@ body {
 .vp-avatar {
   flex-shrink: 0;
   width: 52px; height: 52px;
-  background: #d5e8d4;
-  border-radius: 14px;
+  border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.6rem;
+  font-size: 1.2rem;
+  border: 2px solid var(--sec-accent);
+}
+
+.vp-face {
+  font-size: 1.3rem;
+  line-height: 1;
 }
 
 .vp-info {
@@ -1009,25 +1029,49 @@ document.addEventListener('keydown', (e) => {
 
 // === Passport Message Board ===
 const STORAGE_KEY = 'ayu-passports-v1';
-const AVATARS = ['🐧','🐱','🐶','🐰','🐻','🐼','🐨','🐯','🦊','🐸','🐵','🐙','🦉','🐳','🦋','🐞','🌟','🍀','🎈','🧸'];
 
-let selectedAvatar = '🐧';
+// AC-style villager faces: color + species
+const VILLAGERS = [
+  { id:'dog',     color:'#d4a574',  face:'◕ᴥ◕' },
+  { id:'cat1',    color:'#f0a868',  face:'◕ω◕' },
+  { id:'rabbit',  color:'#f4b8c8',  face:'◕ᆺ◕' },
+  { id:'bear',    color:'#b8956e',  face:'◕ﻌ◕' },
+  { id:'frog',    color:'#a4c98e',  face:'◕᎑◕' },
+  { id:'penguin', color:'#7eb0c8',  face:'◕◡◕' },
+  { id:'sheep',   color:'#f0ead8',  face:'◕Ⱉ◕' },
+  { id:'duck',    color:'#f5d98b',  face:'◕꒳◕' },
+  { id:'cat2',    color:'#c8b8d8',  face:'◕∇◕' },
+  { id:'squirrel',color:'#c8a888',  face:'◕ﻌ◕' },
+  { id:'hamster', color:'#f0c8a0',  face:'◕Ⱉ◕' },
+  { id:'bird',    color:'#f5e8b8',  face:'◕◇◕' },
+];
 
-// Build emoji grid
+let selectedVillager = VILLAGERS[0];
+
+// Build villager avatar grid
 const emojiGrid = document.getElementById('pfEmojiGrid');
-AVATARS.forEach(emoji => {
+VILLAGERS.forEach((v, i) => {
   const btn = document.createElement('button');
-  btn.textContent = emoji;
+  btn.className = 'pf-villager-btn';
+  btn.style.background = v.color;
+  btn.innerHTML = `<span class="pf-v-face">${v.face}</span>`;
+  btn.title = v.id;
   btn.addEventListener('click', () => {
-    selectedAvatar = emoji;
-    document.getElementById('pfAvatarPreview').textContent = emoji;
+    selectedVillager = v;
+    updateAvatarPreview(v);
     emojiGrid.querySelectorAll('button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     chime(1040, 0.08);
   });
-  if (emoji === '🐧') btn.classList.add('active');
+  if (i === 0) btn.classList.add('active');
   emojiGrid.appendChild(btn);
 });
+
+function updateAvatarPreview(v) {
+  const preview = document.getElementById('pfAvatarPreview');
+  preview.style.background = v.color;
+  preview.innerHTML = `<span class="pf-preview-face">${v.face}</span>`;
+}
 
 // Load existing passports
 function loadPassports() {
@@ -1049,7 +1093,7 @@ function renderWall() {
   }
   wall.innerHTML = passports.map((p, i) => `
     <div class="visitor-passport">
-      <div class="vp-avatar">${p.avatar}</div>
+      <div class="vp-avatar" style="background:${esc(p.color)}"><span class="vp-face">${esc(p.face)}</span></div>
       <div class="vp-info">
         <div class="vp-name">${esc(p.name)}</div>
         <div class="vp-time">${p.time}</div>
@@ -1087,15 +1131,15 @@ document.getElementById('pfSubmit').addEventListener('click', () => {
   const time = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 
   const passports = loadPassports();
-  passports.push({ name, message, avatar: selectedAvatar, time });
+  passports.push({ name, message, color: selectedVillager.color, face: selectedVillager.face, time });
   savePassports(passports);
   renderWall();
 
   // Reset form
   document.getElementById('pfName').value = '';
   document.getElementById('pfMessage').value = '';
-  selectedAvatar = '🐧';
-  document.getElementById('pfAvatarPreview').textContent = '🐧';
+  selectedVillager = VILLAGERS[0];
+  updateAvatarPreview(VILLAGERS[0]);
   emojiGrid.querySelectorAll('button').forEach(b => b.classList.remove('active'));
   emojiGrid.querySelector('button').classList.add('active');
 
@@ -1104,6 +1148,7 @@ document.getElementById('pfSubmit').addEventListener('click', () => {
 });
 
 // Init
+updateAvatarPreview(VILLAGERS[0]);
 renderWall();
 </script>
 </body>
