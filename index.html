@@ -243,7 +243,7 @@ body {
 }
 .hero-penguin:hover {
   transform: scale(1.06);
-  filter: drop-shadow(0 0 20px rgba(247,214,123,0.5));
+  filter: drop-shadow(0 0 12px rgba(247,214,123,0.3));
 }
 .hero-penguin img {
   width: clamp(220px, 30vw, 300px);
@@ -293,19 +293,16 @@ body {
   text-decoration: none;
   color: var(--ink);
   box-shadow: var(--shadow);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s, background 0.3s;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
   min-width: 120px;
   position: relative; overflow: hidden;
+  border-top: 3px solid transparent;
 }
-.island-card::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(247,214,123,0.25) 0%, transparent 50%);
-  opacity: 0; transition: opacity 0.3s;
-  pointer-events: none;
+.island-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+  border-top-color: var(--island-green);
 }
-.island-card:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 8px 28px rgba(0,0,0,0.12); }
-.island-card:hover::after { opacity: 1; }
 .island-card .island-icon { font-size: 2rem; margin-bottom: 6px; }
 .island-card .island-label { font-size: 0.85rem; font-weight: 600; color: var(--dark-green); }
 .island-card .island-hint { font-size: 0.7rem; color: var(--muted); }
@@ -327,9 +324,54 @@ body {
 .section-island[data-theme="works"]     { --sec-accent: var(--accent-works); }
 .section-island[data-theme="contact"]   { --sec-accent: var(--accent-contact); }
 
+/* === Section-themed subtle decorative marks (AC-style: small icons instead of big glows) === */
+/* About (green) — tiny grass/leaf dots */
+.section-island[data-theme="about"] .section-header::before {
+  content: '🌿'; font-size: 2.5rem; opacity: 0.12; pointer-events: none;
+  position: absolute; left: 12%; top: 50px;
+}
+/* Projects (teal) — tiny tool/gear marks */
+.section-island[data-theme="projects"] .section-header::before {
+  content: '⚙️'; font-size: 2.2rem; opacity: 0.12; pointer-events: none;
+  position: absolute; left: 12%; top: 50px;
+}
+/* Competitions (amber) — tiny star */
+.section-island[data-theme="competitions"] .section-header::before {
+  content: '⭐'; font-size: 2.4rem; opacity: 0.14; pointer-events: none;
+  position: absolute; left: 12%; top: 50px;
+}
+/* Works (rose) — tiny flower */
+.section-island[data-theme="works"] .section-header::before {
+  content: '🌸'; font-size: 2.3rem; opacity: 0.14; pointer-events: none;
+  position: absolute; left: 12%; top: 50px;
+}
+/* Contact (blue) — tiny wave/water drop */
+.section-island[data-theme="contact"] .section-header::before {
+  content: '💧'; font-size: 2.2rem; opacity: 0.12; pointer-events: none;
+  position: absolute; left: 12%; top: 50px;
+}
+
+/* Small decorative corner marks per section */
+.section-island[data-theme="about"]::before     { content: '·  ·  ·'; }
+.section-island[data-theme="projects"]::before  { content: '∘  ∘  ∘'; }
+.section-island[data-theme="competitions"]::before { content: '✦  ✦  ✦'; }
+.section-island[data-theme="works"]::before     { content: '✿  ✿  ✿'; }
+.section-island[data-theme="contact"]::before   { content: '〜  〜  〜'; }
+
+.section-island::before {
+  position: absolute;
+  right: 8%; top: 55px;
+  font-size: 0.6rem;
+  color: var(--sec-accent);
+  opacity: 0.18;
+  letter-spacing: 6px;
+  pointer-events: none;
+}
+
 .section-header {
   text-align: center;
   margin-bottom: 40px;
+  position: relative;
 }
 
 .section-header h2 {
@@ -349,29 +391,6 @@ body {
   margin-bottom: 8px;
   letter-spacing: 1px;
   opacity: 0.85;
-}
-
-/* === Decorative corner element per section (Principle 3: unnecessary but necessary) === */
-.section-island::before {
-  content: '';
-  position: absolute;
-  right: 8%; top: 60px;
-  width: 32px; height: 32px;
-  border: 2px solid var(--sec-accent);
-  border-radius: 50%;
-  opacity: 0.2;
-  pointer-events: none;
-}
-
-.section-island::after {
-  content: '';
-  position: absolute;
-  left: 10%; bottom: 80px;
-  width: 18px; height: 18px;
-  background: var(--sec-accent);
-  border-radius: 50%;
-  opacity: 0.15;
-  pointer-events: none;
 }
 
 /* === Passport Card (About section) === */
@@ -444,18 +463,17 @@ body {
   padding: 20px;
   box-shadow: var(--shadow);
   border: 1px solid rgba(0,0,0,0.04);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+  border-top: 3px solid transparent;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s, border-color 0.3s, border-top-color 0.3s;
   position: relative; overflow: hidden;
 }
-.item-card::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), var(--sec-accent) 0%, transparent 60%);
-  opacity: 0; transition: opacity 0.3s;
-  pointer-events: none;
+
+/* Hover: subtle top accent line only — no big glow */
+.item-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  border-top-color: var(--sec-accent);
 }
-.item-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
-.item-card:hover::after { opacity: 1; }
 
 .item-card .card-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
 .item-card .card-tag {
@@ -785,19 +803,6 @@ document.querySelectorAll('.dodo-btn').forEach(btn => {
 // Also dismiss overlay when clicking background
 overlay.addEventListener('click', (e) => {
   if (e.target === overlay) overlay.classList.add('dismissed');
-});
-
-// === Hover sparkle tracking on cards ===
-document.querySelectorAll('.island-card, .item-card').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect();
-    card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
-    card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.setProperty('--mx', '50%');
-    card.style.setProperty('--my', '50%');
-  });
 });
 
 // Keyboard: Escape dismisses
