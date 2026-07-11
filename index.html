@@ -10,30 +10,31 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 
 :root {
-  /* === animal-island-ui warm parchment palette === */
-  --bg-main: #f8f8f0;
+  /* === Mint-green sky palette (keep original) === */
+  --sky-top: #c5e8f0;
+  --sky-bottom: #e8f4d8;
+  --land: #c8ddb5;
+  --water: #a8d8ea;
+  
+  /* === animal-island-ui warm tones for cards & text === */
   --bg-card: rgb(247, 243, 223);
   --text-body: #725d42;
   --text-header: #794f27;
   --text-muted: #9f927d;
-  --text-disabled: #c4b89e;
   --border: #c4b89e;
-  --shadow-3d: #bdaea0;
+  
   --accent-teal: #19c8b9;
   --accent-teal-hover: #3dd4c6;
   --focus-yellow: #ffcc00;
   
-  /* === NookPhone colors (per section) === */
+  /* === NookPhone colors for section accents === */
   --np-green: #8ac68a;
   --np-teal: #82d5bb;
   --np-yellow: #f7cd67;
   --np-orange: #e59266;
   --np-pink: #f8a6b2;
   --np-blue: #889df0;
-  --np-purple: #b77dee;
-  --np-red: #fc736d;
   
-  /* === Section accents (NookPhone palette) === */
   --accent-about: var(--np-green);
   --accent-projects: var(--np-teal);
   --accent-competitions: var(--np-orange);
@@ -52,25 +53,25 @@ html { scroll-behavior: smooth; zoom: 1.1; }
 
 body {
   font-family: Nunito, 'Noto Sans SC', -apple-system, 'PingFang SC', sans-serif;
-  background: var(--bg-card);
+  background: var(--sky-top);
   color: var(--text-body);
   overflow-x: hidden;
   font-weight: 500;
 }
 
-/* === Warm parchment background === */
+/* === Mint-green sky background === */
 .sky-bg {
   position: fixed; inset: 0; z-index: -1;
   background:
-    linear-gradient(180deg, #f8f8f0 0%, #f5f2e8 40%, #efe8d8 70%, #e8e0cc 100%);
+    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 55%, var(--land) 75%, var(--water) 90%, var(--water) 100%);
 }
 
 /* Subtle warm haze */
 .sky-bg::before {
   content: ''; position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 400px 200px at 20% 30%, rgba(255,250,240,0.4) 0%, transparent 100%),
-    radial-gradient(ellipse 300px 150px at 70% 60%, rgba(255,245,230,0.3) 0%, transparent 100%);
+    radial-gradient(ellipse 300px 150px at 20% 25%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(ellipse 250px 120px at 70% 55%, rgba(255,255,240,0.3) 0%, transparent 100%);
   pointer-events: none;
 }
 
