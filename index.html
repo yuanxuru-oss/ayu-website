@@ -398,125 +398,72 @@ body {
   padding: 40px 36px 32px;
 }
 
-/* === Title Ribbon (animal-island-ui Title swallowtail) === */
-.dodo-title-wrap {
-  display: inline-flex;
-  font-family: Nunito, 'Noto Sans SC', sans-serif;
-  font-weight: 800;
-  font-size: 17px;
-  line-height: 1;
-  letter-spacing: 0.04em;
-  filter: drop-shadow(0 0.08em 0.12em rgba(0,0,0,0.05));
-  position: relative;
-  margin-bottom: 24px;
+/* === Modal Title (plain, per animal-island-ui Modal spec) === */
+.dodo-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgba(114, 93, 66, 1);
+  padding-bottom: 16px;
+  line-height: 1.3;
 }
 
-.dodo-title-wrap .dodo-r-front {
-  display: inline-flex;
-  align-items: center;
-  height: 2em;
-  padding: 0 1.6em;
-  background: #82d5bb;
-  color: #fff;
-  border-radius: 0.2em;
-  transform: perspective(11.5em) rotateX(3deg);
-  position: relative;
-  z-index: 2;
-  font-weight: 900;
-  padding-top: 0.11em;
-  white-space: nowrap;
-}
-
-.dodo-title-wrap .dodo-r-back {
-  position: absolute;
-  width: 1.7em; height: 1.7em;
-  bottom: -0.4em;
-  background: #5fb89a;
-  z-index: 1;
-}
-.dodo-title-wrap .dodo-r-back.dodo-r-back-l {
-  left: 0.5em;
-  clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 30% 50%, 0% 0%);
-}
-.dodo-title-wrap .dodo-r-back.dodo-r-back-r {
-  right: 0.5em;
-  clip-path: polygon(0% 0%, 100% 0%, 70% 50%, 100% 100%, 0% 100%);
-}
-
-.dodo-title-wrap .dodo-r-fold {
-  position: absolute;
-  bottom: -0.4em;
-  z-index: 0;
-}
-.dodo-title-wrap .dodo-r-fold.dodo-r-fold-l {
-  left: 0.5em;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 0.95em 0.45em 0;
-  border-color: transparent #3d8a6e transparent transparent;
-  transform: translateY(0.4em);
-}
-.dodo-title-wrap .dodo-r-fold.dodo-r-fold-r {
-  right: 0.5em;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 0 0.45em 0.95em;
-  border-color: transparent transparent transparent #3d8a6e;
-  transform: translateY(0.4em);
-}
-
-/* Greeting */
+/* Modal body text */
 .dodo-greeting {
-  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
-  font-size: 1.05rem;
-  color: var(--dark-green);
-  margin-bottom: 20px;
-  line-height: 1.7;
-  font-weight: 400;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: #8a7b66;
+  padding-bottom: 20px;
 }
 
-/* Button options inside modal */
+/* Modal footer buttons */
 .dodo-options {
-  display: flex; flex-wrap: wrap; gap: 10px;
+  display: flex; flex-wrap: wrap; gap: 12px;
 }
 
 .dodo-btn {
   font-family: Nunito, 'Noto Sans SC', sans-serif;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  padding: 10px 20px;
-  border-radius: 50px;
-  border: 2px solid rgba(114, 93, 66, 0.25);
+  letter-spacing: 0.01em;
+  height: 40px;
+  padding: 0 24px;
+  border-radius: 39.81px;
+  border: 2px solid rgba(114, 93, 66, 0.3);
   background: transparent;
   color: var(--text-body);
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s;
   white-space: nowrap;
   display: flex; align-items: center; gap: 6px;
   line-height: 1;
 }
 .dodo-btn .db-icon {
-  width: 28px; height: 28px;
-  border-radius: 10px;
+  width: 22px; height: 22px;
+  border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   background: #f0ece2;
   flex-shrink: 0;
-  padding: 5px;
+  padding: 4px;
 }
 .dodo-btn .db-icon img {
   width: 100%; height: 100%;
   object-fit: contain;
 }
 .dodo-btn:hover {
-  border-color: rgba(114, 93, 66, 0.55);
-  background: rgba(114, 93, 66, 0.06);
-  transform: translateY(-1px);
+  border-color: rgba(114, 93, 66, 0.6);
+  background: rgba(114, 93, 66, 0.08);
 }
-.dodo-btn:active {
-  transform: translateY(0);
+
+/* Primary confirm-style button (yellow, per Modal spec) */
+.dodo-btn.dodo-btn-primary {
+  background: rgba(255, 204, 0, 1);
+  border-color: rgba(255, 204, 0, 1);
+  color: rgba(114, 93, 66, 1);
+}
+.dodo-btn.dodo-btn-primary:hover {
+  background: rgba(255, 204, 0, 0.85);
+  border-color: rgba(255, 204, 0, 0.85);
 }
 
 /* === Main Content === */
@@ -891,16 +838,10 @@ body {
     <div class="dodo-modal">
       <button class="dodo-close" title="关闭" onclick="document.getElementById('entryOverlay').classList.add('dismissed')">✕</button>
       <div class="dodo-body">
-        <div class="dodo-title-wrap">
-          <span class="dodo-r-back dodo-r-back-l"></span>
-          <span class="dodo-r-back dodo-r-back-r"></span>
-          <span class="dodo-r-fold dodo-r-fold-l"></span>
-          <span class="dodo-r-fold dodo-r-fold-r"></span>
-          <span class="dodo-r-front">🛩 DODO AIRLINES</span>
-        </div>
+        <div class="dodo-modal-title">🛩 DODO AIRLINES</div>
         <div class="dodo-greeting" id="greeting">欢迎来到阿鱼的小岛！你想去哪里看看？</div>
         <div class="dodo-options">
-          <button class="dodo-btn" data-target="hero"><span class="db-icon"><img src="icons/icon-map.svg" alt=""></span>岛屿广场</button>
+          <button class="dodo-btn dodo-btn-primary" data-target="hero"><span class="db-icon"><img src="icons/icon-map.svg" alt=""></span>岛屿广场</button>
           <button class="dodo-btn" data-target="about"><span class="db-icon"><img src="icons/icon-miles.svg" alt=""></span>护照信息</button>
           <button class="dodo-btn" data-target="projects"><span class="db-icon"><img src="icons/icon-diy.svg" alt=""></span>项目工坊</button>
           <button class="dodo-btn" data-target="competitions"><span class="db-icon"><img src="icons/icon-variant.svg" alt=""></span>竞赛挑战</button>
