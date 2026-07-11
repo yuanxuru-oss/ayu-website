@@ -1,0 +1,71 @@
+{
+  "projects": [
+    {
+      "title": "🐟 鱼骨头英语复习系统",
+      "tags": ["Web App", "教育"],
+      "desc": "通用英语复习工具。听力、阅读、翻译、词汇、闪卡多模块训练。手绘纸质感UI。",
+      "link": "https://yuanxuru-oss.github.io/English-systems/review-system/",
+      "linkText": "打开项目 →"
+    },
+    {
+      "title": "📋 个人 AI 工作系统",
+      "tags": ["AI 系统", "工作流"],
+      "desc": "五层架构AI搭档。CLAUDE.md + Skill + 日记记忆层。开工/存档每日循环。",
+      "link": "https://github.com/yuanxuru-oss",
+      "linkText": "GitHub →"
+    },
+    {
+      "title": "🌐 阿鱼个人网页",
+      "tags": ["个人站点", "动森风"],
+      "desc": "你现在看到的这个网站。企鹅岛民互动式个人名片。",
+      "link": "",
+      "linkText": "你就在这里 →"
+    }
+  ],
+  "works": [
+    {
+      "title": "阿鱼 IP 角色",
+      "tags": ["IP 设计", "插画"],
+      "desc": "Kawaii Doodle 企鹅。蜡笔手绘+粉彩填色，紫巫师帽黄星灰鱼。",
+      "link": "",
+      "linkText": "已定稿 ✓"
+    },
+    {
+      "title": "鱼骨头系统设计",
+      "tags": ["UI 设计", "手绘风"],
+      "desc": "暖纸质感界面。手绘图标体系、鱼骨进度动画、五色系主题。",
+      "link": "https://yuanxuru-oss.github.io/English-systems/review-system/",
+      "linkText": "在线体验 →"
+    },
+    {
+      "title": "更多创作中…",
+      "tags": ["Coming Soon"],
+      "desc": "新的插画和设计作品正在路上。",
+      "link": "",
+      "linkText": "✨"
+    }
+  ],
+  "competitions": [
+    {
+      "title": "🏅 AI 创新挑战赛",
+      "tags": ["竞赛", "AI"],
+      "desc": "参与 AI 应用开发竞赛，用创意和技术解决实际问题。",
+      "link": "",
+      "linkText": "进行中 →"
+    },
+    {
+      "title": "🎯 创意设计马拉松",
+      "tags": ["竞赛", "设计"],
+      "desc": "48小时极限创作挑战，从概念到原型一气呵成。",
+      "link": "",
+      "linkText": "敬请期待"
+    },
+    {
+      "title": "更多挑战筹备中…",
+      "tags": ["Coming Soon"],
+      "desc": "新的竞赛项目正在规划，保持关注。",
+      "link": "",
+      "linkText": "✨"
+    }
+  ]
+}
