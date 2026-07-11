@@ -269,6 +269,34 @@ body {
 }
 .visitor-passport:hover .vp-delete { opacity: 0.5; }
 
+/* === Contact links row === */
+.contact-links {
+  display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+  margin-top: 48px;
+}
+
+.contact-link-card {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 16px 22px;
+  background: var(--card);
+  border-radius: 16px;
+  text-decoration: none;
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  border: 1.5px solid transparent;
+  border-top: 3px solid var(--sec-accent);
+  min-width: 130px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+}
+.contact-link-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.cl-icon { font-size: 1.8rem; margin-bottom: 4px; }
+.cl-label { font-family: 'ZCOOL KuaiLe', cursive; font-size: 0.85rem; color: var(--dark-green); }
+.cl-hint { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
+
 /* === Entry Overlay === */
 .entry-overlay {
   position: fixed; inset: 0; z-index: 100;
@@ -890,6 +918,20 @@ body {
 
     <!-- Passport wall -->
     <div class="passport-wall" id="passportWall"></div>
+
+    <!-- Contact links row -->
+    <div class="contact-links">
+      <a href="https://github.com/yuanxuru-oss/cola-pages/issues" target="_blank" class="contact-link-card">
+        <span class="cl-icon">💬</span>
+        <span class="cl-label">GitHub Issues</span>
+        <span class="cl-hint">报告问题 / 提建议</span>
+      </a>
+      <a href="https://github.com/yuanxuru-oss" target="_blank" class="contact-link-card">
+        <span class="cl-icon">🐙</span>
+        <span class="cl-label">GitHub</span>
+        <span class="cl-hint">@yuanxuru-oss</span>
+      </a>
+    </div>
   </section>
 
   <!-- Footer -->
