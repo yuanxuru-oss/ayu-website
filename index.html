@@ -995,7 +995,7 @@ body {
       <button class="dodo-close" title="关闭" onclick="document.getElementById('entryOverlay').classList.add('dismissed')">✕</button>
       <div class="dodo-body">
         <div class="dodo-modal-title">🛩 DODO AIRLINES</div>
-        <div class="dodo-greeting" id="greeting">欢迎来到阿鱼的小岛！你想去哪里看看？</div>
+        <div class="dodo-greeting" id="greeting"></div>
         <div class="dodo-options">
           <button class="dodo-btn dodo-btn-primary" data-target="hero"><span class="db-icon"><img src="icons/icon-map.svg" alt=""></span>岛屿广场</button>
           <button class="dodo-btn" data-target="about"><span class="db-icon"><img src="icons/icon-miles.svg" alt=""></span>护照信息</button>
@@ -1494,14 +1494,13 @@ renderWall();
   }
   startProgress();
 
-  // Start typewriter simultaneously — tiny delay to ensure rendering
-  setTimeout(() => typewrite(greetingFull, greeting, 90), 50);
-
   function dismiss() {
     if (dismissed || !splash.parentNode) return;
     dismissed = true;
     if (fill) fill.style.width = '100%';
     splash.classList.add('reveal');
+    // Start typewriter as mask reveals
+    typewrite(greetingFull, greeting, 90);
     setTimeout(() => { if (splash.parentNode) splash.remove(); }, 700);
   }
 
