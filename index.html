@@ -3,432 +3,576 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>阿鱼 · Ayu</title>
+<title>阿鱼 · Ayu — Welcome to My Island</title>
 <style>
-/* === Forest Green · Animal Crossing Style === */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+KuaiLe&display=swap');
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
 :root {
-  --sky: #d5e8d4;
-  --ground: #c5d5b8;
-  --bubble: #fefdfb;
+  --sky-top: #c5e8f0;
+  --sky-bottom: #e8f4d8;
+  --land: #c8ddb5;
+  --water: #a8d8ea;
+  --island-green: #7eb5a6;
+  --island-yellow: #f7d67b;
+  --dark-green: #4a6258;
+  --card: #fefdfb;
   --ink: #3d3a35;
   --muted: #6b6960;
-  --forest: #4a6741;
-  --forest-light: #e8f0e4;
-  --accent: #8b7b5c;
-  --card-bg: #faf9f6;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
+
+html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Noto Sans SC', sans-serif;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
+  background: var(--sky-top);
+  color: var(--ink);
+  overflow-x: hidden;
 }
 
-/* === Background (two-tone) === */
-.scene {
-  position: fixed; inset: 0;
-  background: linear-gradient(180deg,
-    var(--sky) 0%, var(--sky) 58%,
-    var(--ground) 58%, var(--ground) 100%
-  );
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+/* === Three-band Sky === */
+.sky-bg {
+  position: fixed; inset: 0; z-index: -1;
+  background:
+    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 55%, var(--land) 75%, var(--water) 90%, var(--water) 100%);
 }
 
-/* === Penguin Character === */
-.character {
-  position: absolute;
-  left: 12%;
-  bottom: 18%;
-  cursor: pointer;
-  z-index: 10;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.character:hover { transform: scale(1.08); }
-.character:active { transform: scale(0.95); }
-.character.bounce { animation: bounce 0.5s ease; }
-
-@keyframes bounce {
-  0%,100% { transform: translateY(0); }
-  30% { transform: translateY(-18px); }
-  50% { transform: translateY(0); }
-  70% { transform: translateY(-8px); }
-}
-
-.character img {
-  width: clamp(140px, 18vw, 200px);
-  height: auto;
-  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.12));
-}
-
-.character .name-tag {
-  text-align: center;
-  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
-  font-size: 0.9rem;
-  color: var(--forest);
-  margin-top: 4px;
-  letter-spacing: 2px;
-  opacity: 0.8;
-}
-
-/* === Dialog Bubble === */
-.dialog-area {
-  position: absolute;
-  bottom: 6%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(620px, 88vw);
-  z-index: 5;
-  transition: opacity 0.4s, transform 0.4s;
-}
-
-.dialog-area.hidden {
-  opacity: 0;
-  transform: translateX(-50%) translateY(20px);
+/* Floating silhouettes */
+.sky-bg::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 18px 24px at 18% 62%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(ellipse 12px 30px at 78% 58%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(ellipse 22px 14px at 88% 72%, rgba(255,255,255,0.35) 0%, transparent 100%);
   pointer-events: none;
 }
 
-.dialog-bubble {
-  background: var(--bubble);
-  border-radius: 28px 32px 32px 28px;
-  padding: 28px 32px;
-  min-height: 100px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+/* === Entry Overlay === */
+.entry-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.35);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.5s, visibility 0.5s;
+}
+.entry-overlay.dismissed { opacity:0; visibility:hidden; pointer-events:none; }
+
+.entry-scene {
   position: relative;
-}
-
-.bubble-text {
-  font-size: 1.05rem;
-  color: var(--ink);
-  line-height: 1.8;
-  text-align: center;
-  margin-bottom: 16px;
-}
-
-/* === Option Buttons === */
-.options {
+  width: min(720px, 92vw);
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
+  align-items: flex-end;
+  gap: 0;
 }
 
-.option-btn {
+/* Penguin in entry */
+.entry-penguin {
+  flex-shrink: 0;
+  cursor: pointer;
+  animation: float 3s ease-in-out infinite;
+  user-select: none;
+}
+.entry-penguin img {
+  width: clamp(120px, 16vw, 170px);
+  filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.15));
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Dodo Airlines dialog */
+.dodo-dialog {
+  background: var(--card);
+  border-radius: 4px 28px 28px 28px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  margin-left: -8px;
+  box-shadow: var(--shadow);
+  position: relative;
+  flex: 1;
+}
+
+.dodo-dialog::before {
+  content: '';
+  position: absolute; left: -10px; bottom: 24px;
+  width: 0; height: 0;
+  border-right: 12px solid var(--card);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+
+.dodo-header {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px;
+}
+
+.dodo-logo {
+  font-family: 'ZCOOL KuaiLe', cursive;
+  font-size: 0.75rem;
+  color: var(--island-green);
+  letter-spacing: 1px;
+}
+
+.dodo-divider {
+  border: none;
+  border-top: 1.5px dashed var(--island-green);
+  opacity: 0.4;
+  margin: 10px 0 14px;
+}
+
+.dodo-greeting {
+  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
+  font-size: 1.1rem;
+  color: var(--dark-green);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+.dodo-options {
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+
+.dodo-btn {
   font-family: 'Noto Sans SC', sans-serif;
-  font-size: 0.9rem;
-  padding: 10px 22px;
-  border-radius: 20px;
-  border: 2px solid var(--forest);
-  background: var(--forest-light);
-  color: var(--forest);
+  font-size: 0.85rem;
+  padding: 10px 20px;
+  border-radius: 22px;
+  border: 2px solid var(--island-green);
+  background: #fff;
+  color: var(--island-green);
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
 }
+.dodo-btn:hover { background: var(--island-green); color: #fff; transform: translateY(-2px); }
 
-.option-btn:hover {
-  background: var(--forest);
-  color: #fff;
-  transform: translateY(-1px);
+/* === Main Content === */
+.main-content {
+  position: relative; z-index: 1;
 }
 
-/* === Carousel === */
-.carousel-area {
-  position: absolute;
-  bottom: 6%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(620px, 88vw);
-  z-index: 5;
-  transition: opacity 0.4s, transform 0.4s;
+/* Hero section (post-dialog) */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
 }
 
-.carousel-area.hidden {
-  opacity: 0;
-  transform: translateX(-50%) translateY(20px);
-  pointer-events: none;
+.hero-penguin {
+  margin-bottom: 20px;
+}
+.hero-penguin img {
+  width: clamp(160px, 22vw, 220px);
+  filter: drop-shadow(3px 6px 12px rgba(0,0,0,0.1));
+  animation: float 3.5s ease-in-out infinite;
 }
 
-.carousel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.carousel-title {
+.hero-title {
   font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
-  font-size: 1rem;
-  color: var(--forest);
-  letter-spacing: 1px;
-}
-
-.carousel-back {
-  font-family: 'Noto Sans SC', sans-serif;
-  font-size: 0.8rem;
-  padding: 6px 16px;
-  border-radius: 16px;
-  border: 1.5px solid var(--forest);
-  background: transparent;
-  color: var(--forest);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.carousel-back:hover { background: var(--forest); color: #fff; }
-
-.carousel-track {
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  padding: 8px 4px 12px;
-  -webkit-overflow-scrolling: touch;
-}
-
-.carousel-track::-webkit-scrollbar { height: 6px; }
-.carousel-track::-webkit-scrollbar-track { background: transparent; }
-.carousel-track::-webkit-scrollbar-thumb { background: var(--forest-light); border-radius: 3px; }
-
-.carousel-card {
-  flex: 0 0 clamp(240px, 40vw, 280px);
-  scroll-snap-align: start;
-  background: var(--card-bg);
-  border-radius: 18px;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  border: 1px solid rgba(0,0,0,0.04);
-  display: flex;
-  flex-direction: column;
-}
-
-.carousel-card h3 {
-  font-size: 0.95rem;
-  color: var(--ink);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: var(--dark-green);
+  letter-spacing: 2px;
   margin-bottom: 6px;
 }
 
-.carousel-card p {
-  font-size: 0.8rem;
+.hero-sub {
+  font-size: 0.9rem;
   color: var(--muted);
-  line-height: 1.6;
-  flex: 1;
+  margin-bottom: 28px;
 }
 
-.carousel-card .card-link {
-  display: inline-block;
-  margin-top: 12px;
-  font-size: 0.8rem;
-  color: var(--forest);
+.hero-islands {
+  display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+}
+
+.island-card {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 18px 22px;
+  background: var(--card);
+  border-radius: 18px;
   text-decoration: none;
-  padding: 6px 14px;
-  border: 1.5px solid var(--forest);
-  border-radius: 14px;
-  text-align: center;
-  transition: all 0.2s;
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-width: 120px;
+}
+.island-card:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+.island-card .island-icon { font-size: 2rem; margin-bottom: 6px; }
+.island-card .island-label { font-size: 0.85rem; font-weight: 600; color: var(--dark-green); }
+.island-card .island-hint { font-size: 0.7rem; color: var(--muted); }
+
+/* === Section Islands === */
+.section-island {
+  min-height: 100vh;
+  padding: 80px 24px;
+  display: flex; flex-direction: column;
+  align-items: center;
 }
 
-.carousel-card .card-link:hover { background: var(--forest); color: #fff; }
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
 
-.carousel-card .tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+.section-header h2 {
+  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
+  font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+  color: var(--dark-green);
+  letter-spacing: 1px;
+}
+
+.section-header .section-stamp {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 3px 14px;
+  border-radius: 12px;
+  background: var(--island-yellow);
+  color: var(--dark-green);
   margin-bottom: 8px;
+  letter-spacing: 1px;
 }
 
-.carousel-card .tag {
-  font-size: 0.68rem;
-  padding: 2px 8px;
-  border-radius: 10px;
-  background: var(--forest-light);
-  color: var(--forest);
+/* === Passport Card (About section) === */
+.passport-card {
+  width: min(560px, 90vw);
+  background: var(--card);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
-/* === Hint === */
-.hint {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.85rem;
-  color: var(--forest);
+.passport-header {
+  background: var(--island-green);
+  padding: 14px 24px;
+  display: flex; align-items: center; gap: 10px;
+}
+.passport-header .dodo-icon { font-size: 1.3rem; }
+.passport-header .dodo-label { color: #fff; font-family: 'ZCOOL KuaiLe', cursive; font-size: 0.85rem; }
+
+.passport-body {
+  display: flex; gap: 24px; padding: 24px;
+}
+
+.passport-avatar {
+  flex-shrink: 0;
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  border: 3px solid var(--island-green);
+  overflow: hidden;
+  background: var(--sky-top);
+  display: flex; align-items: center; justify-content: center;
+}
+.passport-avatar img {
+  width: 100%; height: 100%; object-fit: contain;
+}
+
+.passport-fields { flex:1; display:flex; flex-direction:column; gap:12px; }
+
+.passport-field label {
+  font-size: 0.65rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase;
+}
+.passport-field .field-value {
+  font-size: 0.9rem; color: var(--ink); font-weight: 500;
+  padding: 4px 0;
+  border-bottom: 1px solid #e8e6e3;
+}
+
+.passport-stamp {
+  align-self: flex-start;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  border: 2px solid var(--island-yellow);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
   opacity: 0.7;
-  text-align: center;
-  transition: opacity 0.5s;
-  pointer-events: none;
+  transform: rotate(-12deg);
 }
 
-.hint.fade { opacity: 0; }
+/* === Card Grid (Projects/Works) === */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+  width: min(720px, 90vw);
+}
+
+.item-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0,0,0,0.04);
+  transition: transform 0.2s;
+}
+.item-card:hover { transform: translateY(-3px); }
+
+.item-card .card-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+.item-card .card-tag {
+  font-size: 0.65rem; padding: 2px 8px; border-radius: 10px;
+  background: #e8f4d8; color: var(--island-green);
+}
+.item-card h3 { font-size:0.95rem; margin-bottom:6px; }
+.item-card p { font-size:0.8rem; color:var(--muted); line-height:1.6; margin-bottom:12px; }
+.item-card .card-link {
+  font-size:0.8rem; color:var(--island-green); text-decoration:none;
+  padding:6px 14px; border:1.5px solid var(--island-green); border-radius:14px;
+  display:inline-block; transition:all 0.2s;
+}
+.item-card .card-link:hover { background:var(--island-green); color:#fff; }
+
+/* === Footer === */
+.site-footer {
+  text-align: center; padding: 40px 24px;
+  font-size: 0.75rem; color: var(--muted);
+}
+
+/* === Back to top === */
+.back-top {
+  position: fixed; bottom: 24px; right: 24px; z-index: 50;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--island-green); color: #fff;
+  border: none; cursor: pointer; font-size: 1.2rem;
+  box-shadow: var(--shadow); transition: transform 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.back-top:hover { transform: scale(1.1); }
 
 /* === Responsive === */
 @media (max-width: 600px) {
-  .character { left: 6%; bottom: 22%; }
-  .character img { width: 120px; }
-  .dialog-bubble { padding: 20px 18px; border-radius: 22px; }
-  .bubble-text { font-size: 0.95rem; }
-  .option-btn { font-size: 0.82rem; padding: 8px 16px; }
-  .carousel-card { flex: 0 0 200px; }
+  .entry-scene { flex-direction: column; align-items: center; }
+  .entry-penguin img { width: 100px; }
+  .dodo-dialog { margin-left: 0; margin-top: -12px; border-radius: 28px; }
+  .dodo-dialog::before { display: none; }
+  .passport-body { flex-direction: column; align-items: center; }
+  .card-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<div class="scene">
-  <!-- Hint -->
-  <div class="hint" id="hint">👆 点一下企鹅跟我说话吧</div>
+<div class="sky-bg"></div>
 
-  <!-- Penguin Character -->
-  <div class="character" id="penguin">
-    <img src="ayu-penguin.png" alt="阿鱼">
-    <div class="name-tag">阿鱼</div>
-  </div>
-
-  <!-- Dialog -->
-  <div class="dialog-area hidden" id="dialogArea">
-    <div class="dialog-bubble">
-      <div class="bubble-text">你想看看阿鱼的什么？</div>
-      <div class="options" id="options">
-        <button class="option-btn" data-category="projects">🛠️ AI 项目</button>
-        <button class="option-btn" data-category="works">🎨 AI 作品</button>
-        <button class="option-btn" data-category="about">🐧 关于阿鱼</button>
-        <button class="option-btn" data-category="contact">📬 联系</button>
+<!-- === ENTRY OVERLAY === -->
+<div class="entry-overlay" id="entryOverlay">
+  <div class="entry-scene">
+    <div class="entry-penguin" id="entryPenguin">
+      <img src="ayu-penguin.png" alt="阿鱼">
+    </div>
+    <div class="dodo-dialog">
+      <div class="dodo-header">
+        <span class="dodo-logo">🛩️ DODO AIRLINES</span>
+      </div>
+      <hr class="dodo-divider">
+      <div class="dodo-greeting" id="greeting">欢迎来到阿鱼的小岛！你想去哪里看看？</div>
+      <div class="dodo-options">
+        <button class="dodo-btn" data-target="hero">🏝️ 岛屿广场</button>
+        <button class="dodo-btn" data-target="about">📋 护照信息</button>
+        <button class="dodo-btn" data-target="projects">🛠️ 项目工坊</button>
+        <button class="dodo-btn" data-target="works">🎨 创作画廊</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Carousel (hidden initially) -->
-  <div class="carousel-area hidden" id="carouselArea">
-    <div class="carousel-header">
-      <span class="carousel-title" id="carouselTitle">AI 项目</span>
-      <button class="carousel-back" id="carouselBack">← 返回</button>
+<!-- === MAIN CONTENT === -->
+<div class="main-content">
+
+  <!-- Hero / Island Plaza -->
+  <section class="hero" id="hero">
+    <div class="hero-penguin">
+      <img src="ayu-penguin.png" alt="阿鱼">
     </div>
-    <div class="carousel-track" id="carouselTrack"></div>
+    <h1 class="hero-title">阿鱼的小岛</h1>
+    <p class="hero-sub">AI Creator & Designer · 安静做事，作品说话</p>
+    <div class="hero-islands">
+      <a href="#about" class="island-card">
+        <span class="island-icon">📋</span>
+        <span class="island-label">护照</span>
+        <span class="island-hint">关于阿鱼</span>
+      </a>
+      <a href="#projects" class="island-card">
+        <span class="island-icon">🛠️</span>
+        <span class="island-label">工坊</span>
+        <span class="island-hint">AI 项目</span>
+      </a>
+      <a href="#works" class="island-card">
+        <span class="island-icon">🎨</span>
+        <span class="island-label">画廊</span>
+        <span class="island-hint">AI 作品</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- About / Passport -->
+  <section class="section-island" id="about">
+    <div class="section-header">
+      <span class="section-stamp">DODO AIRLINES</span>
+      <h2>📋 岛民护照</h2>
+    </div>
+
+    <div class="passport-card">
+      <div class="passport-header">
+        <span class="dodo-icon">🛩️</span>
+        <span class="dodo-label">AYU ISLAND · RESIDENT ID</span>
+      </div>
+      <div class="passport-body">
+        <div class="passport-avatar">
+          <img src="ayu-penguin.png" alt="阿鱼">
+        </div>
+        <div class="passport-fields">
+          <div class="passport-field">
+            <label>Name / 名字</label>
+            <div class="field-value">阿鱼 · Ayu</div>
+          </div>
+          <div class="passport-field">
+            <label>Island / 岛屿</label>
+            <div class="field-value">鱼骨岛 · Fishbone Isle</div>
+          </div>
+          <div class="passport-field">
+            <label>Role / 角色</label>
+            <div class="field-value">AI Creator & Designer</div>
+          </div>
+          <div class="passport-field">
+            <label>Motto / 座右铭</label>
+            <div class="field-value">安静做事，作品说话。</div>
+          </div>
+        </div>
+        <div class="passport-stamp" title="入境章">✅</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="section-island" id="projects">
+    <div class="section-header">
+      <span class="section-stamp">WORKSHOP</span>
+      <h2>🛠️ 项目工坊</h2>
+    </div>
+    <div class="card-grid">
+      <div class="item-card">
+        <div class="card-tags"><span class="card-tag">Web App</span><span class="card-tag">教育</span></div>
+        <h3>🐟 鱼骨头英语复习系统</h3>
+        <p>通用英语复习工具。听力、阅读、翻译、词汇、闪卡多模块训练。手绘纸质感UI。</p>
+        <a href="https://yuanxuru-oss.github.io/English-systems/review-system/" target="_blank" class="card-link">打开项目 →</a>
+      </div>
+      <div class="item-card">
+        <div class="card-tags"><span class="card-tag">AI 系统</span><span class="card-tag">工作流</span></div>
+        <h3>📋 个人 AI 工作系统</h3>
+        <p>五层架构AI搭档。CLAUDE.md + Skill + 日记记忆层。开工/存档每日循环。</p>
+        <a href="https://github.com/yuanxuru-oss" target="_blank" class="card-link">GitHub →</a>
+      </div>
+      <div class="item-card">
+        <div class="card-tags"><span class="card-tag">个人站点</span><span class="card-tag">动森风</span></div>
+        <h3>🌐 阿鱼个人网页</h3>
+        <p>你现在看到的这个网站。企鹅岛民互动式个人名片。</p>
+        <span class="card-link" style="cursor:default;opacity:0.7">你就在这里 →</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Works -->
+  <section class="section-island" id="works">
+    <div class="section-header">
+      <span class="section-stamp">GALLERY</span>
+      <h2>🎨 创作画廊</h2>
+    </div>
+    <div class="card-grid">
+      <div class="item-card">
+        <div class="card-tags"><span class="card-tag">IP 设计</span><span class="card-tag">插画</span></div>
+        <h3>阿鱼 IP 角色</h3>
+        <p>Kawaii Doodle 企鹅。蜡笔手绘+粉彩填色，紫巫师帽黄星灰鱼。</p>
+        <span class="card-link" style="cursor:default;opacity:0.7">已定稿 ✓</span>
+      </div>
+      <div class="item-card">
+        <div class="card-tags"><span class="card-tag">UI 设计</span><span class="card-tag">手绘风</span></div>
+        <h3>鱼骨头系统设计</h3>
+        <p>暖纸质感界面。手绘图标体系、鱼骨进度动画、五色系主题。</p>
+        <a href="https://yuanxuru-oss.github.io/English-systems/review-system/" target="_blank" class="card-link">在线体验 →</a>
+      </div>
+      <div class="item-card">
+        <div class="card-tags"><span class="card-tag">Coming Soon</span></div>
+        <h3>更多创作中…</h3>
+        <p>新的插画和设计作品正在路上。</p>
+        <span class="card-link" style="cursor:default;opacity:0.4">✨</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div class="site-footer">
+    Made with 🛩️ on Ayu Island · <a href="https://github.com/yuanxuru-oss" style="color:var(--island-green)">GitHub</a>
   </div>
 </div>
 
+<button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回顶部">↑</button>
+
 <script>
-// === Content Data ===
-const content = {
-  projects: [
-    { title: '🐟 鱼骨头英语复习系统', tags: ['Web App','教育'],
-      desc: '通用英语复习工具。听力、阅读、翻译、词汇、闪卡多模块训练。手绘纸质感UI，鱼骨进度步骤条。',
-      link: 'https://yuanxuru-oss.github.io/English-systems/review-system/', linkText: '打开项目 →' },
-    { title: '📋 个人 AI 工作系统', tags: ['AI 系统','工作流'],
-      desc: '五层架构AI搭档系统。CLAUDE.md规则指挥+Skill技能包+日记教训记忆层。开工/存档每日循环。',
-      link: 'https://github.com/yuanxuru-oss', linkText: 'GitHub →' },
-    { title: '🌐 阿鱼个人网页', tags: ['个人站点','动森风'],
-      desc: '就是你现在看到的这个网站。企鹅交互式个人名片，森林绿色系，动森对话风格。',
-      link: '#', linkText: '你就在这里 →' },
-  ],
-  works: [
-    { title: '阿鱼 IP 角色', tags: ['IP 设计','插画'],
-      desc: '便签纸Kawaii Doodle企鹅。蜡笔手绘线条+粉彩填色，紫色巫师帽配黄色星星，手持灰色小鱼。',
-      link: '#', linkText: '已定稿 ✓' },
-    { title: '鱼骨头系统设计', tags: ['UI 设计','手绘风'],
-      desc: '暖纸质感界面设计。手绘图标体系、鱼骨进度动画、打卡印章系统、五色系主题切换。',
-      link: '#', linkText: '在线体验 →' },
-    { title: '更多创作中…', tags: ['Coming Soon'],
-      desc: '新的插画和设计作品正在创作中，敬请期待。',
-      link: '#', linkText: '✨' },
-  ],
-  about: [
-    { title: '关于阿鱼', tags: [],
-      desc: 'AI 内容创作者，热爱用代码和画笔把想法变成现实。安静做事，作品说话。从事 AI 相关内容与创作工作，喜欢搭建自己的小工具和系统。',
-      link: '', linkText: '' },
-    { title: '工作方式', tags: [],
-      desc: 'Cola 做日常助手，Obsidian 管知识，Yoda 编排 Agent。五层架构工作系统让 AI 真正成为搭档，而不是临时工。',
-      link: '', linkText: '' },
-    { title: '设计哲学', tags: [],
-      desc: '手绘质感、纸张温度、不完美美学。比起像素级完美，更喜欢有手工痕迹的作品。暖色、自然、有呼吸感。',
-      link: '', linkText: '' },
-  ],
-  contact: [
-    { title: 'GitHub', tags: ['开源'],
-      desc: '所有项目和代码都在 GitHub 上公开。欢迎 Star 和 Issue。',
-      link: 'https://github.com/yuanxuru-oss', linkText: 'yuanxuru-oss →' },
-    { title: '鱼骨头系统', tags: ['在线体验'],
-      desc: '直接打开浏览器就能用的英语复习工具。免注册，数据存本地。',
-      link: 'https://yuanxuru-oss.github.io/English-systems/review-system/', linkText: '开始复习 →' },
-  ]
-};
+// === Entry dialog interaction ===
+const overlay = document.getElementById('entryOverlay');
+const penguin = document.getElementById('entryPenguin');
+const greeting = document.getElementById('greeting');
 
-const labels = { projects: '🛠️ AI 项目', works: '🎨 AI 作品', about: '🐧 关于阿鱼', contact: '📬 联系' };
+const greetings = [
+  '欢迎来到阿鱼的小岛！你想去哪里看看？',
+  '今天天气真好呀！要逛逛吗？',
+  '嘿！好久不见～想去哪儿？',
+  '阿鱼在岛上留了些东西，要看看吗？',
+];
 
-// === Elements ===
-const penguin = document.getElementById('penguin');
-const hint = document.getElementById('hint');
-const dialogArea = document.getElementById('dialogArea');
-const carouselArea = document.getElementById('carouselArea');
-const carouselTitle = document.getElementById('carouselTitle');
-const carouselTrack = document.getElementById('carouselTrack');
-const carouselBack = document.getElementById('carouselBack');
-const optionsEl = document.getElementById('options');
+// Random greeting on load
+greeting.textContent = greetings[Math.floor(Math.random() * greetings.length)];
 
-let currentCategory = null;
-
-// === Penguin click → show dialog ===
-penguin.addEventListener('click', () => {
-  penguin.classList.add('bounce');
-  setTimeout(() => penguin.classList.remove('bounce'), 500);
-  hint.classList.add('fade');
-  dialogArea.classList.remove('hidden');
-  carouselArea.classList.add('hidden');
-  currentCategory = null;
-});
-
-// === Option click → show carousel ===
-optionsEl.addEventListener('click', (e) => {
-  const btn = e.target.closest('.option-btn');
-  if (!btn) return;
-  currentCategory = btn.dataset.category;
-  showCarousel(currentCategory);
-});
-
-// === Back → return to dialog ===
-carouselBack.addEventListener('click', () => {
-  carouselArea.classList.add('hidden');
-  dialogArea.classList.remove('hidden');
-  currentCategory = null;
-});
-
-function showCarousel(cat) {
-  carouselTitle.textContent = labels[cat] || cat;
-  carouselTrack.innerHTML = '';
-
-  const items = content[cat] || [];
-  items.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'carousel-card';
-    card.innerHTML = `
-      ${item.tags.length ? '<div class="tags">' + item.tags.map(t => `<span class="tag">${t}</span>`).join('') + '</div>' : ''}
-      <h3>${item.title}</h3>
-      <p>${item.desc}</p>
-      ${item.link ? `<a href="${item.link}" ${item.link.startsWith('http') ? 'target="_blank" rel="noopener"' : ''} class="card-link">${item.linkText}</a>` : ''}
-    `;
-    carouselTrack.appendChild(card);
-  });
-
-  dialogArea.classList.add('hidden');
-  carouselArea.classList.remove('hidden');
-  carouselTrack.scrollLeft = 0;
+// === Sound effect (Web Audio chime) ===
+let audioCtx = null;
+function chime(freq = 800, duration = 0.15) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    o.type = 'sine'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.15, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    o.start(audioCtx.currentTime); o.stop(audioCtx.currentTime + duration);
+  } catch(e) {}
 }
 
-// === Keyboard: Escape to go back ===
+// Penguin click → random greeting + bounce + chime
+penguin.addEventListener('click', () => {
+  greeting.textContent = greetings[Math.floor(Math.random() * greetings.length)];
+  penguin.style.animation = 'none';
+  penguin.offsetHeight;
+  penguin.style.animation = 'float 3s ease-in-out infinite';
+  chime(880, 0.12);
+});
+
+// Dialog option → scroll to section + dismiss overlay + chime
+document.querySelectorAll('.dodo-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.target;
+    overlay.classList.add('dismissed');
+    chime(660, 0.18);
+    if (target) {
+      const el = document.getElementById(target);
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 400);
+      }
+    }
+  });
+});
+
+// Also dismiss overlay when clicking background
+overlay.addEventListener('click', (e) => {
+  if (e.target === overlay) overlay.classList.add('dismissed');
+});
+
+// Keyboard: Escape dismisses
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && currentCategory) {
-    carouselBack.click();
-  }
+  if (e.key === 'Escape') overlay.classList.add('dismissed');
 });
 </script>
 </body>
