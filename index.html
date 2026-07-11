@@ -430,21 +430,6 @@ body {
   min-height: 1.6em;
 }
 
-/* Typewriter cursor */
-.dodo-greeting .tw-cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1.1em;
-  background: #8a7b66;
-  margin-left: 2px;
-  vertical-align: text-bottom;
-  animation: tw-blink 0.8s step-end infinite;
-}
-@keyframes tw-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
 /* Modal footer buttons */
 .dodo-options {
   display: flex; flex-wrap: wrap; gap: 12px;
@@ -1183,27 +1168,24 @@ const greetings = [
 let greetingFull = greetings[Math.floor(Math.random() * greetings.length)];
 let typewriterTimer = null;
 
-// === Typewriter effect ===
-function typewrite(text, el, speed = 70) {
+// === Typewriter effect (matches animal-island-ui Typewriter: no cursor, 90ms) ===
+function typewrite(text, el, speed = 90) {
   if (typewriterTimer) clearTimeout(typewriterTimer);
   let i = 0;
-  el.innerHTML = '';
+  el.textContent = '';
   function tick() {
     if (i < text.length) {
       el.textContent = text.slice(0, i + 1);
       i++;
-    } else {
-      // Done — show cursor
-      el.innerHTML = text + '<span class="tw-cursor"></span>';
-      return;
+      typewriterTimer = setTimeout(tick, speed);
     }
-    typewriterTimer = setTimeout(tick, speed);
+    // Done — text stays as-is, no cursor
   }
   tick();
 }
 
 // Initial typewriter on load
-typewrite(greetingFull, greeting, 70);
+typewrite(greetingFull, greeting, 90);
 
 // === Sound effect (Web Audio chime) ===
 let audioCtx = null;
@@ -1227,7 +1209,7 @@ penguin.addEventListener('click', () => {
   penguin.offsetHeight;
   penguin.style.animation = 'float 3s ease-in-out infinite';
   chime(880, 0.12);
-  typewrite(greetingFull, greeting, 70);
+  typewrite(greetingFull, greeting, 90);
 });
 
 // Dialog option → scroll to section + dismiss overlay + chime
