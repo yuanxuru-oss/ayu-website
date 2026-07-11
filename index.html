@@ -519,13 +519,14 @@ body {
   border-radius: 20px;
   text-decoration: none;
   color: var(--text-body);
-  border: 1.5px solid var(--border);
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s;
   min-width: 120px;
   position: relative; overflow: hidden;
 }
 .island-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
 }
 .island-card .island-icon {
   width: 56px; height: 56px;
@@ -696,13 +697,14 @@ body {
   background: var(--bg-card);
   border-radius: 20px;
   padding: 20px;
-  border: 1.5px solid var(--border);
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s;
   position: relative; overflow: hidden;
 }
 
 .item-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
 }
 
 .item-card .card-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
