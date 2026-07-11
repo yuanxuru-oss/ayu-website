@@ -788,13 +788,13 @@ body {
   box-shadow: 0 3px 10px 0 rgba(61,52,40,0.10);
 }
 
-/* === Loading Splash (animal-island-ui Loading) === */
+/* === Loading Splash (animal-island-ui Loading + island scene) === */
 .loading-splash {
   position: fixed; inset: 0; z-index: 200;
   background: black;
   display: flex; align-items: center; justify-content: center;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
   overflow: hidden;
 }
 .loading-splash.reveal {
@@ -805,13 +805,78 @@ body {
 @keyframes loading-reveal {
   to { --mask-r: 100vmax; }
 }
-/* Fallback for browsers without @property */
 .loading-splash.reveal-fallback {
   animation: loading-fade 0.5s ease forwards;
   animation-delay: 0.1s;
 }
 @keyframes loading-fade {
   to { opacity: 0; pointer-events: none; }
+}
+
+/* Island scene — palm tree + fish */
+.loading-island {
+  position: relative;
+  width: 120px; height: 90px;
+  animation: loading-float 2.5s ease-in-out infinite;
+}
+@keyframes loading-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.loading-trunk {
+  position: absolute;
+  bottom: 18px; left: 50%;
+  width: 6px; height: 50px;
+  background: #b8956a;
+  border-radius: 3px;
+  transform: translateX(-50%) rotate(-5deg);
+  transform-origin: bottom center;
+}
+.loading-frond {
+  position: absolute;
+  bottom: 64px; left: 50%;
+  width: 4px; height: 28px;
+  background: #6fba2c;
+  border-radius: 0 50% 50% 0;
+  transform-origin: bottom left;
+}
+.loading-frond:nth-child(2) { transform: translateX(-4px) rotate(-35deg); }
+.loading-frond:nth-child(3) { transform: translateX(-4px) rotate(-70deg); }
+.loading-frond:nth-child(4) { transform: translateX(-4px) rotate(-105deg); width: 5px; height: 24px; }
+.loading-frond:nth-child(5) { transform: translateX(-2px) rotate(20deg); width: 4px; height: 26px; }
+.loading-frond:nth-child(6) { transform: translateX(-2px) rotate(50deg); width: 3px; height: 22px; }
+.loading-coconut {
+  position: absolute;
+  bottom: 64px; left: calc(50% - 2px);
+  width: 8px; height: 8px;
+  background: #8b6914;
+  border-radius: 50%;
+  transform: translate(-6px, 4px);
+}
+.loading-coconut + .loading-coconut {
+  transform: translate(2px, 6px);
+}
+.loading-ground {
+  position: absolute;
+  bottom: 0; left: 50%;
+  width: 70px; height: 18px;
+  background: #c8bb8a;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+.loading-fish {
+  position: absolute;
+  bottom: 12px;
+  font-size: 16px;
+  animation: loading-swim 3s ease-in-out infinite;
+}
+.loading-fish.f1 { left: 10px; animation-delay: 0s; }
+.loading-fish.f2 { left: 85px; animation-delay: 1.5s; animation-duration: 3.5s; }
+@keyframes loading-swim {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  25%  { transform: translateX(6px) translateY(-4px); }
+  50%  { transform: translateX(0) translateY(0); }
+  75%  { transform: translateX(-6px) translateY(4px); }
 }
 
 .loading-spinner {
@@ -882,6 +947,20 @@ body {
 
 <!-- === Loading Splash === -->
 <div class="loading-splash" id="loadingSplash">
+  <div class="loading-island">
+    <div class="loading-trunk"></div>
+    <div class="loading-frond"></div>
+    <div class="loading-frond"></div>
+    <div class="loading-frond"></div>
+    <div class="loading-frond"></div>
+    <div class="loading-frond"></div>
+    <div class="loading-frond"></div>
+    <div class="loading-coconut"></div>
+    <div class="loading-coconut"></div>
+    <div class="loading-ground"></div>
+    <span class="loading-fish f1">🐟</span>
+    <span class="loading-fish f2">🐠</span>
+  </div>
   <svg class="loading-spinner" viewBox="0 0 50 50">
     <circle cx="25" cy="25" r="20"/>
   </svg>
