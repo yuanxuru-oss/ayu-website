@@ -7,6 +7,13 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+KuaiLe&display=swap');
 
+/* Register --mask-r for CSS mask animation (Chrome/Safari) */
+@property --mask-r {
+  syntax: '<length>';
+  initial-value: 0px;
+  inherits: false;
+}
+
 * { margin:0; padding:0; box-sizing:border-box; }
 
 :root {
@@ -796,7 +803,55 @@ body {
   box-shadow: 0 3px 10px 0 rgba(61,52,40,0.10);
 }
 
-/* === Footer === */
+/* === Loading Splash (animal-island-ui Loading) === */
+.loading-splash {
+  position: fixed; inset: 0; z-index: 200;
+  background: black;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  overflow: hidden;
+}
+.loading-splash.reveal {
+  --mask-r: 0;
+  mask: radial-gradient(circle at center, transparent var(--mask-r), black calc(var(--mask-r) + 1px));
+  animation: loading-reveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes loading-reveal {
+  to { --mask-r: 100vmax; }
+}
+/* Fallback for browsers without @property */
+.loading-splash.reveal-fallback {
+  animation: loading-fade 0.5s ease forwards;
+  animation-delay: 0.1s;
+}
+@keyframes loading-fade {
+  to { opacity: 0; pointer-events: none; }
+}
+
+.loading-spinner {
+  width: 48px; height: 48px;
+}
+.loading-spinner circle {
+  fill: none;
+  stroke: #19c8b9;
+  stroke-width: 4;
+  stroke-linecap: round;
+  animation: loading-dash 1.5s ease-in-out infinite;
+}
+@keyframes loading-dash {
+  0%   { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+  50%  { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+  100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+}
+
+.loading-label {
+  font-family: Nunito, 'Noto Sans SC', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #19c8b9;
+  letter-spacing: 0.04em;
+}
 .footer-sea {
   width: 100%;
   height: auto;
@@ -839,6 +894,14 @@ body {
 </style>
 </head>
 <body>
+
+<!-- === Loading Splash === -->
+<div class="loading-splash" id="loadingSplash">
+  <svg class="loading-spinner" viewBox="0 0 50 50">
+    <circle cx="25" cy="25" r="20"/>
+  </svg>
+  <div class="loading-label">阿鱼的小岛</div>
+</div>
 
 <div class="sky-bg"></div>
 
@@ -1085,6 +1148,11 @@ body {
         <span class="cl-label">GitHub</span>
         <span class="cl-hint">@yuanxuru-oss</span>
       </a>
+      <a href="#" target="_blank" class="contact-link-card" id="xhsLink">
+        <span class="cl-icon">📕</span>
+        <span class="cl-label">小红书</span>
+        <span class="cl-hint">关注阿鱼</span>
+      </a>
     </div>
   </section>
 
@@ -1307,6 +1375,34 @@ document.getElementById('pfSubmit').addEventListener('click', () => {
 // Init
 updateAvatarPreview(VILLAGERS[0]);
 renderWall();
+
+// === Loading splash dismiss ===
+(function() {
+  const splash = document.getElementById('loadingSplash');
+  if (!splash) return;
+
+  function dismiss() {
+    // Try CSS mask reveal first (Chrome/Safari with @property support)
+    splash.classList.add('reveal');
+    // Fallback: fade out after mask animation completes
+    setTimeout(() => {
+      if (getComputedStyle(splash).opacity !== '0') {
+        splash.classList.add('reveal-fallback');
+      }
+      setTimeout(() => splash.remove(), 600);
+    }, 650);
+  }
+
+  // Dismiss when page is fully loaded
+  if (document.readyState === 'complete') {
+    setTimeout(dismiss, 600);
+  } else {
+    window.addEventListener('load', () => setTimeout(dismiss, 600));
+  }
+
+  // Safety: force dismiss after 5s
+  setTimeout(() => { if (splash.parentNode) dismiss(); }, 5000);
+})();
 </script>
 </body>
 </html>
