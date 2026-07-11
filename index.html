@@ -437,9 +437,13 @@ body {
   width: 32px; height: 32px;
   border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1rem;
   background: #f0ece2;
   flex-shrink: 0;
+  padding: 6px;
+}
+.dodo-btn .db-icon img {
+  width: 100%; height: 100%;
+  object-fit: contain;
 }
 .dodo-btn:hover {
   background: var(--accent-teal);
@@ -532,10 +536,14 @@ body {
   width: 56px; height: 56px;
   border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.6rem;
   margin-bottom: 8px;
   background: #f0ece2;
   transition: transform 0.25s;
+  padding: 10px;
+}
+.island-card .island-icon img {
+  width: 100%; height: 100%;
+  object-fit: contain;
 }
 .island-card:hover .island-icon {
   transform: scale(1.08);
@@ -778,18 +786,18 @@ body {
     </div>
     <div class="dodo-dialog">
       <div class="dodo-header">
-        <span class="dodo-leaf">🍃</span>
+        <span class="dodo-leaf"><img src="icons/icon-helicopter.svg" alt="" style="width:24px;height:24px;vertical-align:middle"></span>
         <span class="dodo-logo">DODO AIRLINES</span>
       </div>
       <hr class="dodo-divider">
       <div class="dodo-greeting" id="greeting">欢迎来到阿鱼的小岛！你想去哪里看看？</div>
       <div class="dodo-options">
-        <button class="dodo-btn" data-target="hero"><span class="db-icon">🏝️</span>岛屿广场</button>
-        <button class="dodo-btn" data-target="about"><span class="db-icon">📋</span>护照信息</button>
-        <button class="dodo-btn" data-target="projects"><span class="db-icon">🛠️</span>项目工坊</button>
-        <button class="dodo-btn" data-target="competitions"><span class="db-icon">🏆</span>竞赛挑战</button>
-        <button class="dodo-btn" data-target="works"><span class="db-icon">🎨</span>创作画廊</button>
-        <button class="dodo-btn" data-target="contact"><span class="db-icon">📮</span>留言信箱</button>
+        <button class="dodo-btn" data-target="hero"><span class="db-icon"><img src="icons/icon-map.svg" alt=""></span>岛屿广场</button>
+        <button class="dodo-btn" data-target="about"><span class="db-icon"><img src="icons/icon-miles.svg" alt=""></span>护照信息</button>
+        <button class="dodo-btn" data-target="projects"><span class="db-icon"><img src="icons/icon-diy.svg" alt=""></span>项目工坊</button>
+        <button class="dodo-btn" data-target="competitions"><span class="db-icon"><img src="icons/icon-variant.svg" alt=""></span>竞赛挑战</button>
+        <button class="dodo-btn" data-target="works"><span class="db-icon"><img src="icons/icon-camera.svg" alt=""></span>创作画廊</button>
+        <button class="dodo-btn" data-target="contact"><span class="db-icon"><img src="icons/icon-chat.svg" alt=""></span>留言信箱</button>
       </div>
     </div>
   </div>
@@ -808,27 +816,27 @@ body {
     <p class="hero-sub">AI Creator & Designer · 安静做事，作品说话</p>
     <div class="hero-islands">
       <a href="#about" class="island-card">
-        <span class="island-icon">📋</span>
+        <span class="island-icon"><img src="icons/icon-miles.svg" alt=""></span>
         <span class="island-label">护照</span>
         <span class="island-hint">关于阿鱼</span>
       </a>
       <a href="#projects" class="island-card">
-        <span class="island-icon">🛠️</span>
+        <span class="island-icon"><img src="icons/icon-diy.svg" alt=""></span>
         <span class="island-label">工坊</span>
         <span class="island-hint">AI 项目</span>
       </a>
       <a href="#works" class="island-card">
-        <span class="island-icon">🎨</span>
+        <span class="island-icon"><img src="icons/icon-camera.svg" alt=""></span>
         <span class="island-label">画廊</span>
         <span class="island-hint">AI 作品</span>
       </a>
       <a href="#competitions" class="island-card">
-        <span class="island-icon">🏆</span>
+        <span class="island-icon"><img src="icons/icon-variant.svg" alt=""></span>
         <span class="island-label">竞赛</span>
         <span class="island-hint">挑战项目</span>
       </a>
       <a href="#contact" class="island-card">
-        <span class="island-icon">📮</span>
+        <span class="island-icon"><img src="icons/icon-chat.svg" alt=""></span>
         <span class="island-label">信箱</span>
         <span class="island-hint">留言联系</span>
       </a>
@@ -844,7 +852,7 @@ body {
 
     <div class="passport-card">
       <div class="passport-header">
-        <span class="dodo-icon">🍃</span>
+        <span class="dodo-icon"><img src="icons/icon-miles.svg" alt="" style="width:22px;height:22px;vertical-align:middle"></span>
         <span class="dodo-label">AYU ISLAND · RESIDENT ID</span>
       </div>
       <div class="passport-body">
