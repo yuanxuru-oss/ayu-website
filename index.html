@@ -51,25 +51,22 @@ body {
   pointer-events: none;
 }
 
-/* Leaf pattern on land + wave texture on water */
+/* Organic soft texture — no hard patterns */
 .sky-bg::after {
   content: ''; position: absolute; inset: 0;
   background:
-    /* Leaf patterns on land */
-    radial-gradient(circle 6px at 22% 68%, rgba(74,98,88,0.14) 0%, transparent 100%),
-    radial-gradient(circle 4px at 24% 70%, rgba(74,98,88,0.12) 0%, transparent 100%),
-    radial-gradient(circle 5px at 55% 72%, rgba(74,98,88,0.13) 0%, transparent 100%),
-    radial-gradient(circle 7px at 58% 69%, rgba(74,98,88,0.10) 0%, transparent 100%),
-    radial-gradient(circle 4px at 80% 66%, rgba(74,98,88,0.14) 0%, transparent 100%),
-    radial-gradient(circle 6px at 82% 71%, rgba(74,98,88,0.11) 0%, transparent 100%),
-    /* Extra leaf spots */
-    radial-gradient(circle 5px at 12% 74%, rgba(74,98,88,0.09) 0%, transparent 100%),
-    radial-gradient(circle 3px at 35% 65%, rgba(74,98,88,0.11) 0%, transparent 100%),
-    radial-gradient(circle 6px at 68% 74%, rgba(74,98,88,0.10) 0%, transparent 100%),
-    /* Wave lines on water */
-    repeating-linear-gradient(0deg, transparent, transparent 5px, rgba(168,216,234,0.4) 5px, rgba(168,216,234,0.4) 7px) 0 82% / 100% 40% no-repeat;
+    /* Soft diffused light patches (organic, irregular) */
+    radial-gradient(ellipse 180px 60px at 25% 70%, rgba(126,181,166,0.10) 0%, transparent 100%),
+    radial-gradient(ellipse 140px 80px at 60% 74%, rgba(150,200,180,0.08) 0%, transparent 100%),
+    radial-gradient(ellipse 200px 50px at 45% 66%, rgba(126,181,166,0.07) 0%, transparent 100%),
+    radial-gradient(ellipse 120px 90px at 80% 72%, rgba(140,190,175,0.09) 0%, transparent 100%),
+    /* Soft haze on water */
+    radial-gradient(ellipse 300px 40px at 50% 88%, rgba(168,216,234,0.12) 0%, transparent 100%),
+    radial-gradient(ellipse 200px 30px at 30% 92%, rgba(168,216,234,0.10) 0%, transparent 100%),
+    /* Warm light near top */
+    radial-gradient(ellipse 250px 100px at 50% 30%, rgba(255,255,240,0.12) 0%, transparent 100%);
   pointer-events: none;
-  opacity: 0.85;
+  opacity: 0.7;
 }
 
 /* Message Board (Animal Crossing bulletin board) */
