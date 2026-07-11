@@ -114,18 +114,17 @@ body {
 
 .pf-avatar-preview {
   width: 72px; height: 72px;
-  background: #d4a574;
   border: 2px solid var(--sec-accent);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.6rem;
   margin-bottom: 10px;
   overflow: hidden;
+  background: #f5f4f1;
 }
 
-.pf-preview-face {
-  font-size: 1.8rem;
-  line-height: 1;
+.pf-preview-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
 }
 
 .pf-emoji-grid {
@@ -135,26 +134,27 @@ body {
 }
 
 .pf-villager-btn {
-  width: 32px; height: 32px;
+  width: 36px; height: 36px;
   border: 2px solid transparent;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.15s;
   display: flex; align-items: center; justify-content: center;
   padding: 0;
-  position: relative;
+  background: none;
+  overflow: hidden;
 }
 .pf-villager-btn:hover,
 .pf-villager-btn.active {
   border-color: var(--sec-accent);
-  transform: scale(1.2);
+  transform: scale(1.25);
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   z-index: 2;
 }
 
-.pf-v-face {
-  font-size: 0.9rem;
-  line-height: 1;
+.pf-v-thumb {
+  width: 100%; height: 100%;
+  object-fit: cover;
 }
 
 .pf-emoji-grid button {
@@ -251,14 +251,13 @@ body {
   flex-shrink: 0;
   width: 52px; height: 52px;
   border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem;
+  overflow: hidden;
   border: 2px solid var(--sec-accent);
 }
 
-.vp-face {
-  font-size: 1.3rem;
-  line-height: 1;
+.vp-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
 }
 
 .vp-info {
@@ -1030,20 +1029,20 @@ document.addEventListener('keydown', (e) => {
 // === Passport Message Board ===
 const STORAGE_KEY = 'ayu-passports-v1';
 
-// AC-style villager faces: color + species
+// AC-style villager avatars — drawn images
 const VILLAGERS = [
-  { id:'dog',     color:'#d4a574',  face:'◕ᴥ◕' },
-  { id:'cat1',    color:'#f0a868',  face:'◕ω◕' },
-  { id:'rabbit',  color:'#f4b8c8',  face:'◕ᆺ◕' },
-  { id:'bear',    color:'#b8956e',  face:'◕ﻌ◕' },
-  { id:'frog',    color:'#a4c98e',  face:'◕᎑◕' },
-  { id:'penguin', color:'#7eb0c8',  face:'◕◡◕' },
-  { id:'sheep',   color:'#f0ead8',  face:'◕Ⱉ◕' },
-  { id:'duck',    color:'#f5d98b',  face:'◕꒳◕' },
-  { id:'cat2',    color:'#c8b8d8',  face:'◕∇◕' },
-  { id:'squirrel',color:'#c8a888',  face:'◕ﻌ◕' },
-  { id:'hamster', color:'#f0c8a0',  face:'◕Ⱉ◕' },
-  { id:'bird',    color:'#f5e8b8',  face:'◕◇◕' },
+  { id:'dog',     img:'avatars/dog.png' },
+  { id:'cat1',    img:'avatars/cat1.png' },
+  { id:'rabbit',  img:'avatars/rabbit.png' },
+  { id:'bear',    img:'avatars/bear.png' },
+  { id:'frog',    img:'avatars/frog.png' },
+  { id:'penguin', img:'avatars/penguin.png' },
+  { id:'sheep',   img:'avatars/sheep.png' },
+  { id:'duck',    img:'avatars/duck.png' },
+  { id:'cat2',    img:'avatars/cat2.png' },
+  { id:'squirrel',img:'avatars/squirrel.png' },
+  { id:'hamster', img:'avatars/hamster.png' },
+  { id:'bird',    img:'avatars/bird.png' },
 ];
 
 let selectedVillager = VILLAGERS[0];
@@ -1053,9 +1052,7 @@ const emojiGrid = document.getElementById('pfEmojiGrid');
 VILLAGERS.forEach((v, i) => {
   const btn = document.createElement('button');
   btn.className = 'pf-villager-btn';
-  btn.style.background = v.color;
-  btn.innerHTML = `<span class="pf-v-face">${v.face}</span>`;
-  btn.title = v.id;
+  btn.innerHTML = `<img src="${v.img}" alt="${v.id}" class="pf-v-thumb">`;
   btn.addEventListener('click', () => {
     selectedVillager = v;
     updateAvatarPreview(v);
@@ -1069,8 +1066,7 @@ VILLAGERS.forEach((v, i) => {
 
 function updateAvatarPreview(v) {
   const preview = document.getElementById('pfAvatarPreview');
-  preview.style.background = v.color;
-  preview.innerHTML = `<span class="pf-preview-face">${v.face}</span>`;
+  preview.innerHTML = `<img src="${v.img}" alt="${v.id}" class="pf-preview-img">`;
 }
 
 // Load existing passports
@@ -1093,7 +1089,7 @@ function renderWall() {
   }
   wall.innerHTML = passports.map((p, i) => `
     <div class="visitor-passport">
-      <div class="vp-avatar" style="background:${esc(p.color)}"><span class="vp-face">${esc(p.face)}</span></div>
+      <div class="vp-avatar"><img src="${esc(p.img)}" alt="" class="vp-img"></div>
       <div class="vp-info">
         <div class="vp-name">${esc(p.name)}</div>
         <div class="vp-time">${p.time}</div>
@@ -1131,7 +1127,7 @@ document.getElementById('pfSubmit').addEventListener('click', () => {
   const time = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 
   const passports = loadPassports();
-  passports.push({ name, message, color: selectedVillager.color, face: selectedVillager.face, time });
+  passports.push({ name, message, img: selectedVillager.img, time });
   savePassports(passports);
   renderWall();
 
