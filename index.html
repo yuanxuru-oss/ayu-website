@@ -805,13 +805,7 @@ body {
 @keyframes loading-reveal {
   to { --mask-r: 100vmax; }
 }
-.loading-splash.reveal-fallback {
-  animation: loading-fade 0.5s ease forwards;
-  animation-delay: 0.1s;
-}
-@keyframes loading-fade {
-  to { opacity: 0; pointer-events: none; }
-}
+
 
 /* Island scene — palm tree + fish */
 .loading-island {
@@ -1476,17 +1470,13 @@ renderWall();
 (function() {
   const splash = document.getElementById('loadingSplash');
   if (!splash) return;
+  let dismissed = false;
 
   function dismiss() {
-    // Try CSS mask reveal first (Chrome/Safari with @property support)
+    if (dismissed || !splash.parentNode) return;
+    dismissed = true;
     splash.classList.add('reveal');
-    // Fallback: fade out after mask animation completes
-    setTimeout(() => {
-      if (getComputedStyle(splash).opacity !== '0') {
-        splash.classList.add('reveal-fallback');
-      }
-      setTimeout(() => splash.remove(), 600);
-    }, 650);
+    setTimeout(() => { if (splash.parentNode) splash.remove(); }, 700);
   }
 
   // Dismiss when page is fully loaded
@@ -1497,7 +1487,7 @@ renderWall();
   }
 
   // Safety: force dismiss after 8s
-  setTimeout(() => { if (splash.parentNode) dismiss(); }, 8000);
+  setTimeout(() => { if (!dismissed) dismiss(); }, 8000);
 })();
 </script>
 </body>
