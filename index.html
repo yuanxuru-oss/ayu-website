@@ -894,16 +894,16 @@ body {
 
 /* Memo text body */
 .memo-body {
-  padding: 14px 16px 12px;
+  padding: 14px 16px 14px;
   flex: 1;
   display: flex;
   flex-direction: column;
-  position: relative;
+  gap: 4px;
 }
 .memo-body h3 {
   font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
   font-size: 0.95rem;
-  margin: 0 0 4px;
+  margin: 0;
   letter-spacing: 0.5px;
   color: var(--text-body);
 }
@@ -911,50 +911,44 @@ body {
   font-size: 0.78rem;
   color: var(--muted);
   line-height: 1.55;
-  margin: 0 0 10px;
+  margin: 0;
   flex: 1;
+  min-height: 2.4em;
 }
-.memo-body .card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
-.memo-body .card-tag {
+
+/* Detail button — animal-island-ui pill, bottom-right */
+.memo-detail-btn {
   font-family: Nunito, 'Noto Sans SC', sans-serif;
-  font-size: 0.65rem;
-  font-weight: 600;
-  line-height: 1;
-  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  align-self: flex-end;
+  margin-top: 6px;
+  padding: 7px 20px;
+  border: none;
   border-radius: 999px;
   background: var(--sec-accent);
   color: #fff;
-  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(61,52,40,0.10);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
 }
-.memo-body .card-link {
-  font-family: Nunito, 'Noto Sans SC', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-body);
-  text-decoration: none;
-  padding: 4px 14px;
-  border-radius: 50px;
-  display: inline-block;
-  transition: all 0.2s;
-  background: var(--bg-card);
-  box-shadow: 0 1px 3px rgba(61,52,40,0.06);
-  align-self: flex-start;
-  margin-top: auto;
+.memo-detail-btn:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(61,52,40,0.16);
+  filter: brightness(1.08);
 }
-.memo-body .card-link:hover {
-  background: var(--sec-accent);
-  color: #fff;
+.memo-detail-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(61,52,40,0.08);
 }
-
-/* Date in bottom-right */
-.memo-date {
-  position: absolute;
-  bottom: 10px;
-  right: 14px;
-  font-family: Nunito, sans-serif;
-  font-size: 0.7rem;
-  color: rgba(114,93,66,0.35);
-  letter-spacing: 0.04em;
+.memo-detail-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+  filter: none;
+  transform: none;
+  box-shadow: none;
 }
 
 /* Gallery scroll arrows */
@@ -1359,29 +1353,25 @@ body {
         <div class="memo-card">
           <div class="memo-img"><img src="ayu-penguin.png" alt="阿鱼 IP 角色"></div>
           <div class="memo-body">
-            <div class="card-tags"><span class="card-tag">IP 设计</span><span class="card-tag">插画</span></div>
             <h3>阿鱼 IP 角色</h3>
             <p>Kawaii Doodle 企鹅。蜡笔手绘+粉彩填色，紫巫师帽黄星灰鱼。</p>
-            <span class="memo-date">2026.07</span>
+            <button class="memo-detail-btn">作品详情 ▸</button>
           </div>
         </div>
         <div class="memo-card">
           <div class="memo-img"><img src="ayu-penguin.png" alt="鱼骨头系统设计"></div>
           <div class="memo-body">
-            <div class="card-tags"><span class="card-tag">UI 设计</span><span class="card-tag">手绘风</span></div>
             <h3>鱼骨头系统设计</h3>
             <p>暖纸质感界面。手绘图标体系、鱼骨进度动画、五色系主题。</p>
-            <a href="https://yuanxuru-oss.github.io/English-systems/review-system/" target="_blank" class="card-link">在线体验 →</a>
-            <span class="memo-date">2026.06</span>
+            <button class="memo-detail-btn">作品详情 ▸</button>
           </div>
         </div>
         <div class="memo-card">
           <div class="memo-img memo-img-empty"><span>📸</span></div>
           <div class="memo-body">
-            <div class="card-tags"><span class="card-tag">Coming Soon</span></div>
             <h3>更多创作中…</h3>
             <p>新的插画和设计作品正在路上。</p>
-            <span class="memo-date">…</span>
+            <button class="memo-detail-btn" disabled>敬请期待</button>
           </div>
         </div>
       </div>
