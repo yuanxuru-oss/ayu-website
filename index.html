@@ -1351,32 +1351,52 @@ function chime(freq = 800, duration = 0.15) {
   } catch(e) {}
 }
 
-// === Animalese chirp (bright, snappy — closer to AC game sounds) ===
-const ANIMALESE_BASE = 320;
-const ANIMALESE_RANGE = 280;
+// === Real Animalese audio (from animalese-typing extension, MIT license) ===
+const ANIMALESE_BUFFERS = {};
+let animaleseLoaded = false;
+let animaleseLoading = false;
+
+async function loadAnimalese() {
+  if (animaleseLoaded || animaleseLoading) return;
+  animaleseLoading = true;
+  const ctx = getCtx();
+  const letters = 'abcdefghijklmnopqrstuvwxyz';
+  const base = 'animalese/';
+  const promises = [];
+  for (const l of letters) {
+    promises.push(
+      fetch(base + l + '.aac')
+        .then(r => r.arrayBuffer())
+        .then(buf => ctx.decodeAudioData(buf))
+        .then(audio => { ANIMALESE_BUFFERS[l] = audio; })
+        .catch(() => {})
+    );
+  }
+  await Promise.all(promises);
+  animaleseLoaded = true;
+}
+
 function animalese(char) {
   try {
     const ctx = getCtx();
     const now = ctx.currentTime;
-    // Pitch varies by character
-    const cc = char.charCodeAt(0);
-    const pitch = ANIMALESE_BASE + ((cc % 47) / 47) * ANIMALESE_RANGE + (Math.random() - 0.5) * 30;
-    // Sharp vocal chirp: quick frequency sweep
-    const o = ctx.createOscillator();
+    const lower = char.toLowerCase();
+    let buffer = ANIMALESE_BUFFERS[lower];
+    // Fallback: pick a random letter sound for non-alphabetic chars
+    if (!buffer) {
+      const keys = Object.keys(ANIMALESE_BUFFERS);
+      if (!keys.length) return;
+      buffer = ANIMALESE_BUFFERS[keys[Math.floor(Math.random() * keys.length)]];
+    }
+    const src = ctx.createBufferSource();
+    src.buffer = buffer;
+    // Slight random pitch variation (like the extension)
+    src.detune.value = (Math.random() * 300 - 150);
+    // Volume
     const g = ctx.createGain();
-    o.type = 'sawtooth';
-    o.frequency.setValueAtTime(pitch * 0.85, now);
-    o.frequency.linearRampToValueAtTime(pitch * 1.15, now + 0.03);
-    o.frequency.linearRampToValueAtTime(pitch * 0.95, now + 0.06);
-    o.connect(g);
-    // Low-pass for less harshness
-    const lp = ctx.createBiquadFilter();
-    lp.type = 'lowpass'; lp.frequency.value = 1800;
-    g.connect(lp); lp.connect(ctx.destination);
-    const vol = 0.06 + Math.random() * 0.04;
-    g.gain.setValueAtTime(vol, now);
-    g.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
-    o.start(now); o.stop(now + 0.08);
+    g.gain.value = 0.35;
+    src.connect(g); g.connect(ctx.destination);
+    src.start(now);
   } catch(e) {}
 }
 
@@ -1568,8 +1588,8 @@ renderWall();
     dismissed = true;
     if (fill) fill.style.width = '100%';
     splash.classList.add('reveal');
-    // Start typewriter as mask reveals
-    typewrite(greetingFull, greeting, 90);
+    // Pre-load animalese + start typewriter as mask reveals
+    loadAnimalese().then(function() { typewrite(greetingFull, greeting, 90); });
     setTimeout(() => { if (splash.parentNode) splash.remove(); }, 700);
   }
 
