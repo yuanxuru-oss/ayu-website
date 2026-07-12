@@ -1052,42 +1052,23 @@ body {
   letter-spacing: 4px;
 }
 
-/* Pattern card hero area */
+/* Pattern card hero */
 .sp-hero-card {
   position: relative;
-  background:
-    radial-gradient(circle at 15% 20%, rgba(200,180,150,0.12) 0%, transparent 50%),
-    radial-gradient(circle at 75% 60%, rgba(200,180,150,0.10) 0%, transparent 50%),
-    linear-gradient(#fdfaf2, #f9f3e4);
-  border-radius: 18px;
-  border: 1.5px solid rgba(160,140,110,0.18);
-  box-shadow: 0 2px 12px rgba(61,52,40,0.08);
-  padding: 40px 32px;
+  background: linear-gradient(#fdfaf2, #f9f3e4);
+  border-radius: 16px;
+  border: 1.5px solid rgba(160,140,110,0.15);
+  box-shadow: 0 2px 10px rgba(61,52,40,0.06);
+  padding: 36px 32px;
   margin-bottom: 28px;
-  overflow: hidden;
-  min-height: 260px;
   display: flex; align-items: center; justify-content: center;
-}
-/* Scattered sparkle stars */
-.sp-hero-card::before {
-  content: '✦   ✦     ✦   ✦     ✦   ✦     ✦';
-  position: absolute;
-  inset: 20px 24px;
-  font-size: 0.85rem;
-  letter-spacing: 16px;
-  line-height: 2.6;
-  color: rgba(180,165,140,0.14);
-  pointer-events: none;
-  white-space: pre-wrap;
-  word-break: break-all;
+  min-height: 240px;
 }
 .sp-hero-img {
-  position: relative; z-index: 1;
   max-width: 85%;
-  max-height: 220px;
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(61,52,40,0.10);
-  object-fit: contain;
+  max-height: 200px;
+  border-radius: 8px;
+  box-shadow: 0 3px 12px rgba(61,52,40,0.08);
 }
 
 /* Squiggly divider */
@@ -1108,20 +1089,33 @@ body {
   background-size: 100% 100%;
 }
 
-/* Title */
+/* === Work Detail Content Area === */
+.sp-title {
+  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
+  font-size: 1.5rem;
+  color: var(--text-body);
+  margin: 0 0 14px;
+  letter-spacing: 0.5px;
+}
+.sp-meta {
+  display: flex; align-items: center; gap: 14px;
+  flex-wrap: wrap; margin-bottom: 24px;
+}
 .sp-date {
   font-family: Nunito, sans-serif;
   font-size: 0.75rem;
-  color: rgba(114,93,66,0.5);
-  background: rgba(255,204,0,0.15);
-  padding: 2px 8px; border-radius: 4px;
+  color: rgba(114,93,66,0.6);
+  background: rgba(114,93,66,0.06);
+  padding: 3px 10px; border-radius: 6px;
 }
 .sp-tags { display: flex; gap: 6px; flex-wrap: wrap; }
 .sp-tags .card-tag {
   font-family: Nunito, 'Noto Sans SC', sans-serif;
-  font-size: 0.65rem; font-weight: 600;
-  padding: 4px 10px; border-radius: 999px;
-  background: var(--sec-accent); color: #fff;
+  font-size: 0.7rem; font-weight: 600;
+  padding: 3px 12px; border-radius: 999px;
+  border: 2px solid var(--sec-accent);
+  color: var(--sec-accent);
+  background: transparent;
   letter-spacing: 0.02em;
 }
 
@@ -1605,8 +1599,6 @@ body {
         <div class="sp-hero-card">
           <img class="sp-hero-img" id="spHeroImg" src="" alt="">
         </div>
-        <!-- Divider -->
-        <div class="sp-squiggle"></div>
         <!-- Title + meta -->
         <h2 class="sp-title" id="spTitle"></h2>
         <div class="sp-meta">
