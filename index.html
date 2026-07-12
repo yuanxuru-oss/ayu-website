@@ -1351,29 +1351,32 @@ function chime(freq = 800, duration = 0.15) {
   } catch(e) {}
 }
 
-// === Animalese chirp (per character, varying pitch) ===
-const ANIMALESE_BASE = 180;
-const ANIMALESE_RANGE = 120;
-const ANIMALESE_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+// === Animalese chirp (bright, snappy — closer to AC game sounds) ===
+const ANIMALESE_BASE = 320;
+const ANIMALESE_RANGE = 280;
 function animalese(char) {
   try {
     const ctx = getCtx();
     const now = ctx.currentTime;
-    const idx = ANIMALESE_CHARS.indexOf(char);
-    const pitch = ANIMALESE_BASE + (idx >= 0 ? (idx / ANIMALESE_CHARS.length) * ANIMALESE_RANGE : Math.random() * ANIMALESE_RANGE);
-    // Two quick oscillators for a "vocal" chirp quality
-    const o1 = ctx.createOscillator();
-    const o2 = ctx.createOscillator();
+    // Pitch varies by character
+    const cc = char.charCodeAt(0);
+    const pitch = ANIMALESE_BASE + ((cc % 47) / 47) * ANIMALESE_RANGE + (Math.random() - 0.5) * 30;
+    // Sharp vocal chirp: quick frequency sweep
+    const o = ctx.createOscillator();
     const g = ctx.createGain();
-    const vol = Math.random() * 0.03 + 0.04;
-    o1.type = 'triangle'; o1.frequency.value = pitch;
-    o2.type = 'triangle'; o2.frequency.value = pitch * 1.02;
-    o1.connect(g); o2.connect(g);
-    g.connect(ctx.destination);
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(pitch * 0.85, now);
+    o.frequency.linearRampToValueAtTime(pitch * 1.15, now + 0.03);
+    o.frequency.linearRampToValueAtTime(pitch * 0.95, now + 0.06);
+    o.connect(g);
+    // Low-pass for less harshness
+    const lp = ctx.createBiquadFilter();
+    lp.type = 'lowpass'; lp.frequency.value = 1800;
+    g.connect(lp); lp.connect(ctx.destination);
+    const vol = 0.06 + Math.random() * 0.04;
     g.gain.setValueAtTime(vol, now);
-    g.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
-    o1.start(now); o2.start(now);
-    o1.stop(now + 0.07); o2.stop(now + 0.07);
+    g.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+    o.start(now); o.stop(now + 0.08);
   } catch(e) {}
 }
 
