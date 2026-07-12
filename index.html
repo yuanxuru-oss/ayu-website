@@ -997,51 +997,34 @@ body {
 }
 .work-detail-overlay.open { opacity: 1; pointer-events: auto; }
 
-/* Top nav bar */
+/* Top nav bar — clean AC style, unified buttons */
 .sp-nav {
   flex-shrink: 0;
   display: flex; align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
-  background: repeating-linear-gradient(90deg,
-    var(--accent-works) 0, var(--accent-works) 32px,
-    #ffcc00 32px, #ffcc00 44px,
-    var(--accent-projects) 44px, var(--accent-projects) 76px,
-    #ffcc00 76px, #ffcc00 88px
-  );
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(114,93,66,0.08);
 }
-.sp-nav-back {
+.sp-nav-back,
+.sp-nav-close {
   font-family: Nunito, 'Noto Sans SC', sans-serif;
-  font-size: 0.82rem; font-weight: 600;
-  padding: 5px 16px;
-  border: 2px solid rgba(255,255,255,0.5);
+  font-size: 0.8rem; font-weight: 600;
+  padding: 6px 18px;
+  border: 2px solid rgba(114,93,66,0.25);
   border-radius: 39.81px;
   background: transparent;
-  color: rgba(114,93,66,0.9);
+  color: var(--text-body);
   cursor: pointer;
   transition: all 0.2s;
   display: inline-flex; align-items: center; gap: 4px;
 }
-.sp-nav-back:hover {
-  border-color: rgba(255,255,255,0.9);
-  background: rgba(255,255,255,0.2);
+.sp-nav-back:hover,
+.sp-nav-close:hover {
+  border-color: rgba(114,93,66,0.5);
+  background: rgba(114,93,66,0.06);
 }
-.sp-nav-label {
-  font-family: Nunito, sans-serif;
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.7);
-  letter-spacing: 4px;
-}
-.sp-nav-close {
-  width: 30px; height: 30px;
-  border-radius: 50%; border: 2px solid rgba(255,255,255,0.5);
-  background: transparent;
-  color: rgba(114,93,66,0.8);
-  font-size: 0.85rem; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-}
-.sp-nav-close:hover { border-color: #fff; background: rgba(255,255,255,0.25); }
 
 /* Scrollable body */
 .sp-page {
@@ -1062,99 +1045,70 @@ body {
   padding: 28px 24px 40px;
 }
 
-/* === Photo Display Board === */
-.sp-board {
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
-  min-height: 300px;
-  padding: 10px 8px 30px;
-  margin-bottom: 16px;
+.sp-nav-label {
+  font-family: Nunito, sans-serif;
+  font-size: 0.72rem;
+  color: rgba(114,93,66,0.4);
+  letter-spacing: 4px;
 }
 
-.sp-photo {
+/* Pattern card hero area */
+.sp-hero-card {
   position: relative;
-  background: #fffef9;
-  box-shadow: 0 3px 10px rgba(61,52,40,0.10), 0 0 0 7px #fffef9, 0 0 0 9px rgba(160,145,120,0.12);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(200,180,150,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 75% 60%, rgba(200,180,150,0.10) 0%, transparent 50%),
+    linear-gradient(#fdfaf2, #f9f3e4);
+  border-radius: 18px;
+  border: 1.5px solid rgba(160,140,110,0.18);
+  box-shadow: 0 2px 12px rgba(61,52,40,0.08);
+  padding: 40px 32px;
+  margin-bottom: 28px;
   overflow: hidden;
+  min-height: 260px;
+  display: flex; align-items: center; justify-content: center;
 }
-.sp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-/* Scotch tape on photos */
-.sp-tape {
+/* Scattered sparkle stars */
+.sp-hero-card::before {
+  content: '✦   ✦     ✦   ✦     ✦   ✦     ✦';
   position: absolute;
-  top: -12px; left: 50%; transform: translateX(-50%) rotate(-2deg);
-  width: 48px; height: 16px;
-  background: rgba(255,255,220,0.75);
-  border-radius: 2px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  z-index: 2;
+  inset: 20px 24px;
+  font-size: 0.85rem;
+  letter-spacing: 16px;
+  line-height: 2.6;
+  color: rgba(180,165,140,0.14);
+  pointer-events: none;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
-
-.sp-photo-main {
-  width: 58%; aspect-ratio: 4/3;
-  transform: rotate(-3deg);
-  z-index: 2;
-  border-radius: 4px;
-}
-.sp-photo-sub {
-  position: absolute;
-  bottom: 30px; right: 18px;
-  width: 40%; aspect-ratio: 1/1;
-  transform: rotate(4.5deg);
-  z-index: 3;
-  border-radius: 4px;
-}
-.sp-photo-acc {
-  position: absolute;
-  top: 6px; right: 26px;
-  width: 28%; aspect-ratio: 1/1;
-  transform: rotate(7deg);
-  z-index: 1;
-  border-radius: 3px;
-}
-.sp-photo-acc:not(:has(img[src])), .sp-photo-sub:not(:has(img[src])) { display: none; }
-
-.sp-stars {
-  position: absolute;
-  bottom: 4px; left: 28px;
-  font-size: 1.1rem; letter-spacing: 4px;
-  color: rgba(114,93,66,0.10);
-  pointer-events: none; user-select: none;
+.sp-hero-img {
+  position: relative; z-index: 1;
+  max-width: 85%;
+  max-height: 220px;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(61,52,40,0.10);
+  object-fit: contain;
 }
 
 /* Squiggly divider */
 .sp-squiggle {
   width: 100%; height: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   background:
     radial-gradient(circle at 15px 7px, rgba(114,93,66,0.10) 2px, transparent 3px),
     radial-gradient(circle at 40px 5px, rgba(114,93,66,0.10) 1.5px, transparent 2.5px),
     radial-gradient(circle at 70px 8px, rgba(114,93,66,0.10) 2px, transparent 3px),
     radial-gradient(circle at 100px 4px, rgba(114,93,66,0.10) 1.5px, transparent 2.5px),
-    radial-gradient(circle at 130px 7px, rgba(114,93,66,0.10) 2px, transparent 3px),
-    radial-gradient(circle at 160px 5px, rgba(114,93,66,0.10) 1.5px, transparent 2.5px),
-    radial-gradient(circle at 200px 8px, rgba(114,93,66,0.10) 2px, transparent 3px),
-    radial-gradient(circle at 240px 4px, rgba(114,93,66,0.10) 1.5px, transparent 2.5px),
-    radial-gradient(circle at 280px 7px, rgba(114,93,66,0.10) 2px, transparent 3px),
+    radial-gradient(circle at 140px 7px, rgba(114,93,66,0.10) 2px, transparent 3px),
+    radial-gradient(circle at 180px 5px, rgba(114,93,66,0.10) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 220px 8px, rgba(114,93,66,0.10) 2px, transparent 3px),
+    radial-gradient(circle at 260px 4px, rgba(114,93,66,0.10) 1.5px, transparent 2.5px),
     linear-gradient(transparent 5px, rgba(114,93,66,0.05) 5px, rgba(114,93,66,0.05) 6px, transparent 6px);
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
 
 /* Title */
-.sp-title {
-  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
-  font-size: 1.6rem;
-  color: var(--text-body);
-  margin: 0 0 10px;
-  letter-spacing: 0.5px;
-}
-
-/* Meta */
-.sp-meta {
-  display: flex; align-items: center; gap: 10px;
-  flex-wrap: wrap; margin-bottom: 20px;
-}
 .sp-date {
   font-family: Nunito, sans-serif;
   font-size: 0.75rem;
@@ -1177,10 +1131,7 @@ body {
   color: var(--text-body);
   line-height: 1.9;
   margin-bottom: 24px;
-  padding: 18px 20px;
-  background: rgba(255,255,255,0.5);
-  border-radius: 12px;
-  border: 1.5px dashed rgba(114,93,66,0.10);
+  padding: 0;
 }
 .sp-desc p { margin: 0 0 12px; }
 .sp-desc p:last-child { margin-bottom: 0; }
@@ -1201,9 +1152,9 @@ body {
 /* Back button at bottom */
 .sp-back-bottom {
   font-family: Nunito, 'Noto Sans SC', sans-serif;
-  font-size: 0.85rem; font-weight: 600;
-  padding: 8px 24px;
-  border: 2px solid rgba(114,93,66,0.3);
+  font-size: 0.8rem; font-weight: 600;
+  padding: 6px 20px;
+  border: 2px solid rgba(114,93,66,0.25);
   border-radius: 39.81px;
   background: transparent;
   color: var(--text-body);
@@ -1212,18 +1163,9 @@ body {
   display: inline-flex; align-items: center; gap: 4px;
 }
 .sp-back-bottom:hover {
-  border-color: rgba(114,93,66,0.55);
+  border-color: rgba(114,93,66,0.5);
   background: rgba(114,93,66,0.06);
-  transform: translateX(-2px);
 }
-
-/* Floating decorations */
-.sp-float {
-  position: fixed; pointer-events: none; user-select: none;
-  opacity: 0.06; color: var(--text-body);
-}
-.sp-float-a { top: 60px; right: 20px; font-size: 2.4rem; }
-.sp-float-b { bottom: 50px; left: 16px; font-size: 2rem; }
 
 /* Penguin peek */
 .sp-penguin {
@@ -1238,13 +1180,11 @@ body {
 .sp-penguin img { width: 100%; height: 100%; object-fit: contain; }
 
 @media (max-width: 640px) {
-  .sp-container { padding: 18px 14px 32px; }
-  .sp-board { min-height: 220px; padding: 8px 4px 24px; }
-  .sp-photo-main { width: 65%; }
-  .sp-photo-sub { width: 46%; bottom: 24px; right: 8px; }
-  .sp-photo-acc { width: 32%; top: 4px; right: 12px; }
-  .sp-title { font-size: 1.3rem; }
-  .sp-penguin { width: 44px; height: 44px; }
+  .sp-container { padding: 20px 14px 36px; }
+  .sp-hero-card { padding: 28px 20px; min-height: 180px; }
+  .sp-hero-img { max-width: 95%; max-height: 160px; }
+  .sp-title { font-size: 1.2rem; }
+  .sp-penguin { width: 40px; height: 40px; }
 }
   .wd-extra img { width: 100%; }
 }
@@ -1652,32 +1592,18 @@ body {
     </div>
   </section>
 
-  <!-- === Work Detail — Fullscreen Scrapbook Page === -->
+  <!-- === Work Detail — Fullscreen Page === -->
   <div class="work-detail-overlay" id="workDetailOverlay">
-    <!-- Top nav -->
     <div class="sp-nav">
       <button class="sp-nav-back" id="workDetailBack">◂ 返回画廊</button>
       <span class="sp-nav-label">WORKS</span>
       <button class="sp-nav-close" id="workDetailClose">✕</button>
     </div>
-    <!-- Scrollable content -->
     <div class="sp-page">
       <div class="sp-container">
-        <!-- Photo cluster -->
-        <div class="sp-board" id="spBoard">
-          <div class="sp-photo sp-photo-main">
-            <img id="spImgMain" src="" alt="">
-            <span class="sp-tape"></span>
-          </div>
-          <div class="sp-photo sp-photo-sub">
-            <img id="spImgSub" src="" alt="">
-            <span class="sp-tape"></span>
-          </div>
-          <div class="sp-photo sp-photo-acc">
-            <img id="spImgAcc" src="" alt="">
-            <span class="sp-tape"></span>
-          </div>
-          <div class="sp-stars">✦ ✧ ✦</div>
+        <!-- Pattern card hero -->
+        <div class="sp-hero-card">
+          <img class="sp-hero-img" id="spHeroImg" src="" alt="">
         </div>
         <!-- Divider -->
         <div class="sp-squiggle"></div>
@@ -1691,13 +1617,9 @@ body {
         <div class="sp-desc" id="spDesc"></div>
         <!-- Extra images -->
         <div class="sp-extra" id="spExtra"></div>
-        <!-- Bottom back -->
         <button class="sp-back-bottom" id="workDetailBack2">◂ 返回画廊</button>
       </div>
     </div>
-    <!-- Floating decor -->
-    <div class="sp-float sp-float-a">🌸</div>
-    <div class="sp-float sp-float-b">✿</div>
     <div class="sp-penguin"><img src="ayu-penguin.png" alt=""></div>
   </div>
 
@@ -2144,7 +2066,7 @@ renderWall();
       date: '2026.07',
       tags: ['IP 设计', '插画'],
       imgMain: 'ayu-penguin.png',
-      imgSub: 'ayu-penguin.png',
+      imgSub: '',
       imgAcc: '',
       desc: '<p>为阿鱼个人品牌设计的专属 IP 角色——一只穿着紫色巫师帽的企鹅，黄色星星点缀，手里抱着灰色小鱼。整体采用 Kawaii Doodle 风格：蜡笔质感的手绘线条配粉彩填色，温暖又带着一点俏皮。</p><p>设计初衷是创造一个能代表"阿鱼"这个身份的视觉符号——既是创作者本人，也是一个有温度的小岛居民。</p>',
       extra: []
@@ -2154,7 +2076,7 @@ renderWall();
       date: '2026.06',
       tags: ['UI 设计', '手绘风'],
       imgMain: 'ayu-penguin.png',
-      imgSub: 'ayu-penguin.png',
+      imgSub: '',
       imgAcc: '',
       desc: '<p>鱼骨头英语复习系统的界面设计。暖纸质感背景搭配手绘图标体系，营造出在笔记本上涂鸦学习的感觉。鱼骨进度条动画是核心视觉记忆点——每完成一个学习模块，鱼骨头就多长出一截。</p><p>五色系主题覆盖听、说、读、写、词汇五个维度，视觉上清晰区分但整体统一在暖调手绘风格之下。</p>',
       extra: []
@@ -2168,9 +2090,7 @@ renderWall();
     document.getElementById('spTags').innerHTML = (w.tags || []).map(function(t) {
       return '<span class="card-tag">' + t + '</span>';
     }).join('');
-    document.getElementById('spImgMain').src = w.imgMain || '';
-    document.getElementById('spImgSub').src = w.imgSub || '';
-    document.getElementById('spImgAcc').src = w.imgAcc || '';
+    document.getElementById('spHeroImg').src = w.imgMain || '';
     document.getElementById('spDesc').innerHTML = w.desc || '';
     var extra = document.getElementById('spExtra');
     extra.innerHTML = (w.extra || []).map(function(src) {
