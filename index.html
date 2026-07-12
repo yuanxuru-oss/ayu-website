@@ -989,11 +989,17 @@ body {
 /* === Work Detail — Fullscreen Scrapbook Page === */
 .work-detail-overlay {
   position: fixed; inset: 0; z-index: 150;
-  background: #f5edd8;
   opacity: 0; pointer-events: none;
   transition: opacity 0.3s;
   display: flex; flex-direction: column;
   overflow: hidden;
+  /* AC periwinkle pattern bg */
+  background:
+    radial-gradient(circle at 20px 20px, rgba(255,255,255,0.12) 1px, transparent 1px),
+    radial-gradient(circle at 50px 70px, rgba(255,255,255,0.08) 1px, transparent 1px),
+    radial-gradient(circle at 70px 30px, rgba(255,255,255,0.10) 1px, transparent 1px),
+    linear-gradient(160deg, #c5d5e8 0%, #d4dcec 30%, #cdd8e8 70%, #bfcfe4 100%);
+  background-size: 80px 80px, 80px 80px, 80px 80px, 100% 100%;
 }
 .work-detail-overlay.open { opacity: 1; pointer-events: auto; }
 
@@ -1030,19 +1036,25 @@ body {
 .sp-page {
   flex: 1; overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(139,119,90,0.2) transparent;
-  background:
-    radial-gradient(circle, rgba(180,160,130,0.08) 0.5px, transparent 0.5px),
-    linear-gradient(#faf6ec 0%, #f5edd8 100%);
-  background-size: 22px 22px, 100% 100%;
+  scrollbar-color: rgba(139,119,90,0.15) transparent;
+  padding: 24px 20px 32px;
 }
 .sp-page::-webkit-scrollbar { width: 5px; }
 .sp-page::-webkit-scrollbar-thumb { background: rgba(139,119,90,0.2); border-radius: 10px; }
 
-.sp-container {
-  max-width: 740px;
+/* White floating content card */
+.sp-card {
+  max-width: 700px;
   margin: 0 auto;
-  padding: 28px 24px 40px;
+  background: rgba(255,255,255,0.93);
+  border-radius: 20px;
+  box-shadow: 0 2px 16px rgba(61,52,40,0.10), 0 8px 32px rgba(61,52,40,0.06);
+  border: 1.5px solid rgba(160,145,120,0.12);
+  overflow: hidden;
+}
+
+.sp-container {
+  padding: 32px 28px 44px;
 }
 
 .sp-nav-label {
@@ -1052,21 +1064,35 @@ body {
   letter-spacing: 4px;
 }
 
-/* Pattern card hero */
+/* Footer-sea banner inside card */
+.sp-top-decor {
+  width: 100%;
+  overflow: hidden;
+  opacity: 0.4;
+  line-height: 0;
+}
+.sp-top-decor img {
+  width: 100%;
+  height: auto;
+  min-width: 800px;
+  display: block;
+}
+
+/* Pattern card hero inside white card */
 .sp-hero-card {
   position: relative;
   background: linear-gradient(#fdfaf2, #f9f3e4);
-  border-radius: 16px;
+  border-radius: 14px;
   border: 1.5px solid rgba(160,140,110,0.15);
   box-shadow: 0 2px 10px rgba(61,52,40,0.06);
-  padding: 36px 32px;
+  padding: 32px 28px;
   margin-bottom: 28px;
   display: flex; align-items: center; justify-content: center;
-  min-height: 240px;
+  min-height: 220px;
 }
 .sp-hero-img {
   max-width: 85%;
-  max-height: 200px;
+  max-height: 180px;
   border-radius: 8px;
   box-shadow: 0 3px 12px rgba(61,52,40,0.08);
 }
@@ -1609,9 +1635,10 @@ body {
       <button class="sp-nav-close" id="workDetailClose">✕</button>
     </div>
     <div class="sp-page">
-      <!-- Footer-sea decoration at top -->
-      <div class="sp-top-decor"><img src="footer-sea.svg" alt=""></div>
-      <div class="sp-container">
+      <div class="sp-card">
+        <!-- Footer-sea banner -->
+        <div class="sp-top-decor"><img src="footer-sea.svg" alt=""></div>
+        <div class="sp-container">
         <!-- Pattern card hero -->
         <div class="sp-hero-card">
           <img class="sp-hero-img" id="spHeroImg" src="" alt="">
@@ -1627,6 +1654,7 @@ body {
         <!-- Extra images -->
         <div class="sp-extra" id="spExtra"></div>
         <button class="sp-back-bottom" id="workDetailBack2">◂ 返回画廊</button>
+        </div>
       </div>
     </div>
     <div class="sp-penguin"><img src="ayu-penguin.png" alt=""></div>
