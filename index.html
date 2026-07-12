@@ -916,15 +916,28 @@ body {
   min-height: 2.4em;
 }
 
-/* Detail button — animal-island-ui pill, bottom-right */
+/* Footer row: date left, button right */
+.memo-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+.memo-date {
+  font-family: Nunito, sans-serif;
+  font-size: 0.7rem;
+  color: rgba(114,93,66,0.35);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* Detail button — animal-island-ui pill */
 .memo-detail-btn {
   font-family: Nunito, 'Noto Sans SC', sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  align-self: flex-end;
-  margin-top: 6px;
-  padding: 7px 20px;
+  padding: 6px 18px;
   border: none;
   border-radius: 999px;
   background: var(--sec-accent);
@@ -1355,7 +1368,10 @@ body {
           <div class="memo-body">
             <h3>阿鱼 IP 角色</h3>
             <p>Kawaii Doodle 企鹅。蜡笔手绘+粉彩填色，紫巫师帽黄星灰鱼。</p>
-            <button class="memo-detail-btn">作品详情 ▸</button>
+            <div class="memo-footer">
+              <span class="memo-date">2026.07</span>
+              <button class="memo-detail-btn">作品详情 ▸</button>
+            </div>
           </div>
         </div>
         <div class="memo-card">
@@ -1363,7 +1379,10 @@ body {
           <div class="memo-body">
             <h3>鱼骨头系统设计</h3>
             <p>暖纸质感界面。手绘图标体系、鱼骨进度动画、五色系主题。</p>
-            <button class="memo-detail-btn">作品详情 ▸</button>
+            <div class="memo-footer">
+              <span class="memo-date">2026.06</span>
+              <button class="memo-detail-btn">作品详情 ▸</button>
+            </div>
           </div>
         </div>
         <div class="memo-card">
@@ -1371,7 +1390,10 @@ body {
           <div class="memo-body">
             <h3>更多创作中…</h3>
             <p>新的插画和设计作品正在路上。</p>
-            <button class="memo-detail-btn" disabled>敬请期待</button>
+            <div class="memo-footer">
+              <span class="memo-date">…</span>
+              <button class="memo-detail-btn" disabled>敬请期待</button>
+            </div>
           </div>
         </div>
       </div>
