@@ -996,6 +996,182 @@ body {
 .gallery-arrow-left  { left: 4px; }
 .gallery-arrow-right { right: 4px; }
 
+/* === Work Detail Overlay (parchment scrapbook) === */
+.work-detail-overlay {
+  position: fixed; inset: 0; z-index: 150;
+  background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+  padding: 24px;
+}
+.work-detail-overlay.open {
+  opacity: 1; pointer-events: auto;
+}
+
+.work-detail-paper {
+  position: relative;
+  width: min(720px, 100%);
+  max-height: 90vh;
+  background:
+    repeating-linear-gradient(transparent, transparent 31px, rgba(180,160,130,0.12) 31px, rgba(180,160,130,0.12) 32px),
+    linear-gradient(#fdfaf2, #f8f3e5);
+  border-radius: 14px;
+  box-shadow:
+    0 4px 16px rgba(0,0,0,0.12),
+    0 12px 40px rgba(61,52,40,0.14);
+  overflow: hidden;
+  animation: paperSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex; flex-direction: column;
+}
+@keyframes paperSlideIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.work-detail-scroll {
+  overflow-y: auto; overflow-x: hidden;
+  flex: 1;
+  padding: 0 28px 24px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139,119,90,0.2) transparent;
+}
+.work-detail-scroll::-webkit-scrollbar { width: 5px; }
+.work-detail-scroll::-webkit-scrollbar-thumb {
+  background: rgba(139,119,90,0.25); border-radius: 10px;
+}
+
+/* Close button */
+.work-detail-close {
+  position: absolute;
+  top: 12px; right: 14px; z-index: 5;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(114,93,66,0.25);
+  background: rgba(255,255,255,0.8);
+  color: rgba(114,93,66,0.7);
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.work-detail-close:hover {
+  border-color: rgba(114,93,66,0.55);
+  background: rgba(114,93,66,0.08);
+  color: rgba(114,93,66,0.95);
+}
+
+/* Hero image */
+.wd-hero {
+  position: relative;
+  margin: 0 -28px 20px;
+  height: 320px;
+  background: #d8e8d0;
+  overflow: hidden;
+}
+.wd-hero img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+}
+.wd-hero-deco {
+  position: absolute;
+  font-size: 3rem; opacity: 0.08;
+  color: var(--text-body);
+  pointer-events: none;
+  user-select: none;
+}
+.wd-hero-deco-2 { bottom: 8px; right: 16px; font-size: 4rem; }
+.wd-hero-deco:first-of-type { top: 12px; right: 24px; }
+
+/* Title + meta */
+.wd-header { margin-bottom: 18px; }
+.wd-title {
+  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
+  font-size: 1.5rem;
+  color: var(--text-body);
+  margin: 0 0 8px;
+  letter-spacing: 0.5px;
+}
+.wd-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.wd-date {
+  font-family: Nunito, sans-serif;
+  font-size: 0.78rem;
+  color: rgba(114,93,66,0.5);
+  letter-spacing: 0.04em;
+}
+.wd-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.wd-tags .card-tag {
+  font-family: Nunito, 'Noto Sans SC', sans-serif;
+  font-size: 0.65rem; font-weight: 600;
+  padding: 4px 10px; border-radius: 999px;
+  background: var(--sec-accent); color: #fff;
+  letter-spacing: 0.02em; line-height: 1;
+}
+
+/* Body text */
+.wd-body {
+  font-size: 0.88rem;
+  color: var(--text-body);
+  line-height: 1.85;
+  margin-bottom: 24px;
+}
+.wd-body p { margin: 0 0 12px; }
+.wd-body p:last-child { margin-bottom: 0; }
+
+/* Extra images row */
+.wd-extra {
+  display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;
+}
+.wd-extra img {
+  width: calc(50% - 6px);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(61,52,40,0.10);
+  object-fit: cover;
+  aspect-ratio: 4/3;
+  background: #e8eddc;
+}
+.wd-extra:empty { display: none; }
+
+/* Back button */
+.wd-back-btn {
+  font-family: Nunito, 'Noto Sans SC', sans-serif;
+  font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 8px 22px;
+  border: 2px solid rgba(114,93,66,0.3);
+  border-radius: 39.81px;
+  background: transparent;
+  color: var(--text-body);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-bottom: 10px;
+}
+.wd-back-btn:hover {
+  border-color: rgba(114,93,66,0.55);
+  background: rgba(114,93,66,0.06);
+  transform: translateX(-2px);
+}
+
+/* Floating decorations */
+.wd-float {
+  position: absolute; pointer-events: none; user-select: none;
+  opacity: 0.07;
+  color: var(--text-body);
+}
+.wd-float-1 { top: 60px; right: 30px; font-size: 2.5rem; }
+.wd-float-2 { bottom: 60px; left: 20px; font-size: 2rem; }
+.wd-float-3 { top: 40%; left: 10px; font-size: 3rem; }
+
+@media (max-width: 640px) {
+  .work-detail-overlay { padding: 8px; }
+  .work-detail-paper { max-height: 95vh; border-radius: 10px; }
+  .work-detail-scroll { padding: 0 16px 18px; }
+  .wd-hero { margin: 0 -16px 16px; height: 220px; }
+  .wd-title { font-size: 1.25rem; }
+  .wd-extra img { width: 100%; }
+}
+
 /* Mobile: always show arrows via tap, smaller cards */
 @media (max-width: 640px) {
   .gallery-board { width: 94vw; padding: 16px 8px 20px; }
@@ -1397,6 +1573,39 @@ body {
       <button class="gallery-arrow gallery-arrow-right" aria-label="向右滚动" title="向右">▸</button>
     </div>
   </section>
+
+  <!-- === Work Detail Overlay (parchment scrapbook style) === -->
+  <div class="work-detail-overlay" id="workDetailOverlay">
+    <div class="work-detail-paper">
+      <button class="work-detail-close" id="workDetailClose" title="返回画廊">✕</button>
+      <div class="work-detail-scroll">
+        <!-- Hero image area -->
+        <div class="wd-hero">
+          <img id="wdHeroImg" src="" alt="">
+          <div class="wd-hero-deco">★</div>
+          <div class="wd-hero-deco wd-hero-deco-2">·</div>
+        </div>
+        <!-- Title + meta -->
+        <div class="wd-header">
+          <h2 class="wd-title" id="wdTitle"></h2>
+          <div class="wd-meta">
+            <span class="wd-date" id="wdDate"></span>
+            <span class="wd-tags" id="wdTags"></span>
+          </div>
+        </div>
+        <!-- Description body -->
+        <div class="wd-body" id="wdBody"></div>
+        <!-- Extra images row -->
+        <div class="wd-extra" id="wdExtra"></div>
+        <!-- Back button -->
+        <button class="wd-back-btn" id="workDetailBack">◂ 返回画廊</button>
+      </div>
+      <!-- Decorative floating elements -->
+      <span class="wd-float wd-float-1">🌸</span>
+      <span class="wd-float wd-float-2">✿</span>
+      <span class="wd-float wd-float-3">·</span>
+    </div>
+  </div>
 
   <div class="section-divider" style="color:#e59266"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
 
@@ -1828,6 +2037,67 @@ renderWall();
     if (e.key === 'ArrowLeft')  { e.preventDefault(); track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
     if (e.key === 'ArrowRight') { e.preventDefault(); track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
   });
+})();
+
+// === Work Detail Overlay ===
+(function() {
+  var overlay = document.getElementById('workDetailOverlay');
+  if (!overlay) return;
+
+  // Work data registry — add new works here
+  var works = {
+    'ayu-ip': {
+      title: '阿鱼 IP 角色',
+      date: '2026.07',
+      tags: ['IP 设计', '插画'],
+      hero: 'ayu-penguin.png',
+      body: '<p>为阿鱼个人品牌设计的专属 IP 角色——一只穿着紫色巫师帽的企鹅，黄色星星点缀，手里抱着灰色小鱼。整体采用 Kawaii Doodle 风格：蜡笔质感的手绘线条配粉彩填色，温暖又带着一点俏皮。</p><p>设计初衷是创造一个能代表"阿鱼"这个身份的视觉符号——既是创作者本人，也是一个有温度的小岛居民。</p>',
+      extra: []
+    },
+    'fishbone-ui': {
+      title: '鱼骨头系统设计',
+      date: '2026.06',
+      tags: ['UI 设计', '手绘风'],
+      hero: 'ayu-penguin.png',
+      body: '<p>鱼骨头英语复习系统的界面设计。暖纸质感背景搭配手绘图标体系，营造出在笔记本上涂鸦学习的感觉。鱼骨进度条动画是核心视觉记忆点——每完成一个学习模块，鱼骨头就多长出一截。</p><p>五色系主题覆盖听、说、读、写、词汇五个维度，视觉上清晰区分但整体统一在暖调手绘风格之下。</p>',
+      extra: []
+    }
+  };
+
+  function open(id) {
+    var w = works[id]; if (!w) return;
+    document.getElementById('wdTitle').textContent = w.title;
+    document.getElementById('wdDate').textContent = w.date;
+    var tagsEl = document.getElementById('wdTags');
+    tagsEl.innerHTML = (w.tags || []).map(function(t) { return '<span class="card-tag">' + t + '</span>'; }).join('');
+    var hero = document.getElementById('wdHeroImg');
+    hero.src = w.hero || '';
+    hero.alt = w.title;
+    document.getElementById('wdBody').innerHTML = w.body || '';
+    var extra = document.getElementById('wdExtra');
+    extra.innerHTML = (w.extra || []).map(function(src) { return '<img src="' + src + '" alt="">'; }).join('');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Bind memo detail buttons
+  var btns = document.querySelectorAll('.memo-detail-btn');
+  var workIds = ['ayu-ip', 'fishbone-ui'];
+  btns.forEach(function(btn, i) {
+    if (btn.disabled) return;
+    btn.addEventListener('click', function() { open(workIds[i]); });
+  });
+
+  // Close handlers
+  document.getElementById('workDetailClose').addEventListener('click', close);
+  document.getElementById('workDetailBack').addEventListener('click', close);
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) close(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') close(); });
 })();
 
 // === Loading splash ===
