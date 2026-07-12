@@ -1321,6 +1321,10 @@ function typewrite(html, el, speed = 90) {
     if (i < total) {
       i++;
       el.innerHTML = renderTruncated(html, i);
+      // Animalese chirp per character
+      const tmp = document.createElement('div'); tmp.innerHTML = renderTruncated(html, i);
+      const txt = tmp.textContent || '';
+      if (txt) animalese(txt[txt.length - 1]);
       typewriterTimer = setTimeout(tick, speed);
     }
     // Done — full HTML rendered, no cursor
@@ -1330,16 +1334,46 @@ function typewrite(html, el, speed = 90) {
 
 // === Sound effect (Web Audio chime) ===
 let audioCtx = null;
+function getCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
 function chime(freq = 800, duration = 0.15) {
   try {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    o.connect(g); g.connect(audioCtx.destination);
+    const ctx = getCtx();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
     o.type = 'sine'; o.frequency.value = freq;
-    g.gain.setValueAtTime(0.15, audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-    o.start(audioCtx.currentTime); o.stop(audioCtx.currentTime + duration);
+    g.gain.setValueAtTime(0.15, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    o.start(ctx.currentTime); o.stop(ctx.currentTime + duration);
+  } catch(e) {}
+}
+
+// === Animalese chirp (per character, varying pitch) ===
+const ANIMALESE_BASE = 180;
+const ANIMALESE_RANGE = 120;
+const ANIMALESE_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+function animalese(char) {
+  try {
+    const ctx = getCtx();
+    const now = ctx.currentTime;
+    const idx = ANIMALESE_CHARS.indexOf(char);
+    const pitch = ANIMALESE_BASE + (idx >= 0 ? (idx / ANIMALESE_CHARS.length) * ANIMALESE_RANGE : Math.random() * ANIMALESE_RANGE);
+    // Two quick oscillators for a "vocal" chirp quality
+    const o1 = ctx.createOscillator();
+    const o2 = ctx.createOscillator();
+    const g = ctx.createGain();
+    const vol = Math.random() * 0.03 + 0.04;
+    o1.type = 'triangle'; o1.frequency.value = pitch;
+    o2.type = 'triangle'; o2.frequency.value = pitch * 1.02;
+    o1.connect(g); o2.connect(g);
+    g.connect(ctx.destination);
+    g.gain.setValueAtTime(vol, now);
+    g.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+    o1.start(now); o2.start(now);
+    o1.stop(now + 0.07); o2.stop(now + 0.07);
   } catch(e) {}
 }
 
@@ -1498,6 +1532,15 @@ document.getElementById('pfSubmit').addEventListener('click', () => {
 // Init
 updateAvatarPreview(VILLAGERS[0]);
 renderWall();
+
+// === Animalese on passport form input ===
+['pfName','pfMessage'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('keydown', function(e) {
+    if (e.key.length === 1) animalese(e.key);
+  });
+});
 
 // === Loading splash ===
 (function() {
