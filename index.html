@@ -986,150 +986,157 @@ body {
 .gallery-arrow-left  { left: 4px; }
 .gallery-arrow-right { right: 4px; }
 
-/* === Work Detail — Scrapbook Collage Page === */
+/* === Work Detail — Fullscreen Scrapbook Page === */
 .work-detail-overlay {
   position: fixed; inset: 0; z-index: 150;
-  background: rgba(0,0,0,0.5);
-  display: flex; align-items: center; justify-content: center;
+  background: #f5edd8;
   opacity: 0; pointer-events: none;
   transition: opacity 0.3s;
-  padding: 16px;
+  display: flex; flex-direction: column;
+  overflow: hidden;
 }
 .work-detail-overlay.open { opacity: 1; pointer-events: auto; }
 
-.sp-page {
-  position: relative;
-  width: min(740px, 100%);
-  max-height: 92vh;
-  background:
-    radial-gradient(circle, rgba(180,160,130,0.10) 0.5px, transparent 0.5px),
-    linear-gradient(#fdfaf2 0%, #f5edd8 100%);
-  background-size: 20px 20px, 100% 100%;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.12), 0 12px 40px rgba(61,52,40,0.16);
-  overflow: hidden;
-  animation: paperSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex; flex-direction: column;
-}
-@keyframes paperSlideIn {
-  from { opacity: 0; transform: translateY(20px) scale(0.97); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-/* Top bar */
-.sp-top {
-  position: relative; flex-shrink: 0;
-  height: 36px;
+/* Top nav bar */
+.sp-nav {
+  flex-shrink: 0;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
   background: repeating-linear-gradient(90deg,
     var(--accent-works) 0, var(--accent-works) 32px,
     #ffcc00 32px, #ffcc00 44px,
     var(--accent-projects) 44px, var(--accent-projects) 76px,
     #ffcc00 76px, #ffcc00 88px
   );
-  display: flex; align-items: center; justify-content: center;
 }
-.sp-top-deco {
-  font-size: 1rem; color: rgba(255,255,255,0.7);
-  letter-spacing: 6px; font-family: Nunito, sans-serif;
+.sp-nav-back {
+  font-family: Nunito, 'Noto Sans SC', sans-serif;
+  font-size: 0.82rem; font-weight: 600;
+  padding: 5px 16px;
+  border: 2px solid rgba(255,255,255,0.5);
+  border-radius: 39.81px;
+  background: transparent;
+  color: rgba(114,93,66,0.9);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 4px;
 }
-.sp-close {
-  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-  width: 28px; height: 28px;
-  border-radius: 50%; border: none;
-  background: rgba(255,255,255,0.3);
+.sp-nav-back:hover {
+  border-color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.2);
+}
+.sp-nav-label {
+  font-family: Nunito, sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 4px;
+}
+.sp-nav-close {
+  width: 30px; height: 30px;
+  border-radius: 50%; border: 2px solid rgba(255,255,255,0.5);
+  background: transparent;
   color: rgba(114,93,66,0.8);
-  font-size: 0.8rem; cursor: pointer;
+  font-size: 0.85rem; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: all 0.2s;
 }
-.sp-close:hover { background: rgba(255,255,255,0.6); }
+.sp-nav-close:hover { border-color: #fff; background: rgba(255,255,255,0.25); }
 
 /* Scrollable body */
-.sp-scroll {
+.sp-page {
   flex: 1; overflow-y: auto;
-  padding: 20px 24px 28px;
   scrollbar-width: thin;
   scrollbar-color: rgba(139,119,90,0.2) transparent;
+  background:
+    radial-gradient(circle, rgba(180,160,130,0.08) 0.5px, transparent 0.5px),
+    linear-gradient(#faf6ec 0%, #f5edd8 100%);
+  background-size: 22px 22px, 100% 100%;
 }
-.sp-scroll::-webkit-scrollbar { width: 5px; }
-.sp-scroll::-webkit-scrollbar-thumb { background: rgba(139,119,90,0.2); border-radius: 10px; }
+.sp-page::-webkit-scrollbar { width: 5px; }
+.sp-page::-webkit-scrollbar-thumb { background: rgba(139,119,90,0.2); border-radius: 10px; }
 
-/* === Photo Cluster Board === */
+.sp-container {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 28px 24px 40px;
+}
+
+/* === Photo Display Board === */
 .sp-board {
   position: relative;
   display: flex; align-items: center; justify-content: center;
-  min-height: 260px;
-  padding: 18px 8px 28px;
-  margin-bottom: 10px;
+  min-height: 300px;
+  padding: 10px 8px 30px;
+  margin-bottom: 16px;
 }
+
 .sp-photo {
   position: relative;
   background: #fffef9;
-  box-shadow: 0 2px 8px rgba(61,52,40,0.12), 0 0 0 6px #fffef9, 0 0 0 8px rgba(160,145,120,0.15);
+  box-shadow: 0 3px 10px rgba(61,52,40,0.10), 0 0 0 7px #fffef9, 0 0 0 9px rgba(160,145,120,0.12);
   overflow: hidden;
 }
 .sp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-/* Scotch tape */
+
+/* Scotch tape on photos */
 .sp-tape {
   position: absolute;
-  top: -10px; left: 50%; transform: translateX(-50%) rotate(-3deg);
-  width: 44px; height: 14px;
-  background: rgba(255,255,220,0.7);
+  top: -12px; left: 50%; transform: translateX(-50%) rotate(-2deg);
+  width: 48px; height: 16px;
+  background: rgba(255,255,220,0.75);
   border-radius: 2px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   z-index: 2;
 }
-/* Main photo — tilted left */
+
 .sp-photo-main {
-  width: 55%; aspect-ratio: 4/3;
+  width: 58%; aspect-ratio: 4/3;
   transform: rotate(-3deg);
   z-index: 2;
   border-radius: 4px;
 }
-/* Secondary — smaller, tilted right, overlapping */
 .sp-photo-sub {
   position: absolute;
-  bottom: 28px; right: 20px;
-  width: 42%; aspect-ratio: 1/1;
-  transform: rotate(4deg);
+  bottom: 30px; right: 18px;
+  width: 40%; aspect-ratio: 1/1;
+  transform: rotate(4.5deg);
   z-index: 3;
   border-radius: 4px;
 }
-/* Accent — tiny, tilted more */
 .sp-photo-acc {
   position: absolute;
-  top: 10px; right: 28px;
-  width: 30%; aspect-ratio: 1/1;
-  transform: rotate(6deg);
+  top: 6px; right: 26px;
+  width: 28%; aspect-ratio: 1/1;
+  transform: rotate(7deg);
   z-index: 1;
   border-radius: 3px;
 }
 .sp-photo-acc:not(:has(img[src])), .sp-photo-sub:not(:has(img[src])) { display: none; }
-/* Stars decoration */
+
 .sp-stars {
   position: absolute;
-  bottom: 8px; left: 30px;
+  bottom: 4px; left: 28px;
   font-size: 1.1rem; letter-spacing: 4px;
-  color: rgba(114,93,66,0.12);
+  color: rgba(114,93,66,0.10);
   pointer-events: none; user-select: none;
 }
 
-/* Hand-drawn squiggly divider */
+/* Squiggly divider */
 .sp-squiggle {
   width: 100%; height: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   background:
-    radial-gradient(circle at 15px 7px, rgba(114,93,66,0.12) 2px, transparent 3px),
-    radial-gradient(circle at 35px 5px, rgba(114,93,66,0.12) 1.5px, transparent 2.5px),
-    radial-gradient(circle at 55px 8px, rgba(114,93,66,0.12) 2px, transparent 3px),
-    radial-gradient(circle at 80px 4px, rgba(114,93,66,0.12) 1.5px, transparent 2.5px),
-    radial-gradient(circle at 110px 7px, rgba(114,93,66,0.12) 2px, transparent 3px),
-    radial-gradient(circle at 140px 5px, rgba(114,93,66,0.12) 1.5px, transparent 2.5px),
-    radial-gradient(circle at 170px 8px, rgba(114,93,66,0.12) 2px, transparent 3px),
-    radial-gradient(circle at 200px 4px, rgba(114,93,66,0.12) 1.5px, transparent 2.5px),
-    radial-gradient(circle at 230px 7px, rgba(114,93,66,0.12) 2px, transparent 3px),
-    radial-gradient(circle at 260px 5px, rgba(114,93,66,0.12) 1.5px, transparent 2.5px),
-    linear-gradient(transparent 5px, rgba(114,93,66,0.06) 5px, rgba(114,93,66,0.06) 6px, transparent 6px);
+    radial-gradient(circle at 15px 7px, rgba(114,93,66,0.10) 2px, transparent 3px),
+    radial-gradient(circle at 40px 5px, rgba(114,93,66,0.10) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 70px 8px, rgba(114,93,66,0.10) 2px, transparent 3px),
+    radial-gradient(circle at 100px 4px, rgba(114,93,66,0.10) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 130px 7px, rgba(114,93,66,0.10) 2px, transparent 3px),
+    radial-gradient(circle at 160px 5px, rgba(114,93,66,0.10) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 200px 8px, rgba(114,93,66,0.10) 2px, transparent 3px),
+    radial-gradient(circle at 240px 4px, rgba(114,93,66,0.10) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 280px 7px, rgba(114,93,66,0.10) 2px, transparent 3px),
+    linear-gradient(transparent 5px, rgba(114,93,66,0.05) 5px, rgba(114,93,66,0.05) 6px, transparent 6px);
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
@@ -1137,21 +1144,22 @@ body {
 /* Title */
 .sp-title {
   font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   color: var(--text-body);
   margin: 0 0 10px;
   letter-spacing: 0.5px;
 }
-/* Meta row */
+
+/* Meta */
 .sp-meta {
   display: flex; align-items: center; gap: 10px;
-  flex-wrap: wrap; margin-bottom: 18px;
+  flex-wrap: wrap; margin-bottom: 20px;
 }
 .sp-date {
   font-family: Nunito, sans-serif;
   font-size: 0.75rem;
   color: rgba(114,93,66,0.5);
-  background: rgba(255,204,0,0.12);
+  background: rgba(255,204,0,0.15);
   padding: 2px 8px; border-radius: 4px;
 }
 .sp-tags { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -1162,23 +1170,24 @@ body {
   background: var(--sec-accent); color: #fff;
   letter-spacing: 0.02em;
 }
+
 /* Description */
 .sp-desc {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--text-body);
-  line-height: 1.85;
-  margin-bottom: 20px;
-  padding: 14px 16px;
-  background: rgba(255,255,255,0.45);
-  border-radius: 10px;
+  line-height: 1.9;
+  margin-bottom: 24px;
+  padding: 18px 20px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 12px;
   border: 1.5px dashed rgba(114,93,66,0.10);
 }
-.sp-desc p { margin: 0 0 10px; }
+.sp-desc p { margin: 0 0 12px; }
 .sp-desc p:last-child { margin-bottom: 0; }
 
 /* Extra images */
 .sp-extra {
-  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;
+  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;
 }
 .sp-extra img {
   width: calc(50% - 5px);
@@ -1189,11 +1198,11 @@ body {
 }
 .sp-extra:empty { display: none; }
 
-/* Back button */
-.sp-back {
+/* Back button at bottom */
+.sp-back-bottom {
   font-family: Nunito, 'Noto Sans SC', sans-serif;
-  font-size: 0.82rem; font-weight: 600;
-  padding: 7px 20px;
+  font-size: 0.85rem; font-weight: 600;
+  padding: 8px 24px;
   border: 2px solid rgba(114,93,66,0.3);
   border-radius: 39.81px;
   background: transparent;
@@ -1202,7 +1211,7 @@ body {
   transition: all 0.2s;
   display: inline-flex; align-items: center; gap: 4px;
 }
-.sp-back:hover {
+.sp-back-bottom:hover {
   border-color: rgba(114,93,66,0.55);
   background: rgba(114,93,66,0.06);
   transform: translateX(-2px);
@@ -1210,33 +1219,32 @@ body {
 
 /* Floating decorations */
 .sp-float {
-  position: absolute; pointer-events: none; user-select: none;
-  opacity: 0.07; color: var(--text-body);
+  position: fixed; pointer-events: none; user-select: none;
+  opacity: 0.06; color: var(--text-body);
 }
-.sp-float-a { top: 55px; right: 16px; font-size: 2.2rem; }
-.sp-float-b { bottom: 55px; left: 12px; font-size: 1.8rem; }
+.sp-float-a { top: 60px; right: 20px; font-size: 2.4rem; }
+.sp-float-b { bottom: 50px; left: 16px; font-size: 2rem; }
 
-/* Penguin corner peek */
+/* Penguin peek */
 .sp-penguin {
-  position: absolute;
-  bottom: -6px; right: -4px;
-  width: 56px; height: 56px;
+  position: fixed;
+  bottom: -8px; right: -6px;
+  width: 64px; height: 64px;
   pointer-events: none; user-select: none;
-  opacity: 0.5;
+  opacity: 0.45;
   transform: rotate(10deg);
+  z-index: 151;
 }
 .sp-penguin img { width: 100%; height: 100%; object-fit: contain; }
 
 @media (max-width: 640px) {
-  .work-detail-overlay { padding: 6px; }
-  .sp-page { max-height: 96vh; border-radius: 8px; }
-  .sp-scroll { padding: 14px 14px 20px; }
-  .sp-board { min-height: 200px; padding: 12px 4px 20px; }
+  .sp-container { padding: 18px 14px 32px; }
+  .sp-board { min-height: 220px; padding: 8px 4px 24px; }
   .sp-photo-main { width: 65%; }
-  .sp-photo-sub { width: 48%; bottom: 20px; right: 10px; }
-  .sp-photo-acc { width: 35%; top: 6px; right: 16px; }
-  .sp-title { font-size: 1.2rem; }
-  .sp-penguin { width: 40px; height: 40px; }
+  .sp-photo-sub { width: 46%; bottom: 24px; right: 8px; }
+  .sp-photo-acc { width: 32%; top: 4px; right: 12px; }
+  .sp-title { font-size: 1.3rem; }
+  .sp-penguin { width: 44px; height: 44px; }
 }
   .wd-extra img { width: 100%; }
 }
@@ -1644,59 +1652,53 @@ body {
     </div>
   </section>
 
-  <!-- === Work Detail — Scrapbook Collage Page === -->
+  <!-- === Work Detail — Fullscreen Scrapbook Page === -->
   <div class="work-detail-overlay" id="workDetailOverlay">
+    <!-- Top nav -->
+    <div class="sp-nav">
+      <button class="sp-nav-back" id="workDetailBack">◂ 返回画廊</button>
+      <span class="sp-nav-label">WORKS</span>
+      <button class="sp-nav-close" id="workDetailClose">✕</button>
+    </div>
+    <!-- Scrollable content -->
     <div class="sp-page">
-      <!-- Top bar -->
-      <div class="sp-top">
-        <button class="sp-close" id="workDetailClose" title="返回画廊">✕</button>
-        <div class="sp-top-deco">· · ·</div>
-      </div>
-      <!-- Scrollable content -->
-      <div class="sp-scroll">
-        <!-- Photo cluster / display board area -->
+      <div class="sp-container">
+        <!-- Photo cluster -->
         <div class="sp-board" id="spBoard">
-          <!-- Main photo — slightly tilted -->
           <div class="sp-photo sp-photo-main">
             <img id="spImgMain" src="" alt="">
             <span class="sp-tape"></span>
           </div>
-          <!-- Secondary photo — tilted opposite -->
           <div class="sp-photo sp-photo-sub">
             <img id="spImgSub" src="" alt="">
             <span class="sp-tape"></span>
           </div>
-          <!-- Small accent -->
           <div class="sp-photo sp-photo-acc">
             <img id="spImgAcc" src="" alt="">
             <span class="sp-tape"></span>
           </div>
-          <!-- Hand-drawn star cluster decorative -->
-          <div class="sp-stars">
-            <span>✦</span><span>✧</span><span>✦</span>
-          </div>
+          <div class="sp-stars">✦ ✧ ✦</div>
         </div>
-        <!-- Squiggly hand-drawn divider -->
+        <!-- Divider -->
         <div class="sp-squiggle"></div>
-        <!-- Title area -->
+        <!-- Title + meta -->
         <h2 class="sp-title" id="spTitle"></h2>
         <div class="sp-meta">
           <span class="sp-date" id="spDate"></span>
           <span class="sp-tags" id="spTags"></span>
         </div>
-        <!-- Description block -->
+        <!-- Description -->
         <div class="sp-desc" id="spDesc"></div>
-        <!-- Extra images row -->
+        <!-- Extra images -->
         <div class="sp-extra" id="spExtra"></div>
-        <!-- Back -->
-        <button class="sp-back" id="workDetailBack">◂ 返回画廊</button>
+        <!-- Bottom back -->
+        <button class="sp-back-bottom" id="workDetailBack2">◂ 返回画廊</button>
       </div>
-      <!-- Floating decorations -->
-      <div class="sp-float sp-float-a">🌸</div>
-      <div class="sp-float sp-float-b">✿</div>
-      <!-- Penguin peeking -->
-      <div class="sp-penguin"><img src="ayu-penguin.png" alt=""></div>
     </div>
+    <!-- Floating decor -->
+    <div class="sp-float sp-float-a">🌸</div>
+    <div class="sp-float sp-float-b">✿</div>
+    <div class="sp-penguin"><img src="ayu-penguin.png" alt=""></div>
   </div>
 
   <div class="section-divider" style="color:#e59266"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
@@ -2192,7 +2194,7 @@ renderWall();
 
   document.getElementById('workDetailClose').addEventListener('click', close);
   document.getElementById('workDetailBack').addEventListener('click', close);
-  overlay.addEventListener('click', function(e) { if (e.target === overlay) close(); });
+  document.getElementById('workDetailBack2').addEventListener('click', close);
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') close(); });
 })();
 
