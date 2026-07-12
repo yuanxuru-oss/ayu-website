@@ -1376,21 +1376,24 @@ async function loadAnimalese() {
   animaleseLoaded = true;
 }
 
-// Shared gain node — only one animalese sound at a time
+// Shared gain node + track last source for instant cutoff
 let animaleseGainNode = null;
+let animalesePrevSrc = null;
 
 function animalese(char) {
   try {
     const ctx = getCtx();
     const now = ctx.currentTime;
-    // Create gain node once, reuse it — kills previous sound instantly
+    // Kill previous sound instantly
+    if (animalesePrevSrc) {
+      try { animalesePrevSrc.stop(now); } catch(_) {}
+      animalesePrevSrc = null;
+    }
     if (!animaleseGainNode) {
       animaleseGainNode = ctx.createGain();
       animaleseGainNode.connect(ctx.destination);
     }
-    animaleseGainNode.gain.cancelScheduledValues(now);
-    animaleseGainNode.gain.setValueAtTime(0, now);
-    animaleseGainNode.gain.linearRampToValueAtTime(0.25, now + 0.005);
+    animaleseGainNode.gain.setValueAtTime(0.25, now);
 
     const lower = char.toLowerCase();
     let buffer = ANIMALESE_BUFFERS[lower];
@@ -1404,6 +1407,7 @@ function animalese(char) {
     src.detune.value = (Math.random() * 200 - 100);
     src.connect(animaleseGainNode);
     src.start(now);
+    animalesePrevSrc = src;
   } catch(e) {}
 }
 
