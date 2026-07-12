@@ -788,6 +788,218 @@ body {
   box-shadow: 0 3px 10px 0 rgba(61,52,40,0.10);
 }
 
+/* === Corkboard Memo Gallery === */
+.gallery-board {
+  position: relative;
+  width: min(760px, 92vw);
+  margin: 0 auto;
+  /* Corkboard texture: mint-green base + subtle crosshatch */
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,119,90,0.04) 2px, rgba(139,119,90,0.04) 4px),
+    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139,119,90,0.04) 2px, rgba(139,119,90,0.04) 4px),
+    #b8d9c8;
+  border-radius: 18px;
+  padding: 20px 12px 24px;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.06), 0 4px 16px rgba(61,52,40,0.10);
+  overflow: hidden;
+}
+
+.gallery-track {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 8px 4px 4px;
+  /* Hide scrollbar — keep functionality */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.gallery-track::-webkit-scrollbar { display: none; }
+
+/* Memo Card */
+.memo-card {
+  flex: 0 0 260px;
+  scroll-snap-align: start;
+  background: #fffef9;
+  border-radius: 6px;
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.08),
+    0 3px 12px rgba(0,0,0,0.06);
+  position: relative;
+  overflow: visible;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+.memo-card:hover {
+  transform: translateY(-6px) rotate(-0.5deg);
+  box-shadow:
+    0 2px 5px rgba(0,0,0,0.10),
+    0 8px 24px rgba(0,0,0,0.10);
+}
+
+/* Yellow pushpin at top center */
+.memo-card::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffe680, #e6b800 60%, #b38f00);
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+}
+/* Pin shadow on card */
+.memo-card::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 3px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* Memo image area */
+.memo-img {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 6px 6px 0 0;
+  background: #e8f4d8;
+  flex-shrink: 0;
+}
+.memo-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.memo-img-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: linear-gradient(135deg, #e8f4d8 0%, #c8ddb5 100%);
+}
+
+/* Memo text body */
+.memo-body {
+  padding: 14px 16px 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.memo-body h3 {
+  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
+  font-size: 0.95rem;
+  margin: 0 0 4px;
+  letter-spacing: 0.5px;
+  color: var(--text-body);
+}
+.memo-body p {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0 0 10px;
+  flex: 1;
+}
+.memo-body .card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+.memo-body .card-tag {
+  font-family: Nunito, 'Noto Sans SC', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--sec-accent);
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+.memo-body .card-link {
+  font-family: Nunito, 'Noto Sans SC', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-body);
+  text-decoration: none;
+  padding: 4px 14px;
+  border-radius: 50px;
+  display: inline-block;
+  transition: all 0.2s;
+  background: var(--bg-card);
+  box-shadow: 0 1px 3px rgba(61,52,40,0.06);
+  align-self: flex-start;
+  margin-top: auto;
+}
+.memo-body .card-link:hover {
+  background: var(--sec-accent);
+  color: #fff;
+}
+
+/* Date in bottom-right */
+.memo-date {
+  position: absolute;
+  bottom: 10px;
+  right: 14px;
+  font-family: Nunito, sans-serif;
+  font-size: 0.7rem;
+  color: rgba(114,93,66,0.35);
+  letter-spacing: 0.04em;
+}
+
+/* Gallery scroll arrows */
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.85);
+  color: rgba(114,93,66,0.7);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  transition: all 0.2s;
+  opacity: 0;
+  pointer-events: none;
+}
+.gallery-board:hover .gallery-arrow {
+  opacity: 1;
+  pointer-events: auto;
+}
+.gallery-arrow:hover {
+  background: rgba(255,255,255,0.95);
+  color: rgba(114,93,66,0.95);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.14);
+  transform: translateY(-50%) scale(1.08);
+}
+.gallery-arrow-left  { left: 4px; }
+.gallery-arrow-right { right: 4px; }
+
+/* Mobile: always show arrows via tap, smaller cards */
+@media (max-width: 640px) {
+  .gallery-board { width: 94vw; padding: 16px 8px 20px; }
+  .memo-card { flex: 0 0 220px; }
+  .memo-img { height: 150px; }
+  .gallery-arrow { opacity: 0.6; pointer-events: auto; }
+}
+
 /* === Loading Splash (animal-island-ui Loading + island scene) === */
 .loading-splash {
   position: fixed; inset: 0; z-index: 200;
@@ -1135,31 +1347,45 @@ body {
 
   <div class="section-divider" style="color:#f8a6b2"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
 
-  <!-- Works -->
+  <!-- Works Gallery (Corkboard Memo style) -->
   <section class="section-island" id="works" data-theme="works">
     <div class="section-header">
       <span class="section-stamp">GALLERY</span>
       <h2>🎨 创作画廊</h2>
     </div>
-    <div class="card-grid">
-      <div class="item-card">
-        <div class="card-tags"><span class="card-tag">IP 设计</span><span class="card-tag">插画</span></div>
-        <h3>阿鱼 IP 角色</h3>
-        <p>Kawaii Doodle 企鹅。蜡笔手绘+粉彩填色，紫巫师帽黄星灰鱼。</p>
-        <span class="card-link" style="cursor:default;opacity:0.7">已定稿 ✓</span>
+    <div class="gallery-board">
+      <button class="gallery-arrow gallery-arrow-left" aria-label="向左滚动" title="向左">◂</button>
+      <div class="gallery-track" id="galleryTrack">
+        <div class="memo-card">
+          <div class="memo-img"><img src="ayu-penguin.png" alt="阿鱼 IP 角色"></div>
+          <div class="memo-body">
+            <div class="card-tags"><span class="card-tag">IP 设计</span><span class="card-tag">插画</span></div>
+            <h3>阿鱼 IP 角色</h3>
+            <p>Kawaii Doodle 企鹅。蜡笔手绘+粉彩填色，紫巫师帽黄星灰鱼。</p>
+            <span class="memo-date">2026.07</span>
+          </div>
+        </div>
+        <div class="memo-card">
+          <div class="memo-img"><img src="ayu-penguin.png" alt="鱼骨头系统设计"></div>
+          <div class="memo-body">
+            <div class="card-tags"><span class="card-tag">UI 设计</span><span class="card-tag">手绘风</span></div>
+            <h3>鱼骨头系统设计</h3>
+            <p>暖纸质感界面。手绘图标体系、鱼骨进度动画、五色系主题。</p>
+            <a href="https://yuanxuru-oss.github.io/English-systems/review-system/" target="_blank" class="card-link">在线体验 →</a>
+            <span class="memo-date">2026.06</span>
+          </div>
+        </div>
+        <div class="memo-card">
+          <div class="memo-img memo-img-empty"><span>📸</span></div>
+          <div class="memo-body">
+            <div class="card-tags"><span class="card-tag">Coming Soon</span></div>
+            <h3>更多创作中…</h3>
+            <p>新的插画和设计作品正在路上。</p>
+            <span class="memo-date">…</span>
+          </div>
+        </div>
       </div>
-      <div class="item-card">
-        <div class="card-tags"><span class="card-tag">UI 设计</span><span class="card-tag">手绘风</span></div>
-        <h3>鱼骨头系统设计</h3>
-        <p>暖纸质感界面。手绘图标体系、鱼骨进度动画、五色系主题。</p>
-        <a href="https://yuanxuru-oss.github.io/English-systems/review-system/" target="_blank" class="card-link">在线体验 →</a>
-      </div>
-      <div class="item-card">
-        <div class="card-tags"><span class="card-tag">Coming Soon</span></div>
-        <h3>更多创作中…</h3>
-        <p>新的插画和设计作品正在路上。</p>
-        <span class="card-link" style="cursor:default;opacity:0.4">✨</span>
-      </div>
+      <button class="gallery-arrow gallery-arrow-right" aria-label="向右滚动" title="向右">▸</button>
     </div>
   </section>
 
@@ -1575,6 +1801,25 @@ renderWall();
     if (e.key.length === 1) animalese(e.key);
   });
 });
+
+// === Gallery scroll arrows ===
+(function() {
+  var track = document.getElementById('galleryTrack');
+  var leftBtn = document.querySelector('.gallery-arrow-left');
+  var rightBtn = document.querySelector('.gallery-arrow-right');
+  if (!track || !leftBtn || !rightBtn) return;
+  var scrollAmount = 290; // card width + gap
+  leftBtn.addEventListener('click', function() { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); });
+  rightBtn.addEventListener('click', function() { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); });
+  // Keyboard arrows when gallery is in view
+  document.addEventListener('keydown', function(e) {
+    var rect = track.getBoundingClientRect();
+    var inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+  });
+})();
 
 // === Loading splash ===
 (function() {
