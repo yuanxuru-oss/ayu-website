@@ -1003,53 +1003,59 @@ body {
 }
 .work-detail-overlay.open { opacity: 1; pointer-events: auto; }
 
-/* Page header — nav bar with tree embedded */
+/* Page header — AC style with centered footer */
 .sp-header {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 20px;
-  background: rgba(255,255,255,0.55);
+  padding: 0 20px;
+  height: 56px;
+  background: rgba(248,248,240,0.7);
   backdrop-filter: blur(6px);
   border-bottom: 1px solid rgba(114,93,66,0.08);
   position: relative;
   overflow: hidden;
 }
-/* Tree banner embedded in header background */
+/* Footer banner centered in header */
 .sp-header-tree {
   position: absolute;
-  inset: 0;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.35;
+  opacity: 0.4;
   pointer-events: none;
   line-height: 0;
+  height: 100%;
 }
 .sp-header-tree img {
-  height: 44px;
+  height: 48px;
   width: auto;
-  min-width: 1000px;
+  min-width: 800px;
   object-fit: contain;
   object-position: center;
 }
-.sp-nav-back,
-.sp-nav-close {
+/* Spacer to balance the left button for flex layout */
+.sp-header-spacer {
+  width: auto;
+  min-width: 0;
+}
+.sp-nav-back {
   font-family: Nunito, 'Noto Sans SC', sans-serif;
-  font-size: 0.8rem; font-weight: 600;
-  padding: 5px 16px;
+  font-size: 0.82rem; font-weight: 600;
+  padding: 6px 18px;
   border: 2px solid rgba(114,93,66,0.25);
-  border-radius: 39.81px;
-  background: rgba(255,255,255,0.6);
+  border-radius: 50px;
+  background: rgba(255,255,255,0.5);
   color: var(--text-body);
   cursor: pointer;
   transition: all 0.2s;
   display: inline-flex; align-items: center; gap: 4px;
   position: relative; z-index: 1;
 }
-.sp-nav-back:hover,
-.sp-nav-close:hover {
+.sp-nav-back:hover {
   border-color: rgba(114,93,66,0.5);
   background: rgba(114,93,66,0.06);
 }
@@ -1068,7 +1074,7 @@ body {
 .sp-card {
   max-width: 700px;
   margin: 0 auto;
-  background: rgba(255,255,255,0.93);
+  background: rgba(248,248,240,0.95);
   border-radius: 20px;
   box-shadow: 0 2px 16px rgba(61,52,40,0.10), 0 8px 32px rgba(61,52,40,0.06);
   border: 1.5px solid rgba(160,145,120,0.12);
@@ -1176,7 +1182,7 @@ body {
   font-size: 0.8rem; font-weight: 600;
   padding: 6px 20px;
   border: 2px solid rgba(114,93,66,0.25);
-  border-radius: 39.81px;
+  border-radius: 50px;
   background: transparent;
   color: var(--text-body);
   cursor: pointer;
@@ -1615,11 +1621,11 @@ body {
 
   <!-- === Work Detail — Fullscreen Page === -->
   <div class="work-detail-overlay" id="workDetailOverlay">
-    <!-- Page header: nav + tree embedded -->
+    <!-- Page header: nav + footer centered -->
     <div class="sp-header">
       <button class="sp-nav-back" id="workDetailBack">◂ 返回画廊</button>
       <div class="sp-header-tree"><img src="footer-sea.svg" alt=""></div>
-      <button class="sp-nav-close" id="workDetailClose">✕</button>
+      <div class="sp-header-spacer"></div>
     </div>
     <div class="sp-page">
       <div class="sp-card">
@@ -2134,7 +2140,6 @@ renderWall();
     btn.addEventListener('click', function() { open(workIds[i]); });
   });
 
-  document.getElementById('workDetailClose').addEventListener('click', close);
   document.getElementById('workDetailBack').addEventListener('click', close);
   document.getElementById('workDetailBack2').addEventListener('click', close);
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') close(); });
