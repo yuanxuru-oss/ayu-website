@@ -920,20 +920,17 @@ body {
   height: auto;
   display: block;
 }
-/* === Section Divider (animal-island-ui style, per-section accent, CSS pseudo) === */
-.section-island::after {
-  content: '';
-  display: block;
+/* === Section Divider (animal-island-ui SVG, per-section color) === */
+.section-divider {
   width: min(720px, 90vw);
-  height: 14px;
   margin: 0 auto;
-  background:
-    repeating-linear-gradient(90deg,
-      transparent 0, transparent 6px,
-      var(--sec-accent) 6px, var(--sec-accent) 8px,
-      transparent 8px, transparent 30px
-    ) center/30px 14px repeat-x;
-  opacity: 0.35;
+  padding: 8px 0 4px;
+  opacity: 0.5;
+}
+.section-divider svg {
+  display: block;
+  width: 100%;
+  height: 14px;
 }
 
 .site-footer {
@@ -1065,6 +1062,8 @@ body {
     </div>
   </section>
 
+  <div class="section-divider" style="color:#8ac68a"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
+
   <!-- About / Passport -->
   <section class="section-island" id="about" data-theme="about">
     <div class="section-header">
@@ -1104,6 +1103,8 @@ body {
     </div>
   </section>
 
+  <div class="section-divider" style="color:#82d5bb"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
+
   <!-- Projects -->
   <section class="section-island" id="projects" data-theme="projects">
     <div class="section-header">
@@ -1131,6 +1132,8 @@ body {
       </div>
     </div>
   </section>
+
+  <div class="section-divider" style="color:#f8a6b2"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
 
   <!-- Works -->
   <section class="section-island" id="works" data-theme="works">
@@ -1160,6 +1163,8 @@ body {
     </div>
   </section>
 
+  <div class="section-divider" style="color:#e59266"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
+
   <!-- Competitions -->
   <section class="section-island" id="competitions" data-theme="competitions">
     <div class="section-header">
@@ -1187,6 +1192,8 @@ body {
       </div>
     </div>
   </section>
+
+  <div class="section-divider" style="color:#889df0"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
 
   <!-- Contact / Message Board -->
   <section class="section-island" id="contact" data-theme="contact">
