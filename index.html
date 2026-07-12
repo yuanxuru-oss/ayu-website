@@ -1064,12 +1064,14 @@ body {
   letter-spacing: 4px;
 }
 
-/* Footer-sea banner inside card */
+/* Footer-sea banner at very top of page */
 .sp-top-decor {
+  flex-shrink: 0;
   width: 100%;
   overflow: hidden;
-  opacity: 0.4;
+  opacity: 0.5;
   line-height: 0;
+  background: rgba(255,255,255,0.3);
 }
 .sp-top-decor img {
   width: 100%;
@@ -1116,21 +1118,6 @@ body {
 }
 
 /* === Work Detail Content Area === */
-/* Footer-sea banner at top */
-.sp-top-decor {
-  width: 100%;
-  overflow: hidden;
-  opacity: 0.45;
-  padding: 4px 0 0;
-  line-height: 0;
-}
-.sp-top-decor img {
-  width: 100%;
-  height: auto;
-  min-width: 800px;
-  display: block;
-}
-
 .sp-title {
   font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
   font-size: 1.5rem;
@@ -1629,6 +1616,8 @@ body {
 
   <!-- === Work Detail — Fullscreen Page === -->
   <div class="work-detail-overlay" id="workDetailOverlay">
+    <!-- Footer-sea banner at very top -->
+    <div class="sp-top-decor"><img src="footer-sea.svg" alt=""></div>
     <div class="sp-nav">
       <button class="sp-nav-back" id="workDetailBack">◂ 返回画廊</button>
       <span class="sp-nav-label">WORKS</span>
@@ -1636,8 +1625,6 @@ body {
     </div>
     <div class="sp-page">
       <div class="sp-card">
-        <!-- Footer-sea banner -->
-        <div class="sp-top-decor"><img src="footer-sea.svg" alt=""></div>
         <div class="sp-container">
         <!-- Pattern card hero -->
         <div class="sp-hero-card">
