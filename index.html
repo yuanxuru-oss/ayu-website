@@ -1355,6 +1355,8 @@ function chime(freq = 800, duration = 0.15) {
 const ANIMALESE_BUFFERS = {};
 let animaleseLoaded = false;
 let animaleseLoading = false;
+let lastAnimaleseSrc = null;
+let lastAnimaleseGain = null;
 
 async function loadAnimalese() {
   if (animaleseLoaded || animaleseLoading) return;
@@ -1380,9 +1382,13 @@ function animalese(char) {
   try {
     const ctx = getCtx();
     const now = ctx.currentTime;
+    // Cut off previous sound to avoid overlap
+    if (lastAnimaleseGain) {
+      lastAnimaleseGain.gain.setValueAtTime(lastAnimaleseGain.gain.value, now);
+      lastAnimaleseGain.gain.exponentialRampToValueAtTime(0.0005, now + 0.02);
+    }
     const lower = char.toLowerCase();
     let buffer = ANIMALESE_BUFFERS[lower];
-    // Fallback: pick a random letter sound for non-alphabetic chars
     if (!buffer) {
       const keys = Object.keys(ANIMALESE_BUFFERS);
       if (!keys.length) return;
@@ -1390,13 +1396,13 @@ function animalese(char) {
     }
     const src = ctx.createBufferSource();
     src.buffer = buffer;
-    // Slight random pitch variation (like the extension)
-    src.detune.value = (Math.random() * 300 - 150);
-    // Volume
+    src.detune.value = (Math.random() * 200 - 100);
     const g = ctx.createGain();
-    g.gain.value = 0.35;
+    g.gain.value = 0.30;
     src.connect(g); g.connect(ctx.destination);
     src.start(now);
+    lastAnimaleseSrc = src;
+    lastAnimaleseGain = g;
   } catch(e) {}
 }
 
