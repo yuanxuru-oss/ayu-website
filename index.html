@@ -996,191 +996,214 @@ body {
 .gallery-arrow-left  { left: 4px; }
 .gallery-arrow-right { right: 4px; }
 
-/* === Work Detail Overlay (AC bulletin-board scrapbook) === */
+/* === Work Detail — Scrapbook Collage Page === */
 .work-detail-overlay {
   position: fixed; inset: 0; z-index: 150;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0,0,0,0.5);
   display: flex; align-items: center; justify-content: center;
   opacity: 0; pointer-events: none;
   transition: opacity 0.3s;
-  padding: 24px;
+  padding: 16px;
 }
-.work-detail-overlay.open {
-  opacity: 1; pointer-events: auto;
-}
+.work-detail-overlay.open { opacity: 1; pointer-events: auto; }
 
-.work-detail-paper {
+.sp-page {
   position: relative;
-  width: min(720px, 100%);
-  max-height: 90vh;
+  width: min(740px, 100%);
+  max-height: 92vh;
   background:
-    /* Subtle dot grid like AC notebook */
     radial-gradient(circle, rgba(180,160,130,0.10) 0.5px, transparent 0.5px),
-    linear-gradient(#fdfaf2, #f8f3e5);
+    linear-gradient(#fdfaf2 0%, #f5edd8 100%);
   background-size: 20px 20px, 100% 100%;
-  border-radius: 14px;
-  box-shadow:
-    0 4px 16px rgba(0,0,0,0.12),
-    0 12px 40px rgba(61,52,40,0.14);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12), 0 12px 40px rgba(61,52,40,0.16);
   overflow: hidden;
   animation: paperSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex; flex-direction: column;
 }
 @keyframes paperSlideIn {
-  from { opacity: 0; transform: translateY(24px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Colorful top ribbon — AC notice-board banner */
-.work-detail-paper::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; z-index: 4;
-  height: 6px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--accent-works) 0px, var(--accent-works) 40px,
-    #ffcc00 40px, #ffcc00 56px,
-    var(--accent-projects) 56px, var(--accent-projects) 96px,
-    #ffcc00 96px, #ffcc00 112px,
-    var(--accent-competitions) 112px, var(--accent-competitions) 152px,
-    #ffcc00 152px, #ffcc00 168px
+/* Top bar */
+.sp-top {
+  position: relative; flex-shrink: 0;
+  height: 36px;
+  background: repeating-linear-gradient(90deg,
+    var(--accent-works) 0, var(--accent-works) 32px,
+    #ffcc00 32px, #ffcc00 44px,
+    var(--accent-projects) 44px, var(--accent-projects) 76px,
+    #ffcc00 76px, #ffcc00 88px
   );
+  display: flex; align-items: center; justify-content: center;
 }
+.sp-top-deco {
+  font-size: 1rem; color: rgba(255,255,255,0.7);
+  letter-spacing: 6px; font-family: Nunito, sans-serif;
+}
+.sp-close {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  width: 28px; height: 28px;
+  border-radius: 50%; border: none;
+  background: rgba(255,255,255,0.3);
+  color: rgba(114,93,66,0.8);
+  font-size: 0.8rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.sp-close:hover { background: rgba(255,255,255,0.6); }
 
-.work-detail-scroll {
-  overflow-y: auto; overflow-x: hidden;
-  flex: 1;
-  padding: 10px 28px 24px;
+/* Scrollable body */
+.sp-scroll {
+  flex: 1; overflow-y: auto;
+  padding: 20px 24px 28px;
   scrollbar-width: thin;
   scrollbar-color: rgba(139,119,90,0.2) transparent;
 }
-.work-detail-scroll::-webkit-scrollbar { width: 5px; }
-.work-detail-scroll::-webkit-scrollbar-thumb {
-  background: rgba(139,119,90,0.25); border-radius: 10px;
-}
+.sp-scroll::-webkit-scrollbar { width: 5px; }
+.sp-scroll::-webkit-scrollbar-thumb { background: rgba(139,119,90,0.2); border-radius: 10px; }
 
-/* Close button */
-.work-detail-close {
-  position: absolute;
-  top: 14px; right: 14px; z-index: 5;
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  border: 2px solid rgba(114,93,66,0.25);
-  background: rgba(255,255,255,0.85);
-  color: rgba(114,93,66,0.7);
-  font-size: 0.85rem;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-  box-shadow: 0 1px 3px rgba(61,52,40,0.08);
-}
-.work-detail-close:hover {
-  border-color: rgba(114,93,66,0.55);
-  background: rgba(114,93,66,0.08);
-  color: rgba(114,93,66,0.95);
-}
-
-/* Hero image */
-.wd-hero {
+/* === Photo Cluster Board === */
+.sp-board {
   position: relative;
-  margin: 4px -28px 20px;
-  height: 300px;
-  background: #d8e8d0;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 260px;
+  padding: 18px 8px 28px;
+  margin-bottom: 10px;
+}
+.sp-photo {
+  position: relative;
+  background: #fffef9;
+  box-shadow: 0 2px 8px rgba(61,52,40,0.12), 0 0 0 6px #fffef9, 0 0 0 8px rgba(160,145,120,0.15);
   overflow: hidden;
-  border-bottom: 4px dashed rgba(114,93,66,0.12);
 }
-.wd-hero img {
-  width: 100%; height: 100%; object-fit: cover;
-  display: block;
-}
-.wd-hero-deco {
+.sp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Scotch tape */
+.sp-tape {
   position: absolute;
-  font-size: 3rem; opacity: 0.08;
-  color: var(--text-body);
-  pointer-events: none;
-  user-select: none;
+  top: -10px; left: 50%; transform: translateX(-50%) rotate(-3deg);
+  width: 44px; height: 14px;
+  background: rgba(255,255,220,0.7);
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  z-index: 2;
 }
-.wd-hero-deco-2 { bottom: 10px; right: 20px; font-size: 3.5rem; }
-.wd-hero-deco:first-of-type { top: 10px; right: 28px; }
+/* Main photo — tilted left */
+.sp-photo-main {
+  width: 55%; aspect-ratio: 4/3;
+  transform: rotate(-3deg);
+  z-index: 2;
+  border-radius: 4px;
+}
+/* Secondary — smaller, tilted right, overlapping */
+.sp-photo-sub {
+  position: absolute;
+  bottom: 28px; right: 20px;
+  width: 42%; aspect-ratio: 1/1;
+  transform: rotate(4deg);
+  z-index: 3;
+  border-radius: 4px;
+}
+/* Accent — tiny, tilted more */
+.sp-photo-acc {
+  position: absolute;
+  top: 10px; right: 28px;
+  width: 30%; aspect-ratio: 1/1;
+  transform: rotate(6deg);
+  z-index: 1;
+  border-radius: 3px;
+}
+.sp-photo-acc:not(:has(img[src])), .sp-photo-sub:not(:has(img[src])) { display: none; }
+/* Stars decoration */
+.sp-stars {
+  position: absolute;
+  bottom: 8px; left: 30px;
+  font-size: 1.1rem; letter-spacing: 4px;
+  color: rgba(114,93,66,0.12);
+  pointer-events: none; user-select: none;
+}
 
-/* Title + meta */
-.wd-header { margin-bottom: 18px; position: relative; }
-.wd-title {
+/* Hand-drawn squiggly divider */
+.sp-squiggle {
+  width: 100%; height: 14px;
+  margin-bottom: 16px;
+  background:
+    radial-gradient(circle at 15px 7px, rgba(114,93,66,0.12) 2px, transparent 3px),
+    radial-gradient(circle at 35px 5px, rgba(114,93,66,0.12) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 55px 8px, rgba(114,93,66,0.12) 2px, transparent 3px),
+    radial-gradient(circle at 80px 4px, rgba(114,93,66,0.12) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 110px 7px, rgba(114,93,66,0.12) 2px, transparent 3px),
+    radial-gradient(circle at 140px 5px, rgba(114,93,66,0.12) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 170px 8px, rgba(114,93,66,0.12) 2px, transparent 3px),
+    radial-gradient(circle at 200px 4px, rgba(114,93,66,0.12) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 230px 7px, rgba(114,93,66,0.12) 2px, transparent 3px),
+    radial-gradient(circle at 260px 5px, rgba(114,93,66,0.12) 1.5px, transparent 2.5px),
+    linear-gradient(transparent 5px, rgba(114,93,66,0.06) 5px, rgba(114,93,66,0.06) 6px, transparent 6px);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+/* Title */
+.sp-title {
   font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
   font-size: 1.5rem;
   color: var(--text-body);
   margin: 0 0 10px;
   letter-spacing: 0.5px;
-  display: inline-block;
-  position: relative;
 }
-/* Squiggly dotted underline on title */
-.wd-title::after {
-  content: '';
-  position: absolute;
-  bottom: -4px; left: 0; right: 0;
-  height: 3px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--sec-accent) 0px, var(--sec-accent) 8px,
-    transparent 8px, transparent 12px
-  );
-  border-radius: 2px;
+/* Meta row */
+.sp-meta {
+  display: flex; align-items: center; gap: 10px;
+  flex-wrap: wrap; margin-bottom: 18px;
 }
-.wd-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
-.wd-date {
+.sp-date {
   font-family: Nunito, sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: rgba(114,93,66,0.5);
-  letter-spacing: 0.04em;
-  background: rgba(255,204,0,0.15);
-  padding: 2px 8px;
-  border-radius: 4px;
+  background: rgba(255,204,0,0.12);
+  padding: 2px 8px; border-radius: 4px;
 }
-.wd-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.wd-tags .card-tag {
+.sp-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.sp-tags .card-tag {
   font-family: Nunito, 'Noto Sans SC', sans-serif;
   font-size: 0.65rem; font-weight: 600;
   padding: 4px 10px; border-radius: 999px;
   background: var(--sec-accent); color: #fff;
-  letter-spacing: 0.02em; line-height: 1;
+  letter-spacing: 0.02em;
 }
-
-/* Body text — soft card background */
-.wd-body {
+/* Description */
+.sp-desc {
   font-size: 0.88rem;
   color: var(--text-body);
   line-height: 1.85;
-  margin-bottom: 24px;
-  background: rgba(255,255,255,0.5);
-  padding: 16px 18px;
-  border-radius: 12px;
-  border: 1.5px dashed rgba(114,93,66,0.12);
-}
-.wd-body p { margin: 0 0 10px; }
-.wd-body p:last-child { margin-bottom: 0; }
-
-/* Extra images row */
-.wd-extra {
-  display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;
-}
-.wd-extra img {
-  width: calc(50% - 6px);
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.45);
   border-radius: 10px;
+  border: 1.5px dashed rgba(114,93,66,0.10);
+}
+.sp-desc p { margin: 0 0 10px; }
+.sp-desc p:last-child { margin-bottom: 0; }
+
+/* Extra images */
+.sp-extra {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;
+}
+.sp-extra img {
+  width: calc(50% - 5px);
+  border-radius: 8px;
   box-shadow: 0 2px 8px rgba(61,52,40,0.10);
-  object-fit: cover;
-  aspect-ratio: 4/3;
+  object-fit: cover; aspect-ratio: 4/3;
   background: #e8eddc;
 }
-.wd-extra:empty { display: none; }
+.sp-extra:empty { display: none; }
 
 /* Back button */
-.wd-back-btn {
+.sp-back {
   font-family: Nunito, 'Noto Sans SC', sans-serif;
-  font-size: 0.85rem; font-weight: 600;
-  letter-spacing: 0.01em;
-  padding: 8px 22px;
+  font-size: 0.82rem; font-weight: 600;
+  padding: 7px 20px;
   border: 2px solid rgba(114,93,66,0.3);
   border-radius: 39.81px;
   background: transparent;
@@ -1188,43 +1211,42 @@ body {
   cursor: pointer;
   transition: all 0.2s;
   display: inline-flex; align-items: center; gap: 4px;
-  margin-bottom: 10px;
 }
-.wd-back-btn:hover {
+.sp-back:hover {
   border-color: rgba(114,93,66,0.55);
   background: rgba(114,93,66,0.06);
   transform: translateX(-2px);
 }
 
-/* Floating decorations — AC scrapbook accents */
-.wd-float {
+/* Floating decorations */
+.sp-float {
   position: absolute; pointer-events: none; user-select: none;
-  opacity: 0.08;
-  color: var(--text-body);
+  opacity: 0.07; color: var(--text-body);
 }
-.wd-float-1 { top: 56px; right: 20px; font-size: 2.2rem; }
-.wd-float-2 { bottom: 50px; left: 14px; font-size: 1.8rem; }
-.wd-float-3 { top: 38%; left: 8px; font-size: 2.6rem; }
+.sp-float-a { top: 55px; right: 16px; font-size: 2.2rem; }
+.sp-float-b { bottom: 55px; left: 12px; font-size: 1.8rem; }
 
-/* Penguin cameo corner peek */
-.wd-penguin-peek {
+/* Penguin corner peek */
+.sp-penguin {
   position: absolute;
-  bottom: -8px; right: -4px;
-  width: 60px; height: 60px;
+  bottom: -6px; right: -4px;
+  width: 56px; height: 56px;
   pointer-events: none; user-select: none;
-  opacity: 0.55;
-  transform: rotate(8deg);
+  opacity: 0.5;
+  transform: rotate(10deg);
 }
-.wd-penguin-peek img { width: 100%; height: 100%; object-fit: contain; }
+.sp-penguin img { width: 100%; height: 100%; object-fit: contain; }
 
 @media (max-width: 640px) {
-  .work-detail-overlay { padding: 8px; }
-  .work-detail-paper { max-height: 95vh; border-radius: 10px; }
-  .work-detail-scroll { padding: 6px 16px 18px; }
-  .wd-hero { margin: 0 -16px 16px; height: 200px; }
-  .wd-title { font-size: 1.25rem; }
-  .wd-extra img { width: 100%; }
-  .wd-penguin-peek { width: 44px; height: 44px; }
+  .work-detail-overlay { padding: 6px; }
+  .sp-page { max-height: 96vh; border-radius: 8px; }
+  .sp-scroll { padding: 14px 14px 20px; }
+  .sp-board { min-height: 200px; padding: 12px 4px 20px; }
+  .sp-photo-main { width: 65%; }
+  .sp-photo-sub { width: 48%; bottom: 20px; right: 10px; }
+  .sp-photo-acc { width: 35%; top: 6px; right: 16px; }
+  .sp-title { font-size: 1.2rem; }
+  .sp-penguin { width: 40px; height: 40px; }
 }
   .wd-extra img { width: 100%; }
 }
@@ -1631,38 +1653,58 @@ body {
     </div>
   </section>
 
-  <!-- === Work Detail Overlay (parchment scrapbook style) === -->
+  <!-- === Work Detail — Scrapbook Collage Page === -->
   <div class="work-detail-overlay" id="workDetailOverlay">
-    <div class="work-detail-paper">
-      <button class="work-detail-close" id="workDetailClose" title="返回画廊">✕</button>
-      <div class="work-detail-scroll">
-        <!-- Hero image area -->
-        <div class="wd-hero">
-          <img id="wdHeroImg" src="" alt="">
-          <div class="wd-hero-deco">★</div>
-          <div class="wd-hero-deco wd-hero-deco-2">·</div>
-        </div>
-        <!-- Title + meta -->
-        <div class="wd-header">
-          <h2 class="wd-title" id="wdTitle"></h2>
-          <div class="wd-meta">
-            <span class="wd-date" id="wdDate"></span>
-            <span class="wd-tags" id="wdTags"></span>
+    <div class="sp-page">
+      <!-- Top bar -->
+      <div class="sp-top">
+        <button class="sp-close" id="workDetailClose" title="返回画廊">✕</button>
+        <div class="sp-top-deco">· · ·</div>
+      </div>
+      <!-- Scrollable content -->
+      <div class="sp-scroll">
+        <!-- Photo cluster / display board area -->
+        <div class="sp-board" id="spBoard">
+          <!-- Main photo — slightly tilted -->
+          <div class="sp-photo sp-photo-main">
+            <img id="spImgMain" src="" alt="">
+            <span class="sp-tape"></span>
+          </div>
+          <!-- Secondary photo — tilted opposite -->
+          <div class="sp-photo sp-photo-sub">
+            <img id="spImgSub" src="" alt="">
+            <span class="sp-tape"></span>
+          </div>
+          <!-- Small accent -->
+          <div class="sp-photo sp-photo-acc">
+            <img id="spImgAcc" src="" alt="">
+            <span class="sp-tape"></span>
+          </div>
+          <!-- Hand-drawn star cluster decorative -->
+          <div class="sp-stars">
+            <span>✦</span><span>✧</span><span>✦</span>
           </div>
         </div>
-        <!-- Description body -->
-        <div class="wd-body" id="wdBody"></div>
+        <!-- Squiggly hand-drawn divider -->
+        <div class="sp-squiggle"></div>
+        <!-- Title area -->
+        <h2 class="sp-title" id="spTitle"></h2>
+        <div class="sp-meta">
+          <span class="sp-date" id="spDate"></span>
+          <span class="sp-tags" id="spTags"></span>
+        </div>
+        <!-- Description block -->
+        <div class="sp-desc" id="spDesc"></div>
         <!-- Extra images row -->
-        <div class="wd-extra" id="wdExtra"></div>
-        <!-- Back button -->
-        <button class="wd-back-btn" id="workDetailBack">◂ 返回画廊</button>
+        <div class="sp-extra" id="spExtra"></div>
+        <!-- Back -->
+        <button class="sp-back" id="workDetailBack">◂ 返回画廊</button>
       </div>
-      <!-- Decorative floating elements -->
-      <span class="wd-float wd-float-1">🌸</span>
-      <span class="wd-float wd-float-2">✿</span>
-      <span class="wd-float wd-float-3">·</span>
-      <!-- Penguin cameo peeking from corner -->
-      <div class="wd-penguin-peek"><img src="ayu-penguin.png" alt=""></div>
+      <!-- Floating decorations -->
+      <div class="sp-float sp-float-a">🌸</div>
+      <div class="sp-float sp-float-b">✿</div>
+      <!-- Penguin peeking -->
+      <div class="sp-penguin"><img src="ayu-penguin.png" alt=""></div>
     </div>
   </div>
 
@@ -2098,43 +2140,49 @@ renderWall();
   });
 })();
 
-// === Work Detail Overlay ===
+// === Work Detail — Scrapbook Collage ===
 (function() {
   var overlay = document.getElementById('workDetailOverlay');
   if (!overlay) return;
 
-  // Work data registry — add new works here
   var works = {
     'ayu-ip': {
       title: '阿鱼 IP 角色',
       date: '2026.07',
       tags: ['IP 设计', '插画'],
-      hero: 'ayu-penguin.png',
-      body: '<p>为阿鱼个人品牌设计的专属 IP 角色——一只穿着紫色巫师帽的企鹅，黄色星星点缀，手里抱着灰色小鱼。整体采用 Kawaii Doodle 风格：蜡笔质感的手绘线条配粉彩填色，温暖又带着一点俏皮。</p><p>设计初衷是创造一个能代表"阿鱼"这个身份的视觉符号——既是创作者本人，也是一个有温度的小岛居民。</p>',
+      imgMain: 'ayu-penguin.png',
+      imgSub: 'ayu-penguin.png',
+      imgAcc: '',
+      desc: '<p>为阿鱼个人品牌设计的专属 IP 角色——一只穿着紫色巫师帽的企鹅，黄色星星点缀，手里抱着灰色小鱼。整体采用 Kawaii Doodle 风格：蜡笔质感的手绘线条配粉彩填色，温暖又带着一点俏皮。</p><p>设计初衷是创造一个能代表"阿鱼"这个身份的视觉符号——既是创作者本人，也是一个有温度的小岛居民。</p>',
       extra: []
     },
     'fishbone-ui': {
       title: '鱼骨头系统设计',
       date: '2026.06',
       tags: ['UI 设计', '手绘风'],
-      hero: 'ayu-penguin.png',
-      body: '<p>鱼骨头英语复习系统的界面设计。暖纸质感背景搭配手绘图标体系，营造出在笔记本上涂鸦学习的感觉。鱼骨进度条动画是核心视觉记忆点——每完成一个学习模块，鱼骨头就多长出一截。</p><p>五色系主题覆盖听、说、读、写、词汇五个维度，视觉上清晰区分但整体统一在暖调手绘风格之下。</p>',
+      imgMain: 'ayu-penguin.png',
+      imgSub: 'ayu-penguin.png',
+      imgAcc: '',
+      desc: '<p>鱼骨头英语复习系统的界面设计。暖纸质感背景搭配手绘图标体系，营造出在笔记本上涂鸦学习的感觉。鱼骨进度条动画是核心视觉记忆点——每完成一个学习模块，鱼骨头就多长出一截。</p><p>五色系主题覆盖听、说、读、写、词汇五个维度，视觉上清晰区分但整体统一在暖调手绘风格之下。</p>',
       extra: []
     }
   };
 
   function open(id) {
     var w = works[id]; if (!w) return;
-    document.getElementById('wdTitle').textContent = w.title;
-    document.getElementById('wdDate').textContent = w.date;
-    var tagsEl = document.getElementById('wdTags');
-    tagsEl.innerHTML = (w.tags || []).map(function(t) { return '<span class="card-tag">' + t + '</span>'; }).join('');
-    var hero = document.getElementById('wdHeroImg');
-    hero.src = w.hero || '';
-    hero.alt = w.title;
-    document.getElementById('wdBody').innerHTML = w.body || '';
-    var extra = document.getElementById('wdExtra');
-    extra.innerHTML = (w.extra || []).map(function(src) { return '<img src="' + src + '" alt="">'; }).join('');
+    document.getElementById('spTitle').textContent = w.title;
+    document.getElementById('spDate').textContent = w.date;
+    document.getElementById('spTags').innerHTML = (w.tags || []).map(function(t) {
+      return '<span class="card-tag">' + t + '</span>';
+    }).join('');
+    document.getElementById('spImgMain').src = w.imgMain || '';
+    document.getElementById('spImgSub').src = w.imgSub || '';
+    document.getElementById('spImgAcc').src = w.imgAcc || '';
+    document.getElementById('spDesc').innerHTML = w.desc || '';
+    var extra = document.getElementById('spExtra');
+    extra.innerHTML = (w.extra || []).map(function(src) {
+      return '<img src="' + src + '" alt="">';
+    }).join('');
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -2144,7 +2192,6 @@ renderWall();
     document.body.style.overflow = '';
   }
 
-  // Bind memo detail buttons
   var btns = document.querySelectorAll('.memo-detail-btn');
   var workIds = ['ayu-ip', 'fishbone-ui'];
   btns.forEach(function(btn, i) {
@@ -2152,7 +2199,6 @@ renderWall();
     btn.addEventListener('click', function() { open(workIds[i]); });
   });
 
-  // Close handlers
   document.getElementById('workDetailClose').addEventListener('click', close);
   document.getElementById('workDetailBack').addEventListener('click', close);
   overlay.addEventListener('click', function(e) { if (e.target === overlay) close(); });
